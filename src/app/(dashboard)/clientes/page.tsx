@@ -1,0 +1,235 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  Search,
+  Plus,
+  Pencil,
+  Trash2,
+  Users,
+  Loader2,
+} from "lucide-react";
+
+interface Cliente {
+  id: string;
+  nome: string;
+  cpf: string | null;
+  cnpj: string | null;
+  email: string | null;
+  telefone: string | null;
+  cidade: string | null;
+  estado: string | null;
+  ultimaCompra: string | null;
+  _count?: { pedidos: number };
+}
+
+export default function ClientesPage() {
+  const router = useRouter();
+  const [clientes, setClientes] = useState<Cliente[]>([]);
+  const [busca, setBusca] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchClientes();
+  }, []);
+
+  async function fetchClientes() {
+    try {
+      const res = await fetch("/api/clientes");
+      if (res.ok) {
+        const data = await res.json();
+        setClientes(data);
+      }
+    } catch (error) {
+      console.error("Erro ao buscar clientes:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleDelete(id: string, nome: string) {
+    if (!confirm(`Tem certeza que deseja excluir o cliente "${nome}"?`)) return;
+
+    setDeletingId(id);
+    try {
+      const res = await fetch(`/api/clientes/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setClientes((prev) => prev.filter((c) => c.id !== id));
+      } else {
+        const data = await res.json();
+        alert(data.error || "Erro ao excluir cliente.");
+      }
+    } catch (error) {
+      console.error("Erro ao excluir cliente:", error);
+      alert("Erro ao excluir cliente.");
+    } finally {
+      setDeletingId(null);
+    }
+  }
+
+  function formatCpfCnpj(cliente: Cliente) {
+    if (cliente.cnpj) return cliente.cnpj;
+    if (cliente.cpf) return cliente.cpf;
+    return "—";
+  }
+
+  function formatDate(dateStr: string | null) {
+    if (!dateStr) return "—";
+    return new Date(dateStr).toLocaleDateString("pt-BR");
+  }
+
+  const clientesFiltrados = clientes.filter((c) =>
+    c.nome.toLowerCase().includes(busca.toLowerCase())
+  );
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-green-100 rounded-lg">
+            <Users className="h-6 w-6 text-green-700" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Clientes</h1>
+            <p className="text-sm text-gray-500">
+              {clientes.length} cliente{clientes.length !== 1 ? "s" : ""}{" "}
+              cadastrado{clientes.length !== 1 ? "s" : ""}
+            </p>
+          </div>
+        </div>
+        <button
+          onClick={() => router.push("/clientes/novo")}
+          className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-700 transition-colors"
+        >
+          <Plus className="h-4 w-4" />
+          Novo Cliente
+        </button>
+      </div>
+
+      {/* Search */}
+      <div className="relative max-w-md">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+        <input
+          type="text"
+          placeholder="Buscar por nome..."
+          value={busca}
+          onChange={(e) => setBusca(e.target.value)}
+          className="w-full rounded-lg border border-gray-300 bg-white py-2.5 pl-10 pr-4 text-sm text-gray-900 placeholder-gray-400 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+        />
+      </div>
+
+      {/* Table */}
+      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="h-6 w-6 animate-spin text-green-600" />
+            <span className="ml-2 text-sm text-gray-500">Carregando...</span>
+          </div>
+        ) : clientesFiltrados.length === 0 ? (
+          <div className="py-20 text-center text-sm text-gray-500">
+            {busca
+              ? "Nenhum cliente encontrado para esta busca."
+              : "Nenhum cliente cadastrado."}
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    Nome
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    CPF/CNPJ
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    Email
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    Telefone
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    Cidade/Estado
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    Última Compra
+                  </th>
+                  <th className="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    Ações
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {clientesFiltrados.map((cliente) => (
+                  <tr
+                    key={cliente.id}
+                    className="hover:bg-gray-50 transition-colors"
+                  >
+                    <td className="whitespace-nowrap px-6 py-4">
+                      <div className="font-medium text-gray-900">
+                        {cliente.nome}
+                      </div>
+                      {cliente._count && cliente._count.pedidos > 0 && (
+                        <div className="text-xs text-gray-500">
+                          {cliente._count.pedidos} pedido
+                          {cliente._count.pedidos !== 1 ? "s" : ""}
+                        </div>
+                      )}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600">
+                      {formatCpfCnpj(cliente)}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600">
+                      {cliente.email || "—"}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600">
+                      {cliente.telefone || "—"}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600">
+                      {cliente.cidade && cliente.estado
+                        ? `${cliente.cidade}/${cliente.estado}`
+                        : cliente.cidade || cliente.estado || "—"}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600">
+                      {formatDate(cliente.ultimaCompra)}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <button
+                          onClick={() =>
+                            router.push(`/clientes/${cliente.id}/editar`)
+                          }
+                          className="rounded-lg p-2 text-gray-400 hover:bg-green-50 hover:text-green-600 transition-colors"
+                          title="Editar"
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </button>
+                        <button
+                          onClick={() =>
+                            handleDelete(cliente.id, cliente.nome)
+                          }
+                          disabled={deletingId === cliente.id}
+                          className="rounded-lg p-2 text-gray-400 hover:bg-red-50 hover:text-red-600 transition-colors disabled:opacity-50"
+                          title="Excluir"
+                        >
+                          {deletingId === cliente.id ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Trash2 className="h-4 w-4" />
+                          )}
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

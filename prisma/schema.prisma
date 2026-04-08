@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Cliente {
+  id                String    @id @default(cuid())
+  nome              String
+  cpf               String?
+  cnpj              String?
+  inscricaoEstadual String?
+  email             String?
+  telefone          String?
+  endereco          String?
+  bairro            String?
+  cidade            String?
+  estado            String?
+  cep               String?
+  ultimaCompra      DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  pedidos           Pedido[]
+}
+
+model Produto {
+  id             String        @id @default(cuid())
+  nome           String
+  descricao      String?
+  peso           Float         // peso em kg
+  precoVenda     Float
+  custoProducao  Float         @default(0)
+  duracaoMedia   Int?          // duração média em dias (para pós-venda)
+  unidade        String        @default("un") // un, L, kg, etc.
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  itensPedido    ItemPedido[]
+}
+
+model Pedido {
+  id              String       @id @default(cuid())
+  numero          Int          @unique @default(autoincrement())
+  clienteId       String
+  cliente         Cliente      @relation(fields: [clienteId], references: [id])
+  fase            FasePedido   @default(PEDIDO)
+  valorProdutos   Float        @default(0)
+  valorFrete      Float        @default(0)
+  valorTotal      Float        @default(0)
+  pesoTotal       Float        @default(0)
+  volumes         Int          @default(1)
+  observacoes     String?
+  notaFiscal      String?
+  boleto          String?
+  dataEnvio       DateTime?
+  dataRecebimento DateTime?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  itens           ItemPedido[]
+}
+
+enum FasePedido {
+  PEDIDO
+  ORCAMENTO
+  APROVADO
+  PRODUCAO
+  ENVIO
+  RECEBIDO
+}
+
+model ItemPedido {
+  id         String  @id @default(cuid())
+  pedidoId   String
+  pedido     Pedido  @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
+  produtoId  String
+  produto    Produto @relation(fields: [produtoId], references: [id])
+  quantidade Int
+  pesoTotal  Float   // quantidade * peso do produto
+  precoUnit  Float
+  subtotal   Float
+}
+
+model Despesa {
+  id        String         @id @default(cuid())
+  descricao String
+  valor     Float
+  categoria CategoriaDespesa
+  data      DateTime
+  mes       Int            // 1-12
+  ano       Int
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+enum CategoriaDespesa {
+  BONIFICACAO
+  COMBUSTIVEL
+  HOSPEDAGEM
+  IMPOSTOS
+  SISTEMAS
+  OUTROS
+}
