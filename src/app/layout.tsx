@@ -10,7 +10,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Organo Ágil - Sistema de Gestão",
-  description: "Sistema de gestão Organo Ágil",
+  description: "Sistema de gestão Organo Ágil - Controle de clientes, produtos, pedidos e financeiro",
   manifest: "/manifest.json",
   icons: {
     icon: [
@@ -23,6 +23,21 @@ export const metadata: Metadata = {
     capable: true,
     statusBarStyle: "default",
     title: "Organo Ágil",
+  },
+  openGraph: {
+    title: "Organo Ágil - Sistema de Gestão",
+    description: "Controle de clientes, produtos, pedidos e financeiro",
+    url: "https://organoagil.vercel.app",
+    siteName: "Organo Ágil",
+    images: [
+      {
+        url: "https://organoagil.vercel.app/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Organo Ágil",
+      },
+    ],
+    type: "website",
   },
 };
 
