@@ -36,17 +36,19 @@ model Cliente {
 }
 
 model Produto {
-  id             String        @id @default(cuid())
-  nome           String
-  descricao      String?
-  peso           Float         // peso em kg
-  precoVenda     Float
-  custoProducao  Float         @default(0)
-  duracaoMedia   Int?          // duração média em dias (para pós-venda)
-  unidade        String        @default("un") // un, L, kg, etc.
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-  itensPedido    ItemPedido[]
+  id               String        @id @default(cuid())
+  nome             String
+  descricao        String?
+  peso             Float         // peso em kg
+  precoVenda       Float
+  custoProducao    Float         @default(0)
+  duracaoMedia     Int?          // duração média em dias (para pós-venda)
+  unidade          String        @default("un") // un, L, kg, etc.
+  unidadesPorCaixa Int?          // quantas unidades cabem por caixa
+  caixaDimensoes   String?       // dimensões da caixa ex: "25x30x20"
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  itensPedido      ItemPedido[]
 }
 
 model Pedido {

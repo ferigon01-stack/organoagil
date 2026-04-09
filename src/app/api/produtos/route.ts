@@ -19,7 +19,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { nome, descricao, peso, precoVenda, custoProducao, duracaoMedia, unidade } = body;
+    const { nome, descricao, peso, precoVenda, custoProducao, duracaoMedia, unidade, unidadesPorCaixa, caixaDimensoes } = body;
 
     if (!nome || peso == null || precoVenda == null) {
       return NextResponse.json(
@@ -37,6 +37,8 @@ export async function POST(request: NextRequest) {
         custoProducao: Number(custoProducao) || 0,
         duracaoMedia: duracaoMedia ? Number(duracaoMedia) : null,
         unidade: unidade || "un",
+        unidadesPorCaixa: unidadesPorCaixa ? Number(unidadesPorCaixa) : null,
+        caixaDimensoes: caixaDimensoes || null,
       },
     });
 

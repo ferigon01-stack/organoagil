@@ -30,6 +30,8 @@ interface ItemPedido {
     nome: string;
     peso: number;
     unidade: string;
+    unidadesPorCaixa?: number;
+    caixaDimensoes?: string;
   };
 }
 
@@ -268,17 +270,28 @@ export default function PedidoDetailPage() {
   const prevFase = currentFaseIndex > 0 ? FASES[currentFaseIndex - 1] : null;
 
   const itemDescriptions = pedido.itens
-    .map(
-      (item) =>
-        `${item.quantidade}x ${item.produto.nome} (${item.pesoTotal.toFixed(1)} kg)`
-    )
+    .map((item) => {
+      if (item.produto.unidadesPorCaixa && item.produto.unidadesPorCaixa > 0) {
+        const caixas = Math.ceil(item.quantidade / item.produto.unidadesPorCaixa);
+        return `${item.quantidade} ${item.produto.nome} (${item.pesoTotal.toFixed(1)} kg) - ${caixas} caixa(s)${item.produto.caixaDimensoes ? ` ${item.produto.caixaDimensoes}` : ""}`;
+      }
+      return `${item.quantidade}x ${item.produto.nome} (${item.pesoTotal.toFixed(1)} kg)`;
+    })
     .join(", ");
 
+  const dimensoesLines = pedido.itens
+    .map((item) => {
+      if (!item.produto.caixaDimensoes) return "";
+      return `Medidas da caixa: ${item.produto.caixaDimensoes}`;
+    })
+    .filter(Boolean);
+
   const cotacaoText = [
-    "Cotação de frete",
+    "Cotacao de frete",
     `${pedido.volumes} vol`,
     `${pedido.pesoTotal.toFixed(1)} kg`,
     `Sendo ${itemDescriptions}`,
+    ...dimensoesLines,
     `Valor total ${formatCurrency(pedido.valorTotal)}`,
     pedido.cliente.endereco || "",
     `Bairro: ${pedido.cliente.bairro || ""}`,

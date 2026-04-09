@@ -13,6 +13,8 @@ interface Produto {
   custoProducao: number;
   duracaoMedia: number | null;
   unidade: string;
+  unidadesPorCaixa?: number;
+  caixaDimensoes?: string;
 }
 
 function formatCurrency(value: number) {

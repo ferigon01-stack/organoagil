@@ -15,6 +15,8 @@ export default function NovoProdutoPage() {
     custoProducao: "",
     duracaoMedia: "",
     unidade: "un",
+    unidadesPorCaixa: "",
+    caixaDimensoes: "",
   });
 
   function handleChange(
@@ -39,6 +41,8 @@ export default function NovoProdutoPage() {
           custoProducao: parseFloat(form.custoProducao) || 0,
           duracaoMedia: form.duracaoMedia ? parseInt(form.duracaoMedia) : null,
           unidade: form.unidade,
+          unidadesPorCaixa: parseInt(form.unidadesPorCaixa) || null,
+          caixaDimensoes: form.caixaDimensoes || null,
         }),
       });
 
@@ -182,6 +186,37 @@ export default function NovoProdutoPage() {
               className="w-full border border-input-border rounded-lg px-3 py-2 bg-input-bg text-text-primary focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors w-full sm:max-w-xs"
               placeholder="Ex: 30"
             />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-text-primary mb-1">
+                Unidades por Caixa
+              </label>
+              <input
+                type="number"
+                name="unidadesPorCaixa"
+                value={form.unidadesPorCaixa}
+                onChange={handleChange}
+                min="0"
+                className="w-full border border-input-border rounded-lg px-3 py-2 bg-input-bg text-text-primary focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
+                placeholder="Ex: 2"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-text-primary mb-1">
+                Dimensões da Caixa (cm)
+              </label>
+              <input
+                type="text"
+                name="caixaDimensoes"
+                value={form.caixaDimensoes}
+                onChange={handleChange}
+                className="w-full border border-input-border rounded-lg px-3 py-2 bg-input-bg text-text-primary focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
+                placeholder="Ex: 25x30x20"
+              />
+            </div>
           </div>
 
           <div className="flex gap-3 pt-2">

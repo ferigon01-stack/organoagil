@@ -27,6 +27,8 @@ interface Produto {
   peso: number;
   precoVenda: number;
   unidade: string;
+  unidadesPorCaixa?: number;
+  caixaDimensoes?: string;
 }
 
 interface ItemForm {
@@ -52,6 +54,7 @@ export default function NovoPedidoPage() {
   const [observacoes, setObservacoes] = useState("");
   const [saving, setSaving] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [volumesAutoCalculated, setVolumesAutoCalculated] = useState(0);
 
   useEffect(() => {
     fetch("/api/clientes")
@@ -67,6 +70,26 @@ export default function NovoPedidoPage() {
 
   const produtoMap = new Map(produtos.map((p) => [p.id, p]));
   const selectedCliente = clientes.find((c) => c.id === clienteId);
+
+  // Auto-calculate volumes when items change
+  useEffect(() => {
+    if (produtos.length === 0) return;
+    let totalVolumes = 0;
+    for (const item of itens) {
+      const produto = produtoMap.get(item.produtoId);
+      if (!produto) continue;
+      if (produto.unidadesPorCaixa && produto.unidadesPorCaixa > 0) {
+        totalVolumes += Math.ceil(item.quantidade / produto.unidadesPorCaixa);
+      } else {
+        totalVolumes += item.quantidade;
+      }
+    }
+    if (totalVolumes > 0) {
+      setVolumes(totalVolumes);
+      setVolumesAutoCalculated(totalVolumes);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [itens, produtos]);
 
   const pesoTotal = itens.reduce((acc, item) => {
     const produto = produtoMap.get(item.produtoId);
@@ -104,16 +127,30 @@ export default function NovoPedidoPage() {
     .map((item) => {
       const produto = produtoMap.get(item.produtoId);
       if (!produto) return "";
+      if (produto.unidadesPorCaixa && produto.unidadesPorCaixa > 0) {
+        const caixas = Math.ceil(item.quantidade / produto.unidadesPorCaixa);
+        return `${item.quantidade} ${produto.nome} (${(item.quantidade * produto.peso).toFixed(1)} kg) - ${caixas} caixa(s)${produto.caixaDimensoes ? ` ${produto.caixaDimensoes}` : ""}`;
+      }
       return `${item.quantidade}x ${produto.nome} (${(item.quantidade * produto.peso).toFixed(1)} kg)`;
     })
     .filter(Boolean)
     .join(", ");
 
+  const dimensoesLines = itens
+    .filter((item) => item.produtoId)
+    .map((item) => {
+      const produto = produtoMap.get(item.produtoId);
+      if (!produto || !produto.caixaDimensoes) return "";
+      return `Medidas da caixa: ${produto.caixaDimensoes}`;
+    })
+    .filter(Boolean);
+
   const cotacaoText = [
-    "Cotação de frete",
+    "Cotacao de frete",
     `${volumes} vol`,
     `${pesoTotal.toFixed(1)} kg`,
     `Sendo ${itemDescriptions}`,
+    ...dimensoesLines,
     `Valor total ${formatCurrency(valorTotal)}`,
     selectedCliente?.endereco || "",
     `Bairro: ${selectedCliente?.bairro || ""}`,
@@ -323,6 +360,11 @@ export default function NovoPedidoPage() {
                 onChange={(e) => setVolumes(Number(e.target.value) || 1)}
                 className="w-full rounded-lg border border-input-border bg-input-bg text-text-primary px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
               />
+              {volumesAutoCalculated > 0 && (
+                <p className="mt-1 text-xs text-text-secondary">
+                  Calculado: {volumesAutoCalculated} caixa(s)
+                </p>
+              )}
             </div>
           </div>
         </div>
