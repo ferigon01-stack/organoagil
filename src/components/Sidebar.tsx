@@ -33,17 +33,13 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Mobile header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 flex items-center gap-3 px-4 py-3 bg-card-bg border-b border-card-border shadow-sm">
-        <button
-          onClick={() => setOpen(!open)}
-          className="p-2 rounded-lg text-text-primary hover:bg-hover-bg transition-colors"
-        >
-          {open ? <X size={20} /> : <Menu size={20} />}
-        </button>
-        <Image src="/logo.jpeg" width={28} height={28} alt="Organo Ágil" className="rounded-full" />
-        <span className="font-semibold text-brand-gold text-sm">Organo Ágil</span>
-      </div>
+      {/* Mobile toggle */}
+      <button
+        onClick={() => setOpen(!open)}
+        className="lg:hidden fixed top-4 left-4 z-50 bg-brand-green text-white p-2 rounded-lg shadow-lg"
+      >
+        {open ? <X size={20} /> : <Menu size={20} />}
+      </button>
 
       {/* Overlay */}
       {open && (
