@@ -10,8 +10,11 @@ import {
 } from "@react-pdf/renderer";
 
 Font.register({
-  family: "Helvetica",
-  src: undefined as unknown as string,
+  family: "Inter",
+  fonts: [
+    { src: "https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hiA.woff2", fontWeight: 400 },
+    { src: "https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fAZ9hiA.woff2", fontWeight: 700 },
+  ],
 });
 
 const green = "#1a4d2e";
@@ -20,7 +23,7 @@ const gray = "#6b7280";
 const lightGray = "#f3f4f6";
 
 const styles = StyleSheet.create({
-  page: { padding: 40, fontSize: 10, fontFamily: "Helvetica", color: "#1f2937" },
+  page: { padding: 40, fontSize: 10, fontFamily: "Inter", color: "#1f2937" },
   header: { flexDirection: "row", justifyContent: "space-between", marginBottom: 20, borderBottom: 2, borderBottomColor: green, paddingBottom: 15 },
   logo: { fontSize: 22, fontWeight: "bold", color: green },
   logoSub: { fontSize: 9, color: gray, marginTop: 2 },
@@ -54,9 +57,9 @@ const styles = StyleSheet.create({
 
 const FASE_LABELS: Record<string, string> = {
   PEDIDO: "Pedido",
-  ORCAMENTO: "Orcamento",
+  ORCAMENTO: "Orçamento",
   APROVADO: "Aprovado",
-  PRODUCAO: "Producao",
+  PRODUCAO: "Produção",
   ENVIO: "Envio",
   RECEBIDO: "Recebido",
 };
@@ -127,8 +130,8 @@ export default function PedidoPDF({ pedido }: PedidoPDFProps) {
         {/* Header */}
         <View style={styles.header}>
           <View>
-            <Text style={styles.logo}>Organo Agil</Text>
-            <Text style={styles.logoSub}>Sistema de Gestao</Text>
+            <Text style={styles.logo}>Organo Ágil</Text>
+            <Text style={styles.logoSub}>Sistema de Gestão</Text>
           </View>
           <View>
             <Text style={styles.pedidoNum}>Pedido #{pedido.numero}</Text>
@@ -164,7 +167,7 @@ export default function PedidoPDF({ pedido }: PedidoPDFProps) {
           )}
           {pedido.cliente.endereco && (
             <View style={styles.row}>
-              <Text style={styles.label}>Endereco:</Text>
+              <Text style={styles.label}>Endereço:</Text>
               <Text style={styles.value}>
                 {pedido.cliente.endereco}
                 {pedido.cliente.bairro ? `, ${pedido.cliente.bairro}` : ""}
@@ -223,25 +226,25 @@ export default function PedidoPDF({ pedido }: PedidoPDFProps) {
           </View>
         </View>
 
-        {/* Cotacao de Frete */}
+        {/* Cotação de Frete */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Cotacao de Frete</Text>
+          <Text style={styles.sectionTitle}>Cotação de Frete</Text>
           <View style={styles.cotacao}>
             <Text>{cotacaoText}</Text>
           </View>
         </View>
 
-        {/* Observacoes */}
+        {/* Observações */}
         {pedido.observacoes && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Observacoes</Text>
+            <Text style={styles.sectionTitle}>Observações</Text>
             <Text style={{ fontSize: 9 }}>{pedido.observacoes}</Text>
           </View>
         )}
 
         {/* Footer */}
         <View style={styles.footer}>
-          <Text>Organo Agil - Sistema de Gestao</Text>
+          <Text>Organo Ágil - Sistema de Gestão</Text>
           <Text>Gerado em {new Date().toLocaleDateString("pt-BR")}</Text>
         </View>
       </Page>
