@@ -304,7 +304,7 @@ export default function PedidoDetailPage() {
         </div>
 
         {/* Phase Actions */}
-        <div className="mt-4 flex gap-2">
+        <div className="mt-4 flex flex-col sm:flex-row gap-2">
           {prevFase && (
             <button
               onClick={() => advancePhase(prevFase)}
@@ -432,7 +432,7 @@ export default function PedidoDetailPage() {
           Itens do Pedido
         </h2>
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
+          <table className="w-full text-left text-xs sm:text-sm">
             <thead>
               <tr className="border-b text-text-secondary">
                 <th className="pb-3 font-medium">Produto</th>
@@ -520,7 +520,7 @@ export default function PedidoDetailPage() {
             {copied ? "Copiado!" : "Copiar"}
           </button>
         </div>
-        <pre className="whitespace-pre-wrap rounded-lg bg-brand-cream p-4 text-sm text-text-primary">
+        <pre className="whitespace-pre-wrap overflow-x-auto rounded-lg bg-brand-cream p-4 text-sm text-text-primary">
           {cotacaoText}
         </pre>
       </div>

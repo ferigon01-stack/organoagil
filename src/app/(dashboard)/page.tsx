@@ -157,7 +157,7 @@ export default function DashboardPage() {
         <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
           Faturamento vs Despesas Mensais
         </h2>
-        <div className="h-80">
+        <div className="h-60 sm:h-80">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -193,17 +193,17 @@ export default function DashboardPage() {
                 <th className="pb-3 pt-3 font-medium">Pedido</th>
                 <th className="pb-3 pt-3 font-medium">Cliente</th>
                 <th className="pb-3 pt-3 font-medium">Fase</th>
-                <th className="pb-3 pt-3 font-medium text-right">Valor</th>
-                <th className="pb-3 pt-3 font-medium text-right">Data</th>
+                <th className="hidden sm:table-cell pb-3 pt-3 font-medium text-right">Valor</th>
+                <th className="hidden sm:table-cell pb-3 pt-3 font-medium text-right">Data</th>
               </tr>
             </thead>
             <tbody>
               {data.pedidosRecentes.map((pedido) => (
                 <tr key={pedido.numero} className="border-b last:border-0">
-                  <td className="py-3 font-medium text-text-primary">
+                  <td className="py-3 text-sm font-medium text-text-primary">
                     #{pedido.numero}
                   </td>
-                  <td className="py-3 text-text-secondary">
+                  <td className="py-3 text-sm text-text-secondary">
                     {pedido.cliente.nome}
                   </td>
                   <td className="py-3">
@@ -215,10 +215,10 @@ export default function DashboardPage() {
                       {pedido.fase}
                     </span>
                   </td>
-                  <td className="py-3 text-right text-text-secondary">
+                  <td className="hidden sm:table-cell py-3 text-right text-text-secondary">
                     {formatCurrency(pedido.valorTotal)}
                   </td>
-                  <td className="py-3 text-right text-text-secondary">
+                  <td className="hidden sm:table-cell py-3 text-right text-text-secondary">
                     {new Date(pedido.createdAt).toLocaleDateString('pt-BR')}
                   </td>
                 </tr>

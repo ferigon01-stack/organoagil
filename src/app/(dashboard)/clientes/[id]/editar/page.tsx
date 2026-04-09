@@ -143,7 +143,7 @@ export default function EditarClientePage() {
         )}
 
         {/* Dados Pessoais */}
-        <div className="rounded-xl border border-card-border bg-card-bg p-6 shadow-sm">
+        <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6 shadow-sm">
           <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider" style={{ color: '#1a4d2e' }}>
             Dados Pessoais
           </h2>
@@ -205,7 +205,7 @@ export default function EditarClientePage() {
         </div>
 
         {/* Contato */}
-        <div className="rounded-xl border border-card-border bg-card-bg p-6 shadow-sm">
+        <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6 shadow-sm">
           <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider" style={{ color: '#1a4d2e' }}>
             Contato
           </h2>
@@ -240,7 +240,7 @@ export default function EditarClientePage() {
         </div>
 
         {/* Endereço */}
-        <div className="rounded-xl border border-card-border bg-card-bg p-6 shadow-sm">
+        <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6 shadow-sm">
           <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider" style={{ color: '#1a4d2e' }}>
             Endereço
           </h2>

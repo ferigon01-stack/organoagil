@@ -260,7 +260,7 @@ export default function FinanceiroPage() {
         <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
           Evolucao Mensal
         </h2>
-        <div className="h-80">
+        <div className="h-60 sm:h-80">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -369,7 +369,7 @@ export default function FinanceiroPage() {
             <thead>
               <tr className="border-b text-text-secondary">
                 <th className="pb-3 font-medium">Descricao</th>
-                <th className="pb-3 font-medium">Categoria</th>
+                <th className="hidden sm:table-cell pb-3 font-medium">Categoria</th>
                 <th className="pb-3 font-medium text-right">Valor</th>
                 <th className="pb-3 font-medium text-right">Data</th>
                 <th className="pb-3 font-medium text-right">Acoes</th>
@@ -378,16 +378,16 @@ export default function FinanceiroPage() {
             <tbody>
               {despesas.map((despesa) => (
                 <tr key={despesa.id} className="border-b last:border-0">
-                  <td className="py-3 text-text-primary">{despesa.descricao}</td>
-                  <td className="py-3">
+                  <td className="py-3 text-sm text-text-primary">{despesa.descricao}</td>
+                  <td className="hidden sm:table-cell py-3">
                     <span className="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium" style={{ backgroundColor: 'rgba(184, 150, 12, 0.15)', color: '#b8960c' }}>
                       {CATEGORIA_LABELS[despesa.categoria] ?? despesa.categoria}
                     </span>
                   </td>
-                  <td className="py-3 text-right text-text-secondary">
+                  <td className="py-3 text-sm text-right text-text-secondary">
                     {formatCurrency(despesa.valor)}
                   </td>
-                  <td className="py-3 text-right text-text-secondary">
+                  <td className="py-3 text-sm text-right text-text-secondary">
                     {new Date(despesa.data).toLocaleDateString('pt-BR')}
                   </td>
                   <td className="py-3 text-right">

@@ -111,9 +111,9 @@ export default function PedidosPage() {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>Pedidos</h1>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           {/* View Toggle */}
           <div className="flex rounded-lg border border-card-border bg-card-bg">
             <button
@@ -164,7 +164,7 @@ export default function PedidosPage() {
             return (
               <div
                 key={fase}
-                className={`flex min-w-[280px] flex-shrink-0 flex-col rounded-xl ${config.bg}`}
+                className={`flex min-w-[260px] sm:min-w-[280px] flex-shrink-0 flex-col rounded-xl ${config.bg}`}
               >
                 {/* Column Header */}
                 <div
@@ -233,8 +233,8 @@ export default function PedidosPage() {
                 <th className="px-4 py-3 font-medium">Cliente</th>
                 <th className="px-4 py-3 font-medium">Fase</th>
                 <th className="px-4 py-3 font-medium text-right">Valor</th>
-                <th className="px-4 py-3 font-medium text-right">Peso</th>
-                <th className="px-4 py-3 font-medium text-right">Data</th>
+                <th className="hidden sm:table-cell px-4 py-3 font-medium text-right">Peso</th>
+                <th className="hidden sm:table-cell px-4 py-3 font-medium text-right">Data</th>
               </tr>
             </thead>
             <tbody>
@@ -262,10 +262,10 @@ export default function PedidosPage() {
                     <td className="px-4 py-3 text-right text-text-secondary">
                       {formatCurrency(pedido.valorTotal)}
                     </td>
-                    <td className="px-4 py-3 text-right text-text-secondary">
+                    <td className="hidden sm:table-cell px-4 py-3 text-right text-text-secondary">
                       {pedido.pesoTotal.toFixed(1)} kg
                     </td>
-                    <td className="px-4 py-3 text-right text-text-secondary">
+                    <td className="hidden sm:table-cell px-4 py-3 text-right text-text-secondary">
                       {formatDate(pedido.createdAt)}
                     </td>
                   </tr>

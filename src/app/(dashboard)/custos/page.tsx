@@ -113,7 +113,7 @@ export default function CustosPage() {
         <h2 className="mb-4 text-lg font-semibold text-text-primary">
           Custo vs Preco de Venda
         </h2>
-        <div className="h-80">
+        <div className="h-60 sm:h-80">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -147,21 +147,21 @@ export default function CustosPage() {
                 <th className="pb-3 font-medium">Nome do Produto</th>
                 <th className="pb-3 font-medium text-right">Custo de Producao</th>
                 <th className="pb-3 font-medium text-right">Preco de Venda</th>
-                <th className="pb-3 font-medium text-right">Margem (R$)</th>
+                <th className="hidden sm:table-cell pb-3 font-medium text-right">Margem (R$)</th>
                 <th className="pb-3 font-medium text-right">Margem (%)</th>
               </tr>
             </thead>
             <tbody>
               {produtosComMargem.map((produto) => (
                 <tr key={produto.id} className="border-b last:border-0">
-                  <td className="py-3 font-medium text-text-primary">{produto.nome}</td>
-                  <td className="py-3 text-right text-text-secondary">
+                  <td className="py-3 text-sm font-medium text-text-primary">{produto.nome}</td>
+                  <td className="py-3 text-sm text-right text-text-secondary">
                     {formatCurrency(produto.custoProducao)}
                   </td>
-                  <td className="py-3 text-right text-text-secondary">
+                  <td className="py-3 text-sm text-right text-text-secondary">
                     {formatCurrency(produto.precoVenda)}
                   </td>
-                  <td className="py-3 text-right text-text-secondary">
+                  <td className="hidden sm:table-cell py-3 text-right text-text-secondary">
                     {formatCurrency(produto.margem)}
                   </td>
                   <td className="py-3 text-right">

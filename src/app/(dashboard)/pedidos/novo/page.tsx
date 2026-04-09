@@ -199,7 +199,7 @@ export default function NovoPedidoPage() {
             <button
               type="button"
               onClick={addItem}
-              className="flex items-center gap-1 rounded-lg px-3 py-1.5 text-sm font-medium"
+              className="flex items-center justify-center gap-1 rounded-lg px-3 py-1.5 text-sm font-medium w-full sm:w-auto"
               style={{ backgroundColor: 'rgba(184, 150, 12, 0.15)', color: '#1a4d2e' }}
             >
               <Plus size={14} />
@@ -213,9 +213,9 @@ export default function NovoPedidoPage() {
               return (
                 <div
                   key={index}
-                  className="flex flex-wrap items-end gap-3 rounded-lg border border-card-border bg-brand-cream p-3"
+                  className="flex flex-col sm:flex-row sm:flex-wrap sm:items-end gap-3 rounded-lg border border-card-border bg-brand-cream p-3"
                 >
-                  <div className="min-w-[200px] flex-1">
+                  <div className="w-full sm:min-w-[200px] sm:flex-1">
                     <label className="mb-1 block text-xs font-medium text-text-secondary">
                       Produto
                     </label>
@@ -234,7 +234,7 @@ export default function NovoPedidoPage() {
                     </select>
                   </div>
 
-                  <div className="w-24">
+                  <div className="w-full sm:w-24">
                     <label className="mb-1 block text-xs font-medium text-text-secondary">
                       Qtd
                     </label>
@@ -252,7 +252,7 @@ export default function NovoPedidoPage() {
 
                   {produto && (
                     <>
-                      <div className="w-24">
+                      <div className="w-full sm:w-24">
                         <label className="mb-1 block text-xs font-medium text-text-secondary">
                           Peso
                         </label>
@@ -260,7 +260,7 @@ export default function NovoPedidoPage() {
                           {produto.peso} kg
                         </p>
                       </div>
-                      <div className="w-28">
+                      <div className="w-full sm:w-28">
                         <label className="mb-1 block text-xs font-medium text-text-secondary">
                           Preco Unit.
                         </label>
@@ -268,7 +268,7 @@ export default function NovoPedidoPage() {
                           {formatCurrency(produto.precoVenda)}
                         </p>
                       </div>
-                      <div className="w-28">
+                      <div className="w-full sm:w-28">
                         <label className="mb-1 block text-xs font-medium text-text-secondary">
                           Subtotal
                         </label>
@@ -382,7 +382,7 @@ export default function NovoPedidoPage() {
             <button
               type="button"
               onClick={copyToClipboard}
-              className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-white"
+              className="flex items-center justify-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-white w-full sm:w-auto"
               style={{ backgroundColor: '#b8960c' }}
             >
               {copied ? <Check size={14} /> : <Copy size={14} />}

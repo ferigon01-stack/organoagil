@@ -113,7 +113,7 @@ export default function ClientesPage() {
       </div>
 
       {/* Search */}
-      <div className="relative max-w-md">
+      <div className="relative w-full sm:max-w-md">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-text-muted" />
         <input
           type="text"
@@ -148,7 +148,7 @@ export default function ClientesPage() {
                   <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-text-secondary">
                     Nome
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-text-secondary">
+                  <th className="hidden sm:table-cell px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-text-secondary">
                     CPF/CNPJ
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-text-secondary">
@@ -157,7 +157,7 @@ export default function ClientesPage() {
                   <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-text-secondary">
                     Telefone
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-text-secondary">
+                  <th className="hidden sm:table-cell px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-text-secondary">
                     Cidade/Estado
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-text-secondary">
@@ -174,7 +174,7 @@ export default function ClientesPage() {
                     key={cliente.id}
                     className="hover:bg-hover-bg transition-colors"
                   >
-                    <td className="whitespace-nowrap px-6 py-4">
+                    <td className="whitespace-nowrap px-6 py-4 text-sm">
                       <div className="font-medium text-text-primary">
                         {cliente.nome}
                       </div>
@@ -185,7 +185,7 @@ export default function ClientesPage() {
                         </div>
                       )}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-text-secondary">
+                    <td className="hidden sm:table-cell whitespace-nowrap px-6 py-4 text-sm text-text-secondary">
                       {formatCpfCnpj(cliente)}
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-sm text-text-secondary">
@@ -194,7 +194,7 @@ export default function ClientesPage() {
                     <td className="whitespace-nowrap px-6 py-4 text-sm text-text-secondary">
                       {cliente.telefone || "—"}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-text-secondary">
+                    <td className="hidden sm:table-cell whitespace-nowrap px-6 py-4 text-sm text-text-secondary">
                       {cliente.cidade && cliente.estado
                         ? `${cliente.cidade}/${cliente.estado}`
                         : cliente.cidade || cliente.estado || "—"}
@@ -202,7 +202,7 @@ export default function ClientesPage() {
                     <td className="whitespace-nowrap px-6 py-4 text-sm text-text-secondary">
                       {formatDate(cliente.ultimaCompra)}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-right">
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-right">
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() =>

@@ -83,7 +83,7 @@ export default function ProdutosPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
         <div>
           <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>Produtos</h1>
           <p className="text-text-secondary text-sm mt-1">
@@ -125,8 +125,8 @@ export default function ProdutosPage() {
                   <th className="text-right px-4 py-3 text-sm font-semibold text-text-secondary">Preco Venda</th>
                   <th className="text-right px-4 py-3 text-sm font-semibold text-text-secondary">Custo</th>
                   <th className="text-center px-4 py-3 text-sm font-semibold text-text-secondary">Margem (%)</th>
-                  <th className="text-center px-4 py-3 text-sm font-semibold text-text-secondary">Duracao Media</th>
-                  <th className="text-center px-4 py-3 text-sm font-semibold text-text-secondary">Unidade</th>
+                  <th className="hidden sm:table-cell text-center px-4 py-3 text-sm font-semibold text-text-secondary">Duracao Media</th>
+                  <th className="hidden sm:table-cell text-center px-4 py-3 text-sm font-semibold text-text-secondary">Unidade</th>
                   <th className="text-center px-4 py-3 text-sm font-semibold text-text-secondary">Acoes</th>
                 </tr>
               </thead>
@@ -138,12 +138,12 @@ export default function ProdutosPage() {
                       key={produto.id}
                       className="border-b border-card-border hover:bg-hover-bg transition-colors"
                     >
-                      <td className="px-4 py-3 font-medium text-text-primary">{produto.nome}</td>
-                      <td className="px-4 py-3 text-right text-text-secondary">{formatWeight(produto.peso)}</td>
-                      <td className="px-4 py-3 text-right text-text-primary font-medium">
+                      <td className="px-4 py-3 text-sm font-medium text-text-primary">{produto.nome}</td>
+                      <td className="px-4 py-3 text-sm text-right text-text-secondary">{formatWeight(produto.peso)}</td>
+                      <td className="px-4 py-3 text-sm text-right text-text-primary font-medium">
                         {formatCurrency(produto.precoVenda)}
                       </td>
-                      <td className="px-4 py-3 text-right text-text-secondary">
+                      <td className="px-4 py-3 text-sm text-right text-text-secondary">
                         {formatCurrency(produto.custoProducao)}
                       </td>
                       <td className="px-4 py-3 text-center">
@@ -153,10 +153,10 @@ export default function ProdutosPage() {
                           {margem.toFixed(1)}%
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-center text-text-secondary">
+                      <td className="hidden sm:table-cell px-4 py-3 text-center text-text-secondary">
                         {produto.duracaoMedia ? `${produto.duracaoMedia} dias` : "—"}
                       </td>
-                      <td className="px-4 py-3 text-center text-text-secondary uppercase text-sm">
+                      <td className="hidden sm:table-cell px-4 py-3 text-center text-text-secondary uppercase text-sm">
                         {produto.unidade}
                       </td>
                       <td className="px-4 py-3">

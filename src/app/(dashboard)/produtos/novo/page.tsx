@@ -65,7 +65,7 @@ export default function NovoProdutoPage() {
         Voltar
       </button>
 
-      <div className="bg-card-bg rounded-xl border border-card-border p-6 max-w-2xl">
+      <div className="bg-card-bg rounded-xl border border-card-border p-4 sm:p-6 max-w-2xl">
         <h1 className="text-2xl font-bold mb-6" style={{ color: '#1a4d2e' }}>Novo Produto</h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -179,7 +179,7 @@ export default function NovoProdutoPage() {
               value={form.duracaoMedia}
               onChange={handleChange}
               min="0"
-              className="w-full border border-input-border rounded-lg px-3 py-2 bg-input-bg text-text-primary focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors sm:max-w-xs"
+              className="w-full border border-input-border rounded-lg px-3 py-2 bg-input-bg text-text-primary focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors w-full sm:max-w-xs"
               placeholder="Ex: 30"
             />
           </div>
