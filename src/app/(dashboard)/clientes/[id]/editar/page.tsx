@@ -127,7 +127,7 @@ export default function EditarClientePage() {
             <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>
               Editar Cliente
             </h1>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               Atualize os dados do cliente
             </p>
           </div>
@@ -143,13 +143,13 @@ export default function EditarClientePage() {
         )}
 
         {/* Dados Pessoais */}
-        <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-[#1a2e1f] p-6 shadow-sm">
           <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider" style={{ color: '#1a4d2e' }}>
             Dados Pessoais
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="sm:col-span-2">
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Nome <span className="text-red-500">*</span>
               </label>
               <input
@@ -158,12 +158,12 @@ export default function EditarClientePage() {
                 value={form.nome}
                 onChange={handleChange}
                 required
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                className="w-full rounded-lg border border-gray-300 dark:border-white/20 px-3 py-2.5 text-sm text-gray-900 dark:text-white dark:bg-white/10 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 placeholder="Nome completo ou razão social"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
                 CPF
               </label>
               <input
@@ -171,12 +171,12 @@ export default function EditarClientePage() {
                 name="cpf"
                 value={form.cpf}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                className="w-full rounded-lg border border-gray-300 dark:border-white/20 px-3 py-2.5 text-sm text-gray-900 dark:text-white dark:bg-white/10 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 placeholder="000.000.000-00"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
                 CNPJ
               </label>
               <input
@@ -184,12 +184,12 @@ export default function EditarClientePage() {
                 name="cnpj"
                 value={form.cnpj}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                className="w-full rounded-lg border border-gray-300 dark:border-white/20 px-3 py-2.5 text-sm text-gray-900 dark:text-white dark:bg-white/10 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 placeholder="00.000.000/0000-00"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Inscrição Estadual
               </label>
               <input
@@ -197,7 +197,7 @@ export default function EditarClientePage() {
                 name="inscricaoEstadual"
                 value={form.inscricaoEstadual}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                className="w-full rounded-lg border border-gray-300 dark:border-white/20 px-3 py-2.5 text-sm text-gray-900 dark:text-white dark:bg-white/10 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 placeholder="Inscrição estadual"
               />
             </div>
@@ -205,13 +205,13 @@ export default function EditarClientePage() {
         </div>
 
         {/* Contato */}
-        <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-[#1a2e1f] p-6 shadow-sm">
           <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider" style={{ color: '#1a4d2e' }}>
             Contato
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Email
               </label>
               <input
@@ -219,12 +219,12 @@ export default function EditarClientePage() {
                 name="email"
                 value={form.email}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                className="w-full rounded-lg border border-gray-300 dark:border-white/20 px-3 py-2.5 text-sm text-gray-900 dark:text-white dark:bg-white/10 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 placeholder="email@exemplo.com"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Telefone
               </label>
               <input
@@ -232,7 +232,7 @@ export default function EditarClientePage() {
                 name="telefone"
                 value={form.telefone}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                className="w-full rounded-lg border border-gray-300 dark:border-white/20 px-3 py-2.5 text-sm text-gray-900 dark:text-white dark:bg-white/10 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 placeholder="(00) 00000-0000"
               />
             </div>
@@ -240,13 +240,13 @@ export default function EditarClientePage() {
         </div>
 
         {/* Endereço */}
-        <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-[#1a2e1f] p-6 shadow-sm">
           <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider" style={{ color: '#1a4d2e' }}>
             Endereço
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="sm:col-span-2">
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Endereço
               </label>
               <input
@@ -254,12 +254,12 @@ export default function EditarClientePage() {
                 name="endereco"
                 value={form.endereco}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                className="w-full rounded-lg border border-gray-300 dark:border-white/20 px-3 py-2.5 text-sm text-gray-900 dark:text-white dark:bg-white/10 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 placeholder="Rua, número, complemento"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Bairro
               </label>
               <input
@@ -267,12 +267,12 @@ export default function EditarClientePage() {
                 name="bairro"
                 value={form.bairro}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                className="w-full rounded-lg border border-gray-300 dark:border-white/20 px-3 py-2.5 text-sm text-gray-900 dark:text-white dark:bg-white/10 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 placeholder="Bairro"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
                 CEP
               </label>
               <input
@@ -280,12 +280,12 @@ export default function EditarClientePage() {
                 name="cep"
                 value={form.cep}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                className="w-full rounded-lg border border-gray-300 dark:border-white/20 px-3 py-2.5 text-sm text-gray-900 dark:text-white dark:bg-white/10 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 placeholder="00000-000"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Cidade
               </label>
               <input
@@ -293,19 +293,19 @@ export default function EditarClientePage() {
                 name="cidade"
                 value={form.cidade}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                className="w-full rounded-lg border border-gray-300 dark:border-white/20 px-3 py-2.5 text-sm text-gray-900 dark:text-white dark:bg-white/10 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 placeholder="Cidade"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Estado
               </label>
               <select
                 name="estado"
                 value={form.estado}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                className="w-full rounded-lg border border-gray-300 dark:border-white/20 px-3 py-2.5 text-sm text-gray-900 dark:text-white dark:bg-white/10 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
               >
                 <option value="">Selecione</option>
                 {ESTADOS.map((uf) => (
@@ -323,7 +323,7 @@ export default function EditarClientePage() {
           <button
             type="button"
             onClick={() => router.push("/clientes")}
-            className="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+            className="rounded-lg border border-gray-300 dark:border-white/20 bg-white dark:bg-white/10 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
           >
             Cancelar
           </button>

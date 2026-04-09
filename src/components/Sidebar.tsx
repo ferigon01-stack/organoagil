@@ -16,6 +16,7 @@ import {
   X,
 } from "lucide-react";
 import { useState } from "react";
+import DarkModeToggle from "@/components/DarkModeToggle";
 
 const navItems = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -60,12 +61,12 @@ export default function Sidebar() {
             src="/logo.jpeg"
             width={40}
             height={40}
-            alt="OrganoAgil"
+            alt="Organo Ágil"
             className="rounded-full"
           />
           <div>
-            <h1 className="text-xl font-bold text-brand-gold">OrganoAgil</h1>
-            <p className="text-green-200/70 text-xs">Sistema de Gestao</p>
+            <h1 className="text-xl font-bold text-brand-gold">Organo Ágil</h1>
+            <p className="text-green-200/70 text-xs">Sistema de Gestão</p>
           </div>
         </div>
 
@@ -93,6 +94,7 @@ export default function Sidebar() {
         </nav>
 
         <div className="absolute bottom-0 left-0 right-0 p-3">
+          <DarkModeToggle />
           <button
             onClick={() => signOut()}
             className="flex items-center gap-3 px-4 py-3 rounded-lg text-red-300/60 hover:text-red-300 hover:bg-white/5 w-full transition-colors"

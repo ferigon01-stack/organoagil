@@ -65,12 +65,12 @@ export default function NovoProdutoPage() {
         Voltar
       </button>
 
-      <div className="bg-white rounded-xl border border-gray-200 p-6 max-w-2xl">
+      <div className="bg-white dark:bg-[#1a2e1f] rounded-xl border border-gray-200 dark:border-white/10 p-6 max-w-2xl">
         <h1 className="text-2xl font-bold mb-6" style={{ color: '#1a4d2e' }}>Novo Produto</h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Nome <span className="text-red-500">*</span>
             </label>
             <input
@@ -79,13 +79,13 @@ export default function NovoProdutoPage() {
               value={form.nome}
               onChange={handleChange}
               required
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
+              className="w-full border border-gray-300 dark:border-white/20 rounded-lg px-3 py-2 dark:bg-white/10 dark:text-white focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
               placeholder="Nome do produto"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Descricao
             </label>
             <textarea
@@ -93,14 +93,14 @@ export default function NovoProdutoPage() {
               value={form.descricao}
               onChange={handleChange}
               rows={3}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
+              className="w-full border border-gray-300 dark:border-white/20 rounded-lg px-3 py-2 dark:bg-white/10 dark:text-white focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
               placeholder="Descricao do produto"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Peso (kg) <span className="text-red-500">*</span>
               </label>
               <input
@@ -111,20 +111,20 @@ export default function NovoProdutoPage() {
                 required
                 step="0.001"
                 min="0"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
+                className="w-full border border-gray-300 dark:border-white/20 rounded-lg px-3 py-2 dark:bg-white/10 dark:text-white focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
                 placeholder="0.000"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Unidade
               </label>
               <select
                 name="unidade"
                 value={form.unidade}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors bg-white"
+                className="w-full border border-gray-300 dark:border-white/20 rounded-lg px-3 py-2 dark:bg-white/10 dark:text-white focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors bg-white"
               >
                 <option value="un">Unidade (un)</option>
                 <option value="L">Litro (L)</option>
@@ -136,7 +136,7 @@ export default function NovoProdutoPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Preco de Venda (R$) <span className="text-red-500">*</span>
               </label>
               <input
@@ -147,13 +147,13 @@ export default function NovoProdutoPage() {
                 required
                 step="0.01"
                 min="0"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
+                className="w-full border border-gray-300 dark:border-white/20 rounded-lg px-3 py-2 dark:bg-white/10 dark:text-white focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
                 placeholder="0.00"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Custo de Producao (R$)
               </label>
               <input
@@ -163,14 +163,14 @@ export default function NovoProdutoPage() {
                 onChange={handleChange}
                 step="0.01"
                 min="0"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
+                className="w-full border border-gray-300 dark:border-white/20 rounded-lg px-3 py-2 dark:bg-white/10 dark:text-white focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
                 placeholder="0.00"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Duracao Media (dias)
             </label>
             <input
@@ -199,7 +199,7 @@ export default function NovoProdutoPage() {
             <button
               type="button"
               onClick={() => router.back()}
-              className="px-5 py-2.5 rounded-lg font-medium text-gray-600 hover:bg-gray-100 transition-colors"
+              className="px-5 py-2.5 rounded-lg font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
             >
               Cancelar
             </button>

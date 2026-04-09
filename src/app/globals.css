@@ -11,6 +11,17 @@
   --brand-cream: #f5f0e1;
 }
 
+.dark {
+  --background: #0f1a13;
+  --foreground: #e8e4d9;
+  --brand-green: #1a4d2e;
+  --brand-green-light: #2d6b3f;
+  --brand-green-dark: #0a1209;
+  --brand-gold: #d4b23a;
+  --brand-gold-light: #e8c94a;
+  --brand-cream: #141e17;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

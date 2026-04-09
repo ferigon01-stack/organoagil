@@ -113,7 +113,7 @@ export default function LoginPage() {
         <div className="flex flex-col items-center mb-8">
           <Image
             src="/logo.jpeg"
-            alt="OrganoAgil"
+            alt="Organo Ágil"
             width={120}
             height={120}
             className="rounded-full"
@@ -122,10 +122,10 @@ export default function LoginPage() {
             className="text-3xl font-bold mt-4"
             style={{ color: "#b8960c" }}
           >
-            OrganoAgil
+            Organo Ágil
           </h1>
           <p className="text-gray-400 mt-1 text-sm tracking-wide">
-            Sistema de Gestao
+            Sistema de Gestão
           </p>
         </div>
 

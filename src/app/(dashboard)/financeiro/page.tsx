@@ -208,7 +208,7 @@ export default function FinanceiroPage() {
         <select
           value={`${selectedMes}-${selectedAno}`}
           onChange={(e) => handleMonthChange(e.target.value)}
-          className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+          className="rounded-lg border border-gray-300 dark:border-white/20 bg-white dark:bg-white/10 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 shadow-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
         >
           {monthOptions.map((opt) => (
             <option key={`${opt.mes}-${opt.ano}`} value={`${opt.mes}-${opt.ano}`}>
@@ -220,34 +220,34 @@ export default function FinanceiroPage() {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="flex items-center gap-4 rounded-xl bg-white p-5 shadow-sm border border-gray-100">
+        <div className="flex items-center gap-4 rounded-xl bg-white dark:bg-[#1a2e1f] p-5 shadow-sm border border-gray-100 dark:border-white/10">
           <div className="rounded-lg p-3" style={{ backgroundColor: 'rgba(26, 77, 46, 0.1)' }}>
             <DollarSign className="h-6 w-6" style={{ color: '#1a4d2e' }} />
           </div>
           <div>
-            <p className="text-sm text-gray-500">Faturamento</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Faturamento</p>
             <p className="text-xl font-semibold" style={{ color: '#1a4d2e' }}>
               {formatCurrency(data?.faturamento ?? 0)}
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-4 rounded-xl bg-white p-5 shadow-sm border border-gray-100">
+        <div className="flex items-center gap-4 rounded-xl bg-white dark:bg-[#1a2e1f] p-5 shadow-sm border border-gray-100 dark:border-white/10">
           <div className="rounded-lg bg-red-50 p-3">
             <TrendingDown className="h-6 w-6 text-red-600" />
           </div>
           <div>
-            <p className="text-sm text-gray-500">Despesas</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Despesas</p>
             <p className="text-xl font-semibold text-red-600">
               {formatCurrency(data?.despesas ?? 0)}
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-4 rounded-xl bg-white p-5 shadow-sm border border-gray-100">
+        <div className="flex items-center gap-4 rounded-xl bg-white dark:bg-[#1a2e1f] p-5 shadow-sm border border-gray-100 dark:border-white/10">
           <div className="rounded-lg p-3" style={{ backgroundColor: 'rgba(184, 150, 12, 0.1)' }}>
             <TrendingUp className="h-6 w-6" style={{ color: '#b8960c' }} />
           </div>
           <div>
-            <p className="text-sm text-gray-500">Lucro</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Lucro</p>
             <p className="text-xl font-semibold" style={{ color: (data?.lucro ?? 0) >= 0 ? '#b8960c' : '#dc2626' }}>
               {formatCurrency(data?.lucro ?? 0)}
             </p>
@@ -256,7 +256,7 @@ export default function FinanceiroPage() {
       </div>
 
       {/* Line Chart */}
-      <div className="rounded-xl bg-white p-6 shadow-sm">
+      <div className="rounded-xl bg-white dark:bg-[#1a2e1f] p-6 shadow-sm">
         <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
           Evolucao Mensal
         </h2>
@@ -284,7 +284,7 @@ export default function FinanceiroPage() {
       </div>
 
       {/* Expenses Table */}
-      <div className="rounded-xl bg-white p-6 shadow-sm">
+      <div className="rounded-xl bg-white dark:bg-[#1a2e1f] p-6 shadow-sm">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-semibold" style={{ color: '#1a4d2e' }}>
             Despesas - {MESES_FULL[selectedMes - 1]} {selectedAno}
@@ -300,21 +300,21 @@ export default function FinanceiroPage() {
 
         {/* Inline Form */}
         {showForm && (
-          <form onSubmit={handleSubmit} className="mb-6 rounded-lg border border-gray-200 bg-gray-50 p-4">
+          <form onSubmit={handleSubmit} className="mb-6 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-[#0f1a13] p-4">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">Descricao</label>
+                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Descricao</label>
                 <input
                   type="text"
                   required
                   value={form.descricao}
                   onChange={(e) => setForm({ ...form, descricao: e.target.value })}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                  className="w-full rounded-lg border border-gray-300 dark:border-white/20 dark:bg-white/10 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                   placeholder="Ex: Gasolina"
                 />
               </div>
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">Valor (R$)</label>
+                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Valor (R$)</label>
                 <input
                   type="number"
                   required
@@ -322,12 +322,12 @@ export default function FinanceiroPage() {
                   min="0"
                   value={form.valor}
                   onChange={(e) => setForm({ ...form, valor: e.target.value })}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                  className="w-full rounded-lg border border-gray-300 dark:border-white/20 dark:bg-white/10 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                   placeholder="0,00"
                 />
               </div>
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">Categoria</label>
+                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Categoria</label>
                 <select
                   value={form.categoria}
                   onChange={(e) => setForm({ ...form, categoria: e.target.value })}
@@ -341,13 +341,13 @@ export default function FinanceiroPage() {
                 </select>
               </div>
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">Data</label>
+                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Data</label>
                 <input
                   type="date"
                   required
                   value={form.data}
                   onChange={(e) => setForm({ ...form, data: e.target.value })}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                  className="w-full rounded-lg border border-gray-300 dark:border-white/20 dark:bg-white/10 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 />
               </div>
             </div>

@@ -86,7 +86,7 @@ export default function ProdutosPage() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>Produtos</h1>
-          <p className="text-gray-500 text-sm mt-1">
+          <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
             {produtos.length} produto{produtos.length !== 1 ? "s" : ""} cadastrado{produtos.length !== 1 ? "s" : ""}
           </p>
         </div>
@@ -103,7 +103,7 @@ export default function ProdutosPage() {
       </div>
 
       {produtos.length === 0 ? (
-        <div className="text-center py-16 bg-white rounded-xl border border-gray-200">
+        <div className="text-center py-16 bg-white dark:bg-[#1a2e1f] rounded-xl border border-gray-200 dark:border-white/10">
           <Package className="mx-auto text-gray-300 mb-4" size={48} />
           <p className="text-gray-500 text-lg">Nenhum produto cadastrado</p>
           <button
@@ -115,7 +115,7 @@ export default function ProdutosPage() {
           </button>
         </div>
       ) : (
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <div className="bg-white dark:bg-[#1a2e1f] rounded-xl border border-gray-200 dark:border-white/10 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -136,14 +136,14 @@ export default function ProdutosPage() {
                   return (
                     <tr
                       key={produto.id}
-                      className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
+                      className="border-b border-gray-100 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
                     >
-                      <td className="px-4 py-3 font-medium text-gray-900">{produto.nome}</td>
-                      <td className="px-4 py-3 text-right text-gray-600">{formatWeight(produto.peso)}</td>
-                      <td className="px-4 py-3 text-right text-gray-900 font-medium">
+                      <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">{produto.nome}</td>
+                      <td className="px-4 py-3 text-right text-gray-600 dark:text-gray-400">{formatWeight(produto.peso)}</td>
+                      <td className="px-4 py-3 text-right text-gray-900 dark:text-white font-medium">
                         {formatCurrency(produto.precoVenda)}
                       </td>
-                      <td className="px-4 py-3 text-right text-gray-600">
+                      <td className="px-4 py-3 text-right text-gray-600 dark:text-gray-400">
                         {formatCurrency(produto.custoProducao)}
                       </td>
                       <td className="px-4 py-3 text-center">
@@ -153,10 +153,10 @@ export default function ProdutosPage() {
                           {margem.toFixed(1)}%
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-center text-gray-600">
+                      <td className="px-4 py-3 text-center text-gray-600 dark:text-gray-400">
                         {produto.duracaoMedia ? `${produto.duracaoMedia} dias` : "—"}
                       </td>
-                      <td className="px-4 py-3 text-center text-gray-600 uppercase text-sm">
+                      <td className="px-4 py-3 text-center text-gray-600 dark:text-gray-400 uppercase text-sm">
                         {produto.unidade}
                       </td>
                       <td className="px-4 py-3">

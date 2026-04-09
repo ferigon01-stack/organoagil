@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "OrganoAgil - Sistema de Gestão",
-  description: "Sistema de gestão OrganoAgil",
+  title: "Organo Ágil - Sistema de Gestão",
+  description: "Sistema de gestão Organo Ágil",
 };
 
 export default function RootLayout({

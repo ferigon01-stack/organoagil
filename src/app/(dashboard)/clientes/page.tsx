@@ -94,7 +94,7 @@ export default function ClientesPage() {
           </div>
           <div>
             <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>Clientes</h1>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               {clientes.length} cliente{clientes.length !== 1 ? "s" : ""}{" "}
               cadastrado{clientes.length !== 1 ? "s" : ""}
             </p>
@@ -120,7 +120,7 @@ export default function ClientesPage() {
           placeholder="Buscar por nome..."
           value={busca}
           onChange={(e) => setBusca(e.target.value)}
-          className="w-full rounded-lg border border-gray-300 bg-white py-2.5 pl-10 pr-4 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1"
+          className="w-full rounded-lg border border-gray-300 dark:border-white/20 bg-white dark:bg-white/10 py-2.5 pl-10 pr-4 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-1"
           style={{ '--tw-ring-color': '#b8960c' } as React.CSSProperties}
           onFocus={(e) => { e.currentTarget.style.borderColor = '#b8960c'; e.currentTarget.style.boxShadow = '0 0 0 1px #b8960c'; }}
           onBlur={(e) => { e.currentTarget.style.borderColor = '#d1d5db'; e.currentTarget.style.boxShadow = 'none'; }}
@@ -128,7 +128,7 @@ export default function ClientesPage() {
       </div>
 
       {/* Table */}
-      <div className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-xl border border-gray-100 dark:border-white/10 bg-white dark:bg-[#1a2e1f] shadow-sm">
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <Loader2 className="h-6 w-6 animate-spin" style={{ color: '#1a4d2e' }} />
@@ -142,7 +142,7 @@ export default function ClientesPage() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-white/10">
               <thead style={{ backgroundColor: '#f5f0e1' }}>
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
@@ -168,14 +168,14 @@ export default function ClientesPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-gray-200 dark:divide-white/10">
                 {clientesFiltrados.map((cliente) => (
                   <tr
                     key={cliente.id}
-                    className="hover:bg-gray-50 transition-colors"
+                    className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
                   >
                     <td className="whitespace-nowrap px-6 py-4">
-                      <div className="font-medium text-gray-900">
+                      <div className="font-medium text-gray-900 dark:text-white">
                         {cliente.nome}
                       </div>
                       {cliente._count && cliente._count.pedidos > 0 && (
@@ -185,21 +185,21 @@ export default function ClientesPage() {
                         </div>
                       )}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600">
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
                       {formatCpfCnpj(cliente)}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600">
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
                       {cliente.email || "—"}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600">
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
                       {cliente.telefone || "—"}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600">
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
                       {cliente.cidade && cliente.estado
                         ? `${cliente.cidade}/${cliente.estado}`
                         : cliente.cidade || cliente.estado || "—"}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600">
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
                       {formatDate(cliente.ultimaCompra)}
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-right">
