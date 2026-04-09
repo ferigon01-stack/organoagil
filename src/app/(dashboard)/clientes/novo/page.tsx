@@ -76,10 +76,10 @@ export default function NovoClientePage() {
         </button>
         <div className="flex items-center gap-3">
           <div className="p-2 rounded-lg" style={{ backgroundColor: 'rgba(184, 150, 12, 0.15)' }}>
-            <UserPlus className="h-6 w-6" style={{ color: '#1a4d2e' }} />
+            <UserPlus className="h-6 w-6" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>Novo Cliente</h1>
+            <h1 className="text-2xl font-bold text-brand-green">Novo Cliente</h1>
             <p className="text-sm text-text-secondary">
               Preencha os dados do novo cliente
             </p>
@@ -97,7 +97,7 @@ export default function NovoClientePage() {
 
         {/* Dados Pessoais */}
         <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6 shadow-sm">
-          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider" style={{ color: '#1a4d2e' }}>
+          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider">
             Dados Pessoais
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -159,7 +159,7 @@ export default function NovoClientePage() {
 
         {/* Contato */}
         <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6 shadow-sm">
-          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider" style={{ color: '#1a4d2e' }}>
+          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider">
             Contato
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -194,7 +194,7 @@ export default function NovoClientePage() {
 
         {/* Endereço */}
         <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6 shadow-sm">
-          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider" style={{ color: '#1a4d2e' }}>
+          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider">
             Endereço
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -284,9 +284,9 @@ export default function NovoClientePage() {
             type="submit"
             disabled={saving}
             className="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors disabled:opacity-50"
-            style={{ backgroundColor: '#1a4d2e' }}
+            style={{ backgroundColor: `var(--brand-green)` }}
             onMouseEnter={(e) => !saving && (e.currentTarget.style.backgroundColor = '#2d6b3f')}
-            onMouseLeave={(e) => !saving && (e.currentTarget.style.backgroundColor = '#1a4d2e')}
+            onMouseLeave={(e) => !saving && (e.currentTarget.style.backgroundColor = `var(--brand-green)`)}
           >
             {saving ? (
               <Loader2 className="h-4 w-4 animate-spin" />

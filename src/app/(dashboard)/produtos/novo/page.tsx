@@ -66,7 +66,7 @@ export default function NovoProdutoPage() {
       </button>
 
       <div className="bg-card-bg rounded-xl border border-card-border p-4 sm:p-6 max-w-2xl">
-        <h1 className="text-2xl font-bold mb-6" style={{ color: '#1a4d2e' }}>Novo Produto</h1>
+        <h1 className="text-2xl font-bold mb-6">Novo Produto</h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
@@ -189,9 +189,9 @@ export default function NovoProdutoPage() {
               type="submit"
               disabled={loading}
               className="flex items-center gap-2 text-white px-5 py-2.5 rounded-lg font-medium transition-colors disabled:opacity-50"
-              style={{ backgroundColor: '#1a4d2e' }}
+              style={{ backgroundColor: `var(--brand-green)` }}
               onMouseEnter={(e) => !loading && (e.currentTarget.style.backgroundColor = '#2d6b3f')}
-              onMouseLeave={(e) => !loading && (e.currentTarget.style.backgroundColor = '#1a4d2e')}
+              onMouseLeave={(e) => !loading && (e.currentTarget.style.backgroundColor = `var(--brand-green)`)}
             >
               {loading ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
               Salvar

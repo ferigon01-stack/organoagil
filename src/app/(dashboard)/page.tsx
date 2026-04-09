@@ -74,7 +74,7 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-t-transparent" style={{ borderColor: '#1a4d2e', borderTopColor: 'transparent' }} />
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-t-transparent" style={{ borderColor: `var(--brand-green)`, borderTopColor: 'transparent' }} />
       </div>
     )
   }
@@ -98,9 +98,9 @@ export default function DashboardPage() {
       label: 'Faturamento Total',
       value: formatCurrency(data.faturamento),
       icon: DollarSign,
-      iconColor: '#1a4d2e',
+      iconColor: `var(--brand-green)`,
       bgColor: 'rgba(26, 77, 46, 0.1)',
-      valueColor: '#1a4d2e',
+      valueColor: `var(--brand-green)`,
     },
     {
       label: 'Despesas Totais',
@@ -122,15 +122,15 @@ export default function DashboardPage() {
       label: 'Total de Pedidos',
       value: data.totalPedidos.toString(),
       icon: ShoppingCart,
-      iconColor: '#1a4d2e',
+      iconColor: `var(--brand-green)`,
       bgColor: 'rgba(26, 77, 46, 0.1)',
-      valueColor: '#1a4d2e',
+      valueColor: `var(--brand-green)`,
     },
   ]
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>Dashboard</h1>
+      <h1 className="text-2xl font-bold text-brand-green">Dashboard</h1>
 
       {/* Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -154,7 +154,7 @@ export default function DashboardPage() {
 
       {/* Chart */}
       <div className="rounded-xl bg-card-bg p-6 shadow-sm border border-card-border">
-        <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
+        <h2 className="mb-4 text-lg font-semibold text-brand-green">
           Faturamento vs Despesas Mensais
         </h2>
         <div className="h-60 sm:h-80">
@@ -174,7 +174,7 @@ export default function DashboardPage() {
                 formatter={(value) => formatCurrency(Number(value))}
               />
               <Legend />
-              <Bar dataKey="Faturamento" fill="#1a4d2e" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="Faturamento" fill="var(--brand-green)" radius={[4, 4, 0, 0]} />
               <Bar dataKey="Despesas" fill="#dc2626" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
@@ -183,7 +183,7 @@ export default function DashboardPage() {
 
       {/* Recent Orders */}
       <div className="rounded-xl bg-card-bg p-6 shadow-sm border border-card-border">
-        <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
+        <h2 className="mb-4 text-lg font-semibold text-brand-green">
           Pedidos Recentes
         </h2>
         <div className="overflow-x-auto">

@@ -171,7 +171,7 @@ export default function PedidoDetailPage() {
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-t-transparent" style={{ borderColor: '#1a4d2e', borderTopColor: 'transparent' }} />
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-t-transparent" style={{ borderColor: `var(--brand-green)`, borderTopColor: 'transparent' }} />
       </div>
     );
   }
@@ -227,7 +227,7 @@ export default function PedidoDetailPage() {
             <ArrowLeft size={20} />
           </button>
           <div>
-            <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>
+            <h1 className="text-2xl font-bold text-brand-green">
               Pedido #{pedido.numero}
             </h1>
             <p className="text-sm text-text-secondary">
@@ -246,7 +246,7 @@ export default function PedidoDetailPage() {
 
       {/* Phase Stepper */}
       <div className="rounded-xl bg-card-bg p-6 shadow-sm border border-card-border">
-        <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>Fase Atual</h2>
+        <h2 className="mb-4 text-lg font-semibold text-brand-green">Fase Atual</h2>
         <div className="flex items-center gap-1 overflow-x-auto">
           {FASES.map((fase, index) => {
             const isCurrent = fase === pedido.fase;
@@ -319,9 +319,9 @@ export default function PedidoDetailPage() {
               onClick={() => advancePhase(nextFase)}
               disabled={updating}
               className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
-              style={{ backgroundColor: '#1a4d2e' }}
+              style={{ backgroundColor: `var(--brand-green)` }}
               onMouseEnter={(e) => !updating && (e.currentTarget.style.backgroundColor = '#2d6b3f')}
-              onMouseLeave={(e) => !updating && (e.currentTarget.style.backgroundColor = '#1a4d2e')}
+              onMouseLeave={(e) => !updating && (e.currentTarget.style.backgroundColor = `var(--brand-green)`)}
             >
               Avancar para {FASE_LABELS[nextFase]}
               <ChevronRight size={16} />
@@ -333,7 +333,7 @@ export default function PedidoDetailPage() {
       {/* Nota Fiscal & Boleto (ENVIO phase) */}
       {(pedido.fase === "ENVIO" || pedido.fase === "RECEBIDO") && (
         <div className="rounded-xl bg-card-bg p-6 shadow-sm">
-          <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
+          <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold">
             <Truck size={20} />
             Dados de Envio
           </h2>
@@ -370,7 +370,7 @@ export default function PedidoDetailPage() {
               onClick={saveEnvioFields}
               disabled={updating}
               className="mt-4 rounded-lg px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
-              style={{ backgroundColor: '#1a4d2e' }}
+              style={{ backgroundColor: `var(--brand-green)` }}
             >
               Salvar
             </button>
@@ -390,7 +390,7 @@ export default function PedidoDetailPage() {
 
       {/* Client Info */}
       <div className="rounded-xl bg-card-bg p-6 shadow-sm">
-        <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>Cliente</h2>
+        <h2 className="mb-4 text-lg font-semibold text-brand-green">Cliente</h2>
         <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
           <div>
             <span className="text-text-secondary">Nome:</span>{" "}
@@ -427,7 +427,7 @@ export default function PedidoDetailPage() {
 
       {/* Items */}
       <div className="rounded-xl bg-card-bg p-6 shadow-sm">
-        <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
+        <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold">
           <Package size={20} />
           Itens do Pedido
         </h2>
@@ -487,7 +487,7 @@ export default function PedidoDetailPage() {
           <hr />
           <div className="flex justify-between text-base">
             <span className="font-semibold text-text-primary">Valor Total</span>
-            <span className="font-bold" style={{ color: '#1a4d2e' }}>
+            <span className="font-bold">
               {formatCurrency(pedido.valorTotal)}
             </span>
           </div>
@@ -497,7 +497,7 @@ export default function PedidoDetailPage() {
       {/* Observacoes */}
       {pedido.observacoes && (
         <div className="rounded-xl bg-card-bg p-6 shadow-sm">
-          <h2 className="mb-2 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
+          <h2 className="mb-2 text-lg font-semibold">
             Observacoes
           </h2>
           <p className="text-sm text-text-secondary">{pedido.observacoes}</p>
@@ -507,7 +507,7 @@ export default function PedidoDetailPage() {
       {/* Cotacao de Frete */}
       <div className="rounded-xl bg-card-bg p-6 shadow-sm">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="flex items-center gap-2 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
+          <h2 className="flex items-center gap-2 text-lg font-semibold">
             <FileText size={20} />
             Cotacao de Frete
           </h2>

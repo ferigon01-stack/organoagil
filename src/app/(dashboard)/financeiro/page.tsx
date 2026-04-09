@@ -189,7 +189,7 @@ export default function FinanceiroPage() {
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-t-transparent" style={{ borderColor: '#1a4d2e', borderTopColor: 'transparent' }} />
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-t-transparent" style={{ borderColor: `var(--brand-green)`, borderTopColor: 'transparent' }} />
       </div>
     )
   }
@@ -204,7 +204,7 @@ export default function FinanceiroPage() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>Financeiro</h1>
+        <h1 className="text-2xl font-bold text-brand-green">Financeiro</h1>
         <select
           value={`${selectedMes}-${selectedAno}`}
           onChange={(e) => handleMonthChange(e.target.value)}
@@ -222,11 +222,11 @@ export default function FinanceiroPage() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <div className="flex items-center gap-4 rounded-xl bg-card-bg p-5 shadow-sm border border-card-border">
           <div className="rounded-lg p-3" style={{ backgroundColor: 'rgba(26, 77, 46, 0.1)' }}>
-            <DollarSign className="h-6 w-6" style={{ color: '#1a4d2e' }} />
+            <DollarSign className="h-6 w-6" />
           </div>
           <div>
             <p className="text-sm text-text-secondary">Faturamento</p>
-            <p className="text-xl font-semibold" style={{ color: '#1a4d2e' }}>
+            <p className="text-xl font-semibold">
               {formatCurrency(data?.faturamento ?? 0)}
             </p>
           </div>
@@ -257,7 +257,7 @@ export default function FinanceiroPage() {
 
       {/* Line Chart */}
       <div className="rounded-xl bg-card-bg p-6 shadow-sm">
-        <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
+        <h2 className="mb-4 text-lg font-semibold text-brand-green">
           Evolucao Mensal
         </h2>
         <div className="h-60 sm:h-80">
@@ -275,7 +275,7 @@ export default function FinanceiroPage() {
               />
               <Tooltip formatter={(value) => formatCurrency(Number(value))} />
               <Legend />
-              <Line type="monotone" dataKey="Faturamento" stroke="#1a4d2e" strokeWidth={2} dot={{ r: 4 }} />
+              <Line type="monotone" dataKey="Faturamento" stroke="var(--brand-green)" strokeWidth={2} dot={{ r: 4 }} />
               <Line type="monotone" dataKey="Despesas" stroke="#dc2626" strokeWidth={2} dot={{ r: 4 }} />
               <Line type="monotone" dataKey="Lucro" stroke="#b8960c" strokeWidth={2} dot={{ r: 4 }} />
             </LineChart>
@@ -286,12 +286,12 @@ export default function FinanceiroPage() {
       {/* Expenses Table */}
       <div className="rounded-xl bg-card-bg p-6 shadow-sm">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold" style={{ color: '#1a4d2e' }}>
+          <h2 className="text-lg font-semibold text-brand-green">
             Despesas - {MESES_FULL[selectedMes - 1]} {selectedAno}
           </h2>
           <button
             onClick={() => setShowForm(!showForm)}
-            className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors" style={{ backgroundColor: '#1a4d2e' }}
+            className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors" style={{ backgroundColor: `var(--brand-green)` }}
           >
             {showForm ? <X size={16} /> : <Plus size={16} />}
             {showForm ? 'Cancelar' : 'Nova Despesa'}
@@ -356,7 +356,7 @@ export default function FinanceiroPage() {
                 type="submit"
                 disabled={formLoading}
                 className="rounded-lg px-6 py-2 text-sm font-medium text-white transition-colors disabled:opacity-50"
-                style={{ backgroundColor: '#1a4d2e' }}
+                style={{ backgroundColor: `var(--brand-green)` }}
               >
                 {formLoading ? 'Salvando...' : 'Salvar Despesa'}
               </button>

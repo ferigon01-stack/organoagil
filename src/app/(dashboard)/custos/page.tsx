@@ -56,7 +56,7 @@ export default function CustosPage() {
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-t-transparent" style={{ borderColor: '#1a4d2e', borderTopColor: 'transparent' }} />
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-t-transparent" style={{ borderColor: `var(--brand-green)`, borderTopColor: 'transparent' }} />
       </div>
     )
   }
@@ -80,7 +80,7 @@ export default function CustosPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>Analise de Custos</h1>
+      <h1 className="text-2xl font-bold text-brand-green">Analise de Custos</h1>
 
       {/* Summary Card */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

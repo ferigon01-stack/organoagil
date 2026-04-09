@@ -90,10 +90,10 @@ export default function ClientesPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="p-2 rounded-lg" style={{ backgroundColor: 'rgba(184, 150, 12, 0.15)' }}>
-            <Users className="h-6 w-6" style={{ color: '#1a4d2e' }} />
+            <Users className="h-6 w-6" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>Clientes</h1>
+            <h1 className="text-2xl font-bold text-brand-green">Clientes</h1>
             <p className="text-sm text-text-secondary">
               {clientes.length} cliente{clientes.length !== 1 ? "s" : ""}{" "}
               cadastrado{clientes.length !== 1 ? "s" : ""}
@@ -103,9 +103,9 @@ export default function ClientesPage() {
         <button
           onClick={() => router.push("/clientes/novo")}
           className="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors"
-          style={{ backgroundColor: '#1a4d2e' }}
+          style={{ backgroundColor: `var(--brand-green)` }}
           onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#2d6b3f')}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#1a4d2e')}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = `var(--brand-green)`)}
         >
           <Plus className="h-4 w-4" />
           Novo Cliente
@@ -131,7 +131,7 @@ export default function ClientesPage() {
       <div className="overflow-hidden rounded-xl border border-card-border bg-card-bg shadow-sm">
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="h-6 w-6 animate-spin" style={{ color: '#1a4d2e' }} />
+            <Loader2 className="h-6 w-6 animate-spin" />
             <span className="ml-2 text-sm text-text-secondary">Carregando...</span>
           </div>
         ) : clientesFiltrados.length === 0 ? (

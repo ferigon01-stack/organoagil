@@ -197,7 +197,7 @@ export default function EditarPedidoPage() {
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-t-transparent" style={{ borderColor: '#1a4d2e', borderTopColor: 'transparent' }} />
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-t-transparent" style={{ borderColor: `var(--brand-green)`, borderTopColor: 'transparent' }} />
       </div>
     );
   }
@@ -212,7 +212,7 @@ export default function EditarPedidoPage() {
         >
           <ArrowLeft size={20} />
         </button>
-        <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>
+        <h1 className="text-2xl font-bold text-brand-green">
           Editar Pedido #{pedidoNumero}
         </h1>
       </div>
@@ -220,7 +220,7 @@ export default function EditarPedidoPage() {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Cliente */}
         <div className="rounded-xl bg-card-bg p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>Cliente</h2>
+          <h2 className="mb-4 text-lg font-semibold text-brand-green">Cliente</h2>
           <select
             value={clienteId}
             onChange={(e) => setClienteId(e.target.value)}
@@ -239,12 +239,12 @@ export default function EditarPedidoPage() {
         {/* Itens */}
         <div className="rounded-xl bg-card-bg p-6 shadow-sm">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-lg font-semibold" style={{ color: '#1a4d2e' }}>Itens</h2>
+            <h2 className="text-lg font-semibold text-brand-green">Itens</h2>
             <button
               type="button"
               onClick={addItem}
               className="flex items-center justify-center gap-1 rounded-lg px-3 py-1.5 text-sm font-medium w-full sm:w-auto"
-              style={{ backgroundColor: 'rgba(184, 150, 12, 0.15)', color: '#1a4d2e' }}
+              style={{ backgroundColor: 'rgba(184, 150, 12, 0.15)', color: `var(--brand-green)` }}
             >
               <Plus size={14} />
               Adicionar Item
@@ -316,7 +316,7 @@ export default function EditarPedidoPage() {
                         <label className="mb-1 block text-xs font-medium text-text-secondary">
                           Subtotal
                         </label>
-                        <p className="rounded-lg px-3 py-2 text-sm font-medium" style={{ backgroundColor: 'rgba(26, 77, 46, 0.1)', color: '#1a4d2e' }}>
+                        <p className="rounded-lg px-3 py-2 text-sm font-medium" style={{ backgroundColor: 'rgba(26, 77, 46, 0.1)', color: `var(--brand-green)` }}>
                           {formatCurrency(item.quantidade * produto.precoVenda)}
                         </p>
                       </div>
@@ -339,7 +339,7 @@ export default function EditarPedidoPage() {
 
         {/* Frete & Volumes */}
         <div className="rounded-xl bg-card-bg p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
+          <h2 className="mb-4 text-lg font-semibold text-brand-green">
             Frete e Volumes
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -373,7 +373,7 @@ export default function EditarPedidoPage() {
 
         {/* Observacoes */}
         <div className="rounded-xl bg-card-bg p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
+          <h2 className="mb-4 text-lg font-semibold text-brand-green">
             Observacoes
           </h2>
           <textarea
@@ -387,7 +387,7 @@ export default function EditarPedidoPage() {
 
         {/* Totais */}
         <div className="rounded-xl bg-card-bg p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>Resumo</h2>
+          <h2 className="mb-4 text-lg font-semibold text-brand-green">Resumo</h2>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-text-secondary">Valor dos Produtos</span>
@@ -410,7 +410,7 @@ export default function EditarPedidoPage() {
             <hr />
             <div className="flex justify-between text-base">
               <span className="font-semibold text-text-primary">Valor Total</span>
-              <span className="font-bold" style={{ color: '#1a4d2e' }}>
+              <span className="font-bold">
                 {formatCurrency(valorTotal)}
               </span>
             </div>
@@ -420,7 +420,7 @@ export default function EditarPedidoPage() {
         {/* Cotacao de Frete */}
         <div className="rounded-xl bg-card-bg p-6 shadow-sm">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-lg font-semibold" style={{ color: '#1a4d2e' }}>
+            <h2 className="text-lg font-semibold text-brand-green">
               Cotacao de Frete
             </h2>
             <button
@@ -444,9 +444,9 @@ export default function EditarPedidoPage() {
             type="submit"
             disabled={saving}
             className="flex items-center gap-2 rounded-lg px-6 py-2.5 text-sm font-medium text-white transition-colors disabled:opacity-50"
-            style={{ backgroundColor: '#1a4d2e' }}
+            style={{ backgroundColor: `var(--brand-green)` }}
             onMouseEnter={(e) => !saving && (e.currentTarget.style.backgroundColor = '#2d6b3f')}
-            onMouseLeave={(e) => !saving && (e.currentTarget.style.backgroundColor = '#1a4d2e')}
+            onMouseLeave={(e) => !saving && (e.currentTarget.style.backgroundColor = `var(--brand-green)`)}
           >
             <Save size={16} />
             {saving ? "Salvando..." : "Salvar Alteracoes"}

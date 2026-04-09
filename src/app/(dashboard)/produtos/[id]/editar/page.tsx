@@ -92,7 +92,7 @@ export default function EditarProdutoPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="animate-spin" size={32} style={{ color: '#1a4d2e' }} />
+        <Loader2 className="animate-spin" size={32} />
       </div>
     );
   }
@@ -108,7 +108,7 @@ export default function EditarProdutoPage() {
       </button>
 
       <div className="bg-card-bg rounded-xl border border-card-border p-4 sm:p-6 max-w-2xl">
-        <h1 className="text-2xl font-bold mb-6" style={{ color: '#1a4d2e' }}>Editar Produto</h1>
+        <h1 className="text-2xl font-bold mb-6">Editar Produto</h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
@@ -231,9 +231,9 @@ export default function EditarProdutoPage() {
               type="submit"
               disabled={saving}
               className="flex items-center gap-2 text-white px-5 py-2.5 rounded-lg font-medium transition-colors disabled:opacity-50"
-              style={{ backgroundColor: '#1a4d2e' }}
+              style={{ backgroundColor: `var(--brand-green)` }}
               onMouseEnter={(e) => !saving && (e.currentTarget.style.backgroundColor = '#2d6b3f')}
-              onMouseLeave={(e) => !saving && (e.currentTarget.style.backgroundColor = '#1a4d2e')}
+              onMouseLeave={(e) => !saving && (e.currentTarget.style.backgroundColor = `var(--brand-green)`)}
             >
               {saving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
               Salvar
