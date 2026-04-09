@@ -75,11 +75,11 @@ export default function NovoClientePage() {
           <ArrowLeft className="h-5 w-5" />
         </button>
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-green-100 rounded-lg">
-            <UserPlus className="h-6 w-6 text-green-700" />
+          <div className="p-2 rounded-lg" style={{ backgroundColor: 'rgba(184, 150, 12, 0.15)' }}>
+            <UserPlus className="h-6 w-6" style={{ color: '#1a4d2e' }} />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Novo Cliente</h1>
+            <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>Novo Cliente</h1>
             <p className="text-sm text-gray-500">
               Preencha os dados do novo cliente
             </p>
@@ -97,7 +97,7 @@ export default function NovoClientePage() {
 
         {/* Dados Pessoais */}
         <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">
+          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider" style={{ color: '#1a4d2e' }}>
             Dados Pessoais
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -111,7 +111,7 @@ export default function NovoClientePage() {
                 value={form.nome}
                 onChange={handleChange}
                 required
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 placeholder="Nome completo ou razão social"
               />
             </div>
@@ -124,7 +124,7 @@ export default function NovoClientePage() {
                 name="cpf"
                 value={form.cpf}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 placeholder="000.000.000-00"
               />
             </div>
@@ -137,7 +137,7 @@ export default function NovoClientePage() {
                 name="cnpj"
                 value={form.cnpj}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 placeholder="00.000.000/0000-00"
               />
             </div>
@@ -150,7 +150,7 @@ export default function NovoClientePage() {
                 name="inscricaoEstadual"
                 value={form.inscricaoEstadual}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 placeholder="Inscrição estadual"
               />
             </div>
@@ -159,7 +159,7 @@ export default function NovoClientePage() {
 
         {/* Contato */}
         <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">
+          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider" style={{ color: '#1a4d2e' }}>
             Contato
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -172,7 +172,7 @@ export default function NovoClientePage() {
                 name="email"
                 value={form.email}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 placeholder="email@exemplo.com"
               />
             </div>
@@ -185,7 +185,7 @@ export default function NovoClientePage() {
                 name="telefone"
                 value={form.telefone}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 placeholder="(00) 00000-0000"
               />
             </div>
@@ -194,7 +194,7 @@ export default function NovoClientePage() {
 
         {/* Endereço */}
         <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">
+          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider" style={{ color: '#1a4d2e' }}>
             Endereço
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -207,7 +207,7 @@ export default function NovoClientePage() {
                 name="endereco"
                 value={form.endereco}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 placeholder="Rua, número, complemento"
               />
             </div>
@@ -220,7 +220,7 @@ export default function NovoClientePage() {
                 name="bairro"
                 value={form.bairro}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 placeholder="Bairro"
               />
             </div>
@@ -233,7 +233,7 @@ export default function NovoClientePage() {
                 name="cep"
                 value={form.cep}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 placeholder="00000-000"
               />
             </div>
@@ -246,7 +246,7 @@ export default function NovoClientePage() {
                 name="cidade"
                 value={form.cidade}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 placeholder="Cidade"
               />
             </div>
@@ -258,7 +258,7 @@ export default function NovoClientePage() {
                 name="estado"
                 value={form.estado}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
               >
                 <option value="">Selecione</option>
                 {ESTADOS.map((uf) => (
@@ -283,7 +283,10 @@ export default function NovoClientePage() {
           <button
             type="submit"
             disabled={saving}
-            className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-700 transition-colors disabled:opacity-50"
+            className="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors disabled:opacity-50"
+            style={{ backgroundColor: '#1a4d2e' }}
+            onMouseEnter={(e) => !saving && (e.currentTarget.style.backgroundColor = '#2d6b3f')}
+            onMouseLeave={(e) => !saving && (e.currentTarget.style.backgroundColor = '#1a4d2e')}
           >
             {saving ? (
               <Loader2 className="h-4 w-4 animate-spin" />

@@ -74,7 +74,7 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-green-700 border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-t-transparent" style={{ borderColor: '#1a4d2e', borderTopColor: 'transparent' }} />
       </div>
     )
   }
@@ -98,49 +98,53 @@ export default function DashboardPage() {
       label: 'Faturamento Total',
       value: formatCurrency(data.faturamento),
       icon: DollarSign,
-      color: 'text-green-700',
-      bg: 'bg-green-50',
+      iconColor: '#1a4d2e',
+      bgColor: 'rgba(26, 77, 46, 0.1)',
+      valueColor: '#1a4d2e',
     },
     {
       label: 'Despesas Totais',
       value: formatCurrency(data.despesas),
       icon: TrendingDown,
-      color: 'text-red-600',
-      bg: 'bg-red-50',
+      iconColor: '#dc2626',
+      bgColor: 'rgba(220, 38, 38, 0.1)',
+      valueColor: '#dc2626',
     },
     {
       label: 'Lucro',
       value: formatCurrency(data.lucro),
       icon: TrendingUp,
-      color: 'text-green-700',
-      bg: 'bg-green-50',
+      iconColor: '#b8960c',
+      bgColor: 'rgba(184, 150, 12, 0.1)',
+      valueColor: '#b8960c',
     },
     {
       label: 'Total de Pedidos',
       value: data.totalPedidos.toString(),
       icon: ShoppingCart,
-      color: 'text-green-700',
-      bg: 'bg-green-50',
+      iconColor: '#1a4d2e',
+      bgColor: 'rgba(26, 77, 46, 0.1)',
+      valueColor: '#1a4d2e',
     },
   ]
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
+      <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>Dashboard</h1>
 
       {/* Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {cards.map((card) => (
           <div
             key={card.label}
-            className="flex items-center gap-4 rounded-xl bg-white p-5 shadow-sm"
+            className="flex items-center gap-4 rounded-xl bg-white p-5 shadow-sm border border-gray-100"
           >
-            <div className={`rounded-lg p-3 ${card.bg}`}>
-              <card.icon className={`h-6 w-6 ${card.color}`} />
+            <div className="rounded-lg p-3" style={{ backgroundColor: card.bgColor }}>
+              <card.icon className="h-6 w-6" style={{ color: card.iconColor }} />
             </div>
             <div>
               <p className="text-sm text-gray-500">{card.label}</p>
-              <p className={`text-xl font-semibold ${card.color}`}>
+              <p className="text-xl font-semibold" style={{ color: card.valueColor }}>
                 {card.value}
               </p>
             </div>
@@ -149,8 +153,8 @@ export default function DashboardPage() {
       </div>
 
       {/* Chart */}
-      <div className="rounded-xl bg-white p-6 shadow-sm">
-        <h2 className="mb-4 text-lg font-semibold text-gray-800">
+      <div className="rounded-xl bg-white p-6 shadow-sm border border-gray-100">
+        <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
           Faturamento vs Despesas Mensais
         </h2>
         <div className="h-80">
@@ -170,7 +174,7 @@ export default function DashboardPage() {
                 formatter={(value) => formatCurrency(Number(value))}
               />
               <Legend />
-              <Bar dataKey="Faturamento" fill="#15803d" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="Faturamento" fill="#1a4d2e" radius={[4, 4, 0, 0]} />
               <Bar dataKey="Despesas" fill="#dc2626" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
@@ -178,19 +182,19 @@ export default function DashboardPage() {
       </div>
 
       {/* Recent Orders */}
-      <div className="rounded-xl bg-white p-6 shadow-sm">
-        <h2 className="mb-4 text-lg font-semibold text-gray-800">
+      <div className="rounded-xl bg-white p-6 shadow-sm border border-gray-100">
+        <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
           Pedidos Recentes
         </h2>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead>
-              <tr className="border-b text-gray-500">
-                <th className="pb-3 font-medium">Pedido</th>
-                <th className="pb-3 font-medium">Cliente</th>
-                <th className="pb-3 font-medium">Fase</th>
-                <th className="pb-3 font-medium text-right">Valor</th>
-                <th className="pb-3 font-medium text-right">Data</th>
+              <tr className="text-gray-500" style={{ backgroundColor: '#f5f0e1' }}>
+                <th className="pb-3 pt-3 font-medium">Pedido</th>
+                <th className="pb-3 pt-3 font-medium">Cliente</th>
+                <th className="pb-3 pt-3 font-medium">Fase</th>
+                <th className="pb-3 pt-3 font-medium text-right">Valor</th>
+                <th className="pb-3 pt-3 font-medium text-right">Data</th>
               </tr>
             </thead>
             <tbody>

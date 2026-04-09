@@ -171,7 +171,7 @@ export default function PedidoDetailPage() {
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-green-700 border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-t-transparent" style={{ borderColor: '#1a4d2e', borderTopColor: 'transparent' }} />
       </div>
     );
   }
@@ -227,7 +227,7 @@ export default function PedidoDetailPage() {
             <ArrowLeft size={20} />
           </button>
           <div>
-            <h1 className="text-2xl font-bold text-gray-800">
+            <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>
               Pedido #{pedido.numero}
             </h1>
             <p className="text-sm text-gray-500">
@@ -245,8 +245,8 @@ export default function PedidoDetailPage() {
       </div>
 
       {/* Phase Stepper */}
-      <div className="rounded-xl bg-white p-6 shadow-sm">
-        <h2 className="mb-4 text-lg font-semibold text-gray-800">Fase Atual</h2>
+      <div className="rounded-xl bg-white p-6 shadow-sm border border-gray-100">
+        <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>Fase Atual</h2>
         <div className="flex items-center gap-1 overflow-x-auto">
           {FASES.map((fase, index) => {
             const isCurrent = fase === pedido.fase;
@@ -258,21 +258,24 @@ export default function PedidoDetailPage() {
                     isCurrent
                       ? FASE_COLORS[fase]
                       : isPast
-                      ? "border-green-200 bg-green-50 text-green-600"
+                      ? "border-transparent text-white"
                       : "border-gray-200 bg-gray-50 text-gray-400"
                   }`}
+                  style={isPast && !isCurrent ? { backgroundColor: '#b8960c', borderColor: '#b8960c' } : undefined}
                 >
                   <span
                     className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold ${
                       isCurrent
                         ? "bg-current-phase"
                         : isPast
-                        ? "bg-green-600 text-white"
+                        ? "text-white"
                         : "bg-gray-300 text-white"
                     }`}
                     style={
                       isCurrent
                         ? { backgroundColor: "currentColor", color: "white" }
+                        : isPast
+                        ? { backgroundColor: 'rgba(255,255,255,0.3)' }
                         : undefined
                     }
                   >
@@ -289,9 +292,10 @@ export default function PedidoDetailPage() {
                     size={14}
                     className={`mx-0.5 flex-shrink-0 ${
                       index < currentFaseIndex
-                        ? "text-green-400"
+                        ? ""
                         : "text-gray-300"
                     }`}
+                    style={index < currentFaseIndex ? { color: '#b8960c' } : undefined}
                   />
                 )}
               </div>
@@ -314,7 +318,10 @@ export default function PedidoDetailPage() {
             <button
               onClick={() => advancePhase(nextFase)}
               disabled={updating}
-              className="flex items-center gap-2 rounded-lg bg-green-700 px-4 py-2 text-sm font-medium text-white hover:bg-green-800 disabled:opacity-50"
+              className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+              style={{ backgroundColor: '#1a4d2e' }}
+              onMouseEnter={(e) => !updating && (e.currentTarget.style.backgroundColor = '#2d6b3f')}
+              onMouseLeave={(e) => !updating && (e.currentTarget.style.backgroundColor = '#1a4d2e')}
             >
               Avancar para {FASE_LABELS[nextFase]}
               <ChevronRight size={16} />
@@ -326,7 +333,7 @@ export default function PedidoDetailPage() {
       {/* Nota Fiscal & Boleto (ENVIO phase) */}
       {(pedido.fase === "ENVIO" || pedido.fase === "RECEBIDO") && (
         <div className="rounded-xl bg-white p-6 shadow-sm">
-          <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold text-gray-800">
+          <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
             <Truck size={20} />
             Dados de Envio
           </h2>
@@ -340,7 +347,7 @@ export default function PedidoDetailPage() {
                 value={notaFiscal}
                 onChange={(e) => setNotaFiscal(e.target.value)}
                 disabled={pedido.fase === "RECEBIDO"}
-                className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500 disabled:bg-gray-100"
+                className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c] disabled:bg-gray-100"
                 placeholder="Numero da nota fiscal"
               />
             </div>
@@ -353,7 +360,7 @@ export default function PedidoDetailPage() {
                 value={boleto}
                 onChange={(e) => setBoleto(e.target.value)}
                 disabled={pedido.fase === "RECEBIDO"}
-                className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500 disabled:bg-gray-100"
+                className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c] disabled:bg-gray-100"
                 placeholder="Codigo do boleto"
               />
             </div>
@@ -362,7 +369,8 @@ export default function PedidoDetailPage() {
             <button
               onClick={saveEnvioFields}
               disabled={updating}
-              className="mt-4 rounded-lg bg-green-700 px-4 py-2 text-sm font-medium text-white hover:bg-green-800 disabled:opacity-50"
+              className="mt-4 rounded-lg px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+              style={{ backgroundColor: '#1a4d2e' }}
             >
               Salvar
             </button>
@@ -382,7 +390,7 @@ export default function PedidoDetailPage() {
 
       {/* Client Info */}
       <div className="rounded-xl bg-white p-6 shadow-sm">
-        <h2 className="mb-4 text-lg font-semibold text-gray-800">Cliente</h2>
+        <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>Cliente</h2>
         <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
           <div>
             <span className="text-gray-500">Nome:</span>{" "}
@@ -419,7 +427,7 @@ export default function PedidoDetailPage() {
 
       {/* Items */}
       <div className="rounded-xl bg-white p-6 shadow-sm">
-        <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold text-gray-800">
+        <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
           <Package size={20} />
           Itens do Pedido
         </h2>
@@ -479,7 +487,7 @@ export default function PedidoDetailPage() {
           <hr />
           <div className="flex justify-between text-base">
             <span className="font-semibold text-gray-800">Valor Total</span>
-            <span className="font-bold text-green-700">
+            <span className="font-bold" style={{ color: '#1a4d2e' }}>
               {formatCurrency(pedido.valorTotal)}
             </span>
           </div>
@@ -489,7 +497,7 @@ export default function PedidoDetailPage() {
       {/* Observacoes */}
       {pedido.observacoes && (
         <div className="rounded-xl bg-white p-6 shadow-sm">
-          <h2 className="mb-2 text-lg font-semibold text-gray-800">
+          <h2 className="mb-2 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
             Observacoes
           </h2>
           <p className="text-sm text-gray-600">{pedido.observacoes}</p>
@@ -499,13 +507,14 @@ export default function PedidoDetailPage() {
       {/* Cotacao de Frete */}
       <div className="rounded-xl bg-white p-6 shadow-sm">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-800">
+          <h2 className="flex items-center gap-2 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
             <FileText size={20} />
             Cotacao de Frete
           </h2>
           <button
             onClick={copyToClipboard}
-            className="flex items-center gap-1.5 rounded-lg bg-green-50 px-3 py-1.5 text-sm font-medium text-green-700 hover:bg-green-100"
+            className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-white"
+            style={{ backgroundColor: '#b8960c' }}
           >
             {copied ? <Check size={14} /> : <Copy size={14} />}
             {copied ? "Copiado!" : "Copiar"}

@@ -189,7 +189,7 @@ export default function FinanceiroPage() {
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-green-700 border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-t-transparent" style={{ borderColor: '#1a4d2e', borderTopColor: 'transparent' }} />
       </div>
     )
   }
@@ -204,11 +204,11 @@ export default function FinanceiroPage() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-2xl font-bold text-gray-800">Financeiro</h1>
+        <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>Financeiro</h1>
         <select
           value={`${selectedMes}-${selectedAno}`}
           onChange={(e) => handleMonthChange(e.target.value)}
-          className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+          className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
         >
           {monthOptions.map((opt) => (
             <option key={`${opt.mes}-${opt.ano}`} value={`${opt.mes}-${opt.ano}`}>
@@ -220,18 +220,18 @@ export default function FinanceiroPage() {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="flex items-center gap-4 rounded-xl bg-white p-5 shadow-sm">
-          <div className="rounded-lg bg-green-50 p-3">
-            <DollarSign className="h-6 w-6 text-green-700" />
+        <div className="flex items-center gap-4 rounded-xl bg-white p-5 shadow-sm border border-gray-100">
+          <div className="rounded-lg p-3" style={{ backgroundColor: 'rgba(26, 77, 46, 0.1)' }}>
+            <DollarSign className="h-6 w-6" style={{ color: '#1a4d2e' }} />
           </div>
           <div>
             <p className="text-sm text-gray-500">Faturamento</p>
-            <p className="text-xl font-semibold text-green-700">
+            <p className="text-xl font-semibold" style={{ color: '#1a4d2e' }}>
               {formatCurrency(data?.faturamento ?? 0)}
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-4 rounded-xl bg-white p-5 shadow-sm">
+        <div className="flex items-center gap-4 rounded-xl bg-white p-5 shadow-sm border border-gray-100">
           <div className="rounded-lg bg-red-50 p-3">
             <TrendingDown className="h-6 w-6 text-red-600" />
           </div>
@@ -242,13 +242,13 @@ export default function FinanceiroPage() {
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-4 rounded-xl bg-white p-5 shadow-sm">
-          <div className="rounded-lg bg-green-50 p-3">
-            <TrendingUp className="h-6 w-6 text-green-700" />
+        <div className="flex items-center gap-4 rounded-xl bg-white p-5 shadow-sm border border-gray-100">
+          <div className="rounded-lg p-3" style={{ backgroundColor: 'rgba(184, 150, 12, 0.1)' }}>
+            <TrendingUp className="h-6 w-6" style={{ color: '#b8960c' }} />
           </div>
           <div>
             <p className="text-sm text-gray-500">Lucro</p>
-            <p className={`text-xl font-semibold ${(data?.lucro ?? 0) >= 0 ? 'text-green-700' : 'text-red-600'}`}>
+            <p className="text-xl font-semibold" style={{ color: (data?.lucro ?? 0) >= 0 ? '#b8960c' : '#dc2626' }}>
               {formatCurrency(data?.lucro ?? 0)}
             </p>
           </div>
@@ -257,7 +257,7 @@ export default function FinanceiroPage() {
 
       {/* Line Chart */}
       <div className="rounded-xl bg-white p-6 shadow-sm">
-        <h2 className="mb-4 text-lg font-semibold text-gray-800">
+        <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
           Evolucao Mensal
         </h2>
         <div className="h-80">
@@ -275,9 +275,9 @@ export default function FinanceiroPage() {
               />
               <Tooltip formatter={(value) => formatCurrency(Number(value))} />
               <Legend />
-              <Line type="monotone" dataKey="Faturamento" stroke="#15803d" strokeWidth={2} dot={{ r: 4 }} />
+              <Line type="monotone" dataKey="Faturamento" stroke="#1a4d2e" strokeWidth={2} dot={{ r: 4 }} />
               <Line type="monotone" dataKey="Despesas" stroke="#dc2626" strokeWidth={2} dot={{ r: 4 }} />
-              <Line type="monotone" dataKey="Lucro" stroke="#2563eb" strokeWidth={2} dot={{ r: 4 }} />
+              <Line type="monotone" dataKey="Lucro" stroke="#b8960c" strokeWidth={2} dot={{ r: 4 }} />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -286,12 +286,12 @@ export default function FinanceiroPage() {
       {/* Expenses Table */}
       <div className="rounded-xl bg-white p-6 shadow-sm">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-800">
+          <h2 className="text-lg font-semibold" style={{ color: '#1a4d2e' }}>
             Despesas - {MESES_FULL[selectedMes - 1]} {selectedAno}
           </h2>
           <button
             onClick={() => setShowForm(!showForm)}
-            className="flex items-center gap-2 rounded-lg bg-green-700 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-800"
+            className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors" style={{ backgroundColor: '#1a4d2e' }}
           >
             {showForm ? <X size={16} /> : <Plus size={16} />}
             {showForm ? 'Cancelar' : 'Nova Despesa'}
@@ -309,7 +309,7 @@ export default function FinanceiroPage() {
                   required
                   value={form.descricao}
                   onChange={(e) => setForm({ ...form, descricao: e.target.value })}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                   placeholder="Ex: Gasolina"
                 />
               </div>
@@ -322,7 +322,7 @@ export default function FinanceiroPage() {
                   min="0"
                   value={form.valor}
                   onChange={(e) => setForm({ ...form, valor: e.target.value })}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                   placeholder="0,00"
                 />
               </div>
@@ -331,7 +331,7 @@ export default function FinanceiroPage() {
                 <select
                   value={form.categoria}
                   onChange={(e) => setForm({ ...form, categoria: e.target.value })}
-                  className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                  className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 >
                   {CATEGORIAS.map((cat) => (
                     <option key={cat.value} value={cat.value}>
@@ -347,7 +347,7 @@ export default function FinanceiroPage() {
                   required
                   value={form.data}
                   onChange={(e) => setForm({ ...form, data: e.target.value })}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                 />
               </div>
             </div>
@@ -355,7 +355,8 @@ export default function FinanceiroPage() {
               <button
                 type="submit"
                 disabled={formLoading}
-                className="rounded-lg bg-green-700 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-green-800 disabled:opacity-50"
+                className="rounded-lg px-6 py-2 text-sm font-medium text-white transition-colors disabled:opacity-50"
+                style={{ backgroundColor: '#1a4d2e' }}
               >
                 {formLoading ? 'Salvando...' : 'Salvar Despesa'}
               </button>
@@ -379,7 +380,7 @@ export default function FinanceiroPage() {
                 <tr key={despesa.id} className="border-b last:border-0">
                   <td className="py-3 text-gray-800">{despesa.descricao}</td>
                   <td className="py-3">
-                    <span className="inline-block rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-700">
+                    <span className="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium" style={{ backgroundColor: 'rgba(184, 150, 12, 0.15)', color: '#b8960c' }}>
                       {CATEGORIA_LABELS[despesa.categoria] ?? despesa.categoria}
                     </span>
                   </td>

@@ -197,7 +197,7 @@ export default function EditarPedidoPage() {
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-green-700 border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-t-transparent" style={{ borderColor: '#1a4d2e', borderTopColor: 'transparent' }} />
       </div>
     );
   }
@@ -212,7 +212,7 @@ export default function EditarPedidoPage() {
         >
           <ArrowLeft size={20} />
         </button>
-        <h1 className="text-2xl font-bold text-gray-800">
+        <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>
           Editar Pedido #{pedidoNumero}
         </h1>
       </div>
@@ -220,11 +220,11 @@ export default function EditarPedidoPage() {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Cliente */}
         <div className="rounded-xl bg-white p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold text-gray-800">Cliente</h2>
+          <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>Cliente</h2>
           <select
             value={clienteId}
             onChange={(e) => setClienteId(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+            className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
             required
           >
             <option value="">Selecione um cliente</option>
@@ -239,11 +239,12 @@ export default function EditarPedidoPage() {
         {/* Itens */}
         <div className="rounded-xl bg-white p-6 shadow-sm">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-800">Itens</h2>
+            <h2 className="text-lg font-semibold" style={{ color: '#1a4d2e' }}>Itens</h2>
             <button
               type="button"
               onClick={addItem}
-              className="flex items-center gap-1 rounded-lg bg-green-50 px-3 py-1.5 text-sm font-medium text-green-700 hover:bg-green-100"
+              className="flex items-center gap-1 rounded-lg px-3 py-1.5 text-sm font-medium"
+              style={{ backgroundColor: 'rgba(184, 150, 12, 0.15)', color: '#1a4d2e' }}
             >
               <Plus size={14} />
               Adicionar Item
@@ -265,7 +266,7 @@ export default function EditarPedidoPage() {
                     <select
                       value={item.produtoId}
                       onChange={(e) => updateItem(index, "produtoId", e.target.value)}
-                      className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                      className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                       required
                     >
                       <option value="">Selecione</option>
@@ -288,7 +289,7 @@ export default function EditarPedidoPage() {
                       onChange={(e) =>
                         updateItem(index, "quantidade", e.target.value)
                       }
-                      className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                      className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                       required
                     />
                   </div>
@@ -315,7 +316,7 @@ export default function EditarPedidoPage() {
                         <label className="mb-1 block text-xs font-medium text-gray-500">
                           Subtotal
                         </label>
-                        <p className="rounded-lg bg-green-50 px-3 py-2 text-sm font-medium text-green-700">
+                        <p className="rounded-lg px-3 py-2 text-sm font-medium" style={{ backgroundColor: 'rgba(26, 77, 46, 0.1)', color: '#1a4d2e' }}>
                           {formatCurrency(item.quantidade * produto.precoVenda)}
                         </p>
                       </div>
@@ -338,7 +339,7 @@ export default function EditarPedidoPage() {
 
         {/* Frete & Volumes */}
         <div className="rounded-xl bg-white p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold text-gray-800">
+          <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
             Frete e Volumes
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -352,7 +353,7 @@ export default function EditarPedidoPage() {
                 step={0.01}
                 value={valorFrete}
                 onChange={(e) => setValorFrete(Number(e.target.value) || 0)}
-                className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
               />
             </div>
             <div>
@@ -364,7 +365,7 @@ export default function EditarPedidoPage() {
                 min={1}
                 value={volumes}
                 onChange={(e) => setVolumes(Number(e.target.value) || 1)}
-                className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
               />
             </div>
           </div>
@@ -372,21 +373,21 @@ export default function EditarPedidoPage() {
 
         {/* Observacoes */}
         <div className="rounded-xl bg-white p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold text-gray-800">
+          <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
             Observacoes
           </h2>
           <textarea
             value={observacoes}
             onChange={(e) => setObservacoes(e.target.value)}
             rows={3}
-            className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+            className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
             placeholder="Observacoes sobre o pedido..."
           />
         </div>
 
         {/* Totais */}
         <div className="rounded-xl bg-white p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold text-gray-800">Resumo</h2>
+          <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>Resumo</h2>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-gray-600">Valor dos Produtos</span>
@@ -409,7 +410,7 @@ export default function EditarPedidoPage() {
             <hr />
             <div className="flex justify-between text-base">
               <span className="font-semibold text-gray-800">Valor Total</span>
-              <span className="font-bold text-green-700">
+              <span className="font-bold" style={{ color: '#1a4d2e' }}>
                 {formatCurrency(valorTotal)}
               </span>
             </div>
@@ -419,13 +420,14 @@ export default function EditarPedidoPage() {
         {/* Cotacao de Frete */}
         <div className="rounded-xl bg-white p-6 shadow-sm">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-800">
+            <h2 className="text-lg font-semibold" style={{ color: '#1a4d2e' }}>
               Cotacao de Frete
             </h2>
             <button
               type="button"
               onClick={copyToClipboard}
-              className="flex items-center gap-1.5 rounded-lg bg-green-50 px-3 py-1.5 text-sm font-medium text-green-700 hover:bg-green-100"
+              className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-white"
+              style={{ backgroundColor: '#b8960c' }}
             >
               {copied ? <Check size={14} /> : <Copy size={14} />}
               {copied ? "Copiado!" : "Copiar"}
@@ -441,7 +443,10 @@ export default function EditarPedidoPage() {
           <button
             type="submit"
             disabled={saving}
-            className="flex items-center gap-2 rounded-lg bg-green-700 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-green-800 disabled:opacity-50"
+            className="flex items-center gap-2 rounded-lg px-6 py-2.5 text-sm font-medium text-white transition-colors disabled:opacity-50"
+            style={{ backgroundColor: '#1a4d2e' }}
+            onMouseEnter={(e) => !saving && (e.currentTarget.style.backgroundColor = '#2d6b3f')}
+            onMouseLeave={(e) => !saving && (e.currentTarget.style.backgroundColor = '#1a4d2e')}
           >
             <Save size={16} />
             {saving ? "Salvando..." : "Salvar Alteracoes"}

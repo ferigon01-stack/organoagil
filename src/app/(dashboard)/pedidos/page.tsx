@@ -100,7 +100,7 @@ export default function PedidosPage() {
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-green-700 border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-t-transparent" style={{ borderColor: '#1a4d2e', borderTopColor: 'transparent' }} />
       </div>
     );
   }
@@ -112,7 +112,7 @@ export default function PedidosPage() {
     <div className="space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-800">Pedidos</h1>
+        <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>Pedidos</h1>
         <div className="flex items-center gap-3">
           {/* View Toggle */}
           <div className="flex rounded-lg border border-gray-200 bg-white">
@@ -120,9 +120,10 @@ export default function PedidosPage() {
               onClick={() => setView("kanban")}
               className={`flex items-center gap-1.5 rounded-l-lg px-3 py-2 text-sm font-medium transition-colors ${
                 view === "kanban"
-                  ? "bg-green-700 text-white"
+                  ? "text-white"
                   : "text-gray-600 hover:bg-gray-50"
               }`}
+              style={view === "kanban" ? { backgroundColor: '#1a4d2e' } : undefined}
             >
               <LayoutGrid size={16} />
               Kanban
@@ -131,9 +132,10 @@ export default function PedidosPage() {
               onClick={() => setView("table")}
               className={`flex items-center gap-1.5 rounded-r-lg px-3 py-2 text-sm font-medium transition-colors ${
                 view === "table"
-                  ? "bg-green-700 text-white"
+                  ? "text-white"
                   : "text-gray-600 hover:bg-gray-50"
               }`}
+              style={view === "table" ? { backgroundColor: '#1a4d2e' } : undefined}
             >
               <Table size={16} />
               Tabela
@@ -142,7 +144,10 @@ export default function PedidosPage() {
 
           <button
             onClick={() => router.push("/pedidos/novo")}
-            className="flex items-center gap-2 rounded-lg bg-green-700 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-800"
+            className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors"
+            style={{ backgroundColor: '#1a4d2e' }}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#2d6b3f')}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#1a4d2e')}
           >
             <Plus size={16} />
             Novo Pedido
@@ -192,7 +197,7 @@ export default function PedidosPage() {
                         <span className="text-sm font-semibold text-gray-800">
                           #{pedido.numero}
                         </span>
-                        <span className="text-sm font-bold text-green-700">
+                        <span className="text-sm font-bold" style={{ color: '#1a4d2e' }}>
                           {formatCurrency(pedido.valorTotal)}
                         </span>
                       </div>
@@ -223,7 +228,7 @@ export default function PedidosPage() {
         <div className="overflow-x-auto rounded-xl bg-white shadow-sm">
           <table className="w-full text-left text-sm">
             <thead>
-              <tr className="border-b text-gray-500">
+              <tr className="text-gray-500" style={{ backgroundColor: '#f5f0e1' }}>
                 <th className="px-4 py-3 font-medium">Pedido</th>
                 <th className="px-4 py-3 font-medium">Cliente</th>
                 <th className="px-4 py-3 font-medium">Fase</th>

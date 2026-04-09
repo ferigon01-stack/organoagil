@@ -66,7 +66,7 @@ export default function NovoProdutoPage() {
       </button>
 
       <div className="bg-white rounded-xl border border-gray-200 p-6 max-w-2xl">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Novo Produto</h1>
+        <h1 className="text-2xl font-bold mb-6" style={{ color: '#1a4d2e' }}>Novo Produto</h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
@@ -79,7 +79,7 @@ export default function NovoProdutoPage() {
               value={form.nome}
               onChange={handleChange}
               required
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
               placeholder="Nome do produto"
             />
           </div>
@@ -93,7 +93,7 @@ export default function NovoProdutoPage() {
               value={form.descricao}
               onChange={handleChange}
               rows={3}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
               placeholder="Descricao do produto"
             />
           </div>
@@ -111,7 +111,7 @@ export default function NovoProdutoPage() {
                 required
                 step="0.001"
                 min="0"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
                 placeholder="0.000"
               />
             </div>
@@ -124,7 +124,7 @@ export default function NovoProdutoPage() {
                 name="unidade"
                 value={form.unidade}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors bg-white"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors bg-white"
               >
                 <option value="un">Unidade (un)</option>
                 <option value="L">Litro (L)</option>
@@ -147,7 +147,7 @@ export default function NovoProdutoPage() {
                 required
                 step="0.01"
                 min="0"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
                 placeholder="0.00"
               />
             </div>
@@ -163,7 +163,7 @@ export default function NovoProdutoPage() {
                 onChange={handleChange}
                 step="0.01"
                 min="0"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
                 placeholder="0.00"
               />
             </div>
@@ -179,7 +179,7 @@ export default function NovoProdutoPage() {
               value={form.duracaoMedia}
               onChange={handleChange}
               min="0"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors sm:max-w-xs"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors sm:max-w-xs"
               placeholder="Ex: 30"
             />
           </div>
@@ -188,7 +188,10 @@ export default function NovoProdutoPage() {
             <button
               type="submit"
               disabled={loading}
-              className="flex items-center gap-2 bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white px-5 py-2.5 rounded-lg font-medium transition-colors"
+              className="flex items-center gap-2 text-white px-5 py-2.5 rounded-lg font-medium transition-colors disabled:opacity-50"
+              style={{ backgroundColor: '#1a4d2e' }}
+              onMouseEnter={(e) => !loading && (e.currentTarget.style.backgroundColor = '#2d6b3f')}
+              onMouseLeave={(e) => !loading && (e.currentTarget.style.backgroundColor = '#1a4d2e')}
             >
               {loading ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
               Salvar

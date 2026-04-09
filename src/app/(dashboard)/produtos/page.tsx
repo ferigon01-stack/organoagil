@@ -76,7 +76,7 @@ export default function ProdutosPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="animate-spin text-green-600" size={32} />
+        <Loader2 className="animate-spin" size={32} style={{ color: '#1a4d2e' }} />
       </div>
     );
   }
@@ -85,14 +85,17 @@ export default function ProdutosPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Produtos</h1>
+          <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>Produtos</h1>
           <p className="text-gray-500 text-sm mt-1">
             {produtos.length} produto{produtos.length !== 1 ? "s" : ""} cadastrado{produtos.length !== 1 ? "s" : ""}
           </p>
         </div>
         <button
           onClick={() => router.push("/produtos/novo")}
-          className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-lg font-medium transition-colors"
+          className="flex items-center gap-2 text-white px-4 py-2.5 rounded-lg font-medium transition-colors"
+          style={{ backgroundColor: '#1a4d2e' }}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#2d6b3f')}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#1a4d2e')}
         >
           <Plus size={18} />
           Novo Produto
@@ -105,7 +108,8 @@ export default function ProdutosPage() {
           <p className="text-gray-500 text-lg">Nenhum produto cadastrado</p>
           <button
             onClick={() => router.push("/produtos/novo")}
-            className="mt-4 text-green-600 hover:text-green-700 font-medium"
+            className="mt-4 font-medium"
+            style={{ color: '#1a4d2e' }}
           >
             Cadastrar primeiro produto
           </button>
@@ -115,7 +119,7 @@ export default function ProdutosPage() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="bg-gray-50 border-b border-gray-200">
+                <tr className="border-b border-gray-200" style={{ backgroundColor: '#f5f0e1' }}>
                   <th className="text-left px-4 py-3 text-sm font-semibold text-gray-600">Nome</th>
                   <th className="text-right px-4 py-3 text-sm font-semibold text-gray-600">Peso (kg)</th>
                   <th className="text-right px-4 py-3 text-sm font-semibold text-gray-600">Preco Venda</th>

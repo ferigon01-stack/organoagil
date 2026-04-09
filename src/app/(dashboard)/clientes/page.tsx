@@ -89,11 +89,11 @@ export default function ClientesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-green-100 rounded-lg">
-            <Users className="h-6 w-6 text-green-700" />
+          <div className="p-2 rounded-lg" style={{ backgroundColor: 'rgba(184, 150, 12, 0.15)' }}>
+            <Users className="h-6 w-6" style={{ color: '#1a4d2e' }} />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Clientes</h1>
+            <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>Clientes</h1>
             <p className="text-sm text-gray-500">
               {clientes.length} cliente{clientes.length !== 1 ? "s" : ""}{" "}
               cadastrado{clientes.length !== 1 ? "s" : ""}
@@ -102,7 +102,10 @@ export default function ClientesPage() {
         </div>
         <button
           onClick={() => router.push("/clientes/novo")}
-          className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-700 transition-colors"
+          className="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors"
+          style={{ backgroundColor: '#1a4d2e' }}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#2d6b3f')}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#1a4d2e')}
         >
           <Plus className="h-4 w-4" />
           Novo Cliente
@@ -117,15 +120,18 @@ export default function ClientesPage() {
           placeholder="Buscar por nome..."
           value={busca}
           onChange={(e) => setBusca(e.target.value)}
-          className="w-full rounded-lg border border-gray-300 bg-white py-2.5 pl-10 pr-4 text-sm text-gray-900 placeholder-gray-400 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+          className="w-full rounded-lg border border-gray-300 bg-white py-2.5 pl-10 pr-4 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1"
+          style={{ '--tw-ring-color': '#b8960c' } as React.CSSProperties}
+          onFocus={(e) => { e.currentTarget.style.borderColor = '#b8960c'; e.currentTarget.style.boxShadow = '0 0 0 1px #b8960c'; }}
+          onBlur={(e) => { e.currentTarget.style.borderColor = '#d1d5db'; e.currentTarget.style.boxShadow = 'none'; }}
         />
       </div>
 
       {/* Table */}
-      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="h-6 w-6 animate-spin text-green-600" />
+            <Loader2 className="h-6 w-6 animate-spin" style={{ color: '#1a4d2e' }} />
             <span className="ml-2 text-sm text-gray-500">Carregando...</span>
           </div>
         ) : clientesFiltrados.length === 0 ? (
@@ -137,7 +143,7 @@ export default function ClientesPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+              <thead style={{ backgroundColor: '#f5f0e1' }}>
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
                     Nome
