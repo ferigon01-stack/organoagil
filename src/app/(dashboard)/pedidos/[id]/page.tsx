@@ -18,10 +18,6 @@ import {
   Loader2,
   FileDown,
 } from "lucide-react";
-import dynamic from "next/dynamic";
-import { pdf } from "@react-pdf/renderer";
-
-const PedidoPDF = dynamic(() => import("@/components/PedidoPDF"), { ssr: false });
 
 interface ItemPedido {
   id: string;
@@ -232,15 +228,20 @@ export default function PedidoDetailPage() {
     if (!pedido) return;
     setGeneratingPdf(true);
     try {
+      const { pdf } = await import("@react-pdf/renderer");
+      const { default: PedidoPDF } = await import("@/components/PedidoPDF");
       const blob = await pdf(<PedidoPDF pedido={pedido} />).toBlob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
       a.download = `pedido-${pedido.numero}.pdf`;
+      document.body.appendChild(a);
       a.click();
+      document.body.removeChild(a);
       URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Erro ao gerar PDF:", error);
+      alert("Erro ao gerar PDF. Tente novamente.");
     } finally {
       setGeneratingPdf(false);
     }
