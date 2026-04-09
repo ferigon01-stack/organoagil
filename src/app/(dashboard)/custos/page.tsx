@@ -84,23 +84,23 @@ export default function CustosPage() {
 
       {/* Summary Card */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="flex items-center gap-4 rounded-xl bg-white dark:bg-[#1a2e1f] p-5 shadow-sm">
+        <div className="flex items-center gap-4 rounded-xl bg-card-bg p-5 shadow-sm">
           <div className={`rounded-lg p-3 ${getMargemColor(margemMedia)}`}>
             <TrendingUp className="h-6 w-6" />
           </div>
           <div>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Margem Media</p>
+            <p className="text-sm text-text-secondary">Margem Media</p>
             <p className={`text-xl font-semibold ${margemMedia >= 30 ? 'text-green-700' : margemMedia >= 15 ? 'text-yellow-700' : 'text-red-700'}`}>
               {margemMedia.toFixed(1)}%
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-4 rounded-xl bg-white dark:bg-[#1a2e1f] p-5 shadow-sm">
+        <div className="flex items-center gap-4 rounded-xl bg-card-bg p-5 shadow-sm">
           <div className="rounded-lg bg-green-50 p-3">
             <Calculator className="h-6 w-6 text-green-700" />
           </div>
           <div>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Produtos Analisados</p>
+            <p className="text-sm text-text-secondary">Produtos Analisados</p>
             <p className="text-xl font-semibold text-green-700">
               {produtosComMargem.length}
             </p>
@@ -109,8 +109,8 @@ export default function CustosPage() {
       </div>
 
       {/* Bar Chart */}
-      <div className="rounded-xl bg-white dark:bg-[#1a2e1f] p-6 shadow-sm">
-        <h2 className="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">
+      <div className="rounded-xl bg-card-bg p-6 shadow-sm">
+        <h2 className="mb-4 text-lg font-semibold text-text-primary">
           Custo vs Preco de Venda
         </h2>
         <div className="h-80">
@@ -136,14 +136,14 @@ export default function CustosPage() {
       </div>
 
       {/* Products Table */}
-      <div className="rounded-xl bg-white dark:bg-[#1a2e1f] p-6 shadow-sm">
-        <h2 className="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">
+      <div className="rounded-xl bg-card-bg p-6 shadow-sm">
+        <h2 className="mb-4 text-lg font-semibold text-text-primary">
           Detalhamento por Produto
         </h2>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead>
-              <tr className="border-b text-gray-500">
+              <tr className="border-b text-text-secondary">
                 <th className="pb-3 font-medium">Nome do Produto</th>
                 <th className="pb-3 font-medium text-right">Custo de Producao</th>
                 <th className="pb-3 font-medium text-right">Preco de Venda</th>
@@ -154,14 +154,14 @@ export default function CustosPage() {
             <tbody>
               {produtosComMargem.map((produto) => (
                 <tr key={produto.id} className="border-b last:border-0">
-                  <td className="py-3 font-medium text-gray-800 dark:text-gray-200">{produto.nome}</td>
-                  <td className="py-3 text-right text-gray-600 dark:text-gray-400">
+                  <td className="py-3 font-medium text-text-primary">{produto.nome}</td>
+                  <td className="py-3 text-right text-text-secondary">
                     {formatCurrency(produto.custoProducao)}
                   </td>
-                  <td className="py-3 text-right text-gray-600 dark:text-gray-400">
+                  <td className="py-3 text-right text-text-secondary">
                     {formatCurrency(produto.precoVenda)}
                   </td>
-                  <td className="py-3 text-right text-gray-600 dark:text-gray-400">
+                  <td className="py-3 text-right text-text-secondary">
                     {formatCurrency(produto.margem)}
                   </td>
                   <td className="py-3 text-right">
@@ -175,7 +175,7 @@ export default function CustosPage() {
               ))}
               {produtosComMargem.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="py-6 text-center text-gray-400">
+                  <td colSpan={5} className="py-6 text-center text-text-muted">
                     Nenhum produto cadastrado.
                   </td>
                 </tr>

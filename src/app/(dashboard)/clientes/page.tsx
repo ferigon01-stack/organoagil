@@ -94,7 +94,7 @@ export default function ClientesPage() {
           </div>
           <div>
             <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>Clientes</h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-sm text-text-secondary">
               {clientes.length} cliente{clientes.length !== 1 ? "s" : ""}{" "}
               cadastrado{clientes.length !== 1 ? "s" : ""}
             </p>
@@ -114,13 +114,13 @@ export default function ClientesPage() {
 
       {/* Search */}
       <div className="relative max-w-md">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-text-muted" />
         <input
           type="text"
           placeholder="Buscar por nome..."
           value={busca}
           onChange={(e) => setBusca(e.target.value)}
-          className="w-full rounded-lg border border-gray-300 dark:border-white/20 bg-white dark:bg-white/10 py-2.5 pl-10 pr-4 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-1"
+          className="w-full rounded-lg border border-input-border bg-input-bg py-2.5 pl-10 pr-4 text-sm text-text-primary placeholder-gray-400 focus:outline-none focus:ring-1"
           style={{ '--tw-ring-color': '#b8960c' } as React.CSSProperties}
           onFocus={(e) => { e.currentTarget.style.borderColor = '#b8960c'; e.currentTarget.style.boxShadow = '0 0 0 1px #b8960c'; }}
           onBlur={(e) => { e.currentTarget.style.borderColor = '#d1d5db'; e.currentTarget.style.boxShadow = 'none'; }}
@@ -128,78 +128,78 @@ export default function ClientesPage() {
       </div>
 
       {/* Table */}
-      <div className="overflow-hidden rounded-xl border border-gray-100 dark:border-white/10 bg-white dark:bg-[#1a2e1f] shadow-sm">
+      <div className="overflow-hidden rounded-xl border border-card-border bg-card-bg shadow-sm">
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <Loader2 className="h-6 w-6 animate-spin" style={{ color: '#1a4d2e' }} />
-            <span className="ml-2 text-sm text-gray-500">Carregando...</span>
+            <span className="ml-2 text-sm text-text-secondary">Carregando...</span>
           </div>
         ) : clientesFiltrados.length === 0 ? (
-          <div className="py-20 text-center text-sm text-gray-500">
+          <div className="py-20 text-center text-sm text-text-secondary">
             {busca
               ? "Nenhum cliente encontrado para esta busca."
               : "Nenhum cliente cadastrado."}
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200 dark:divide-white/10">
+            <table className="min-w-full divide-y divide-card-border">
               <thead style={{ backgroundColor: '#f5f0e1' }}>
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-text-secondary">
                     Nome
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-text-secondary">
                     CPF/CNPJ
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-text-secondary">
                     Email
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-text-secondary">
                     Telefone
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-text-secondary">
                     Cidade/Estado
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                  <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-text-secondary">
                     Última Compra
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-500">
+                  <th className="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-text-secondary">
                     Ações
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-white/10">
+              <tbody className="divide-y divide-card-border">
                 {clientesFiltrados.map((cliente) => (
                   <tr
                     key={cliente.id}
-                    className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                    className="hover:bg-hover-bg transition-colors"
                   >
                     <td className="whitespace-nowrap px-6 py-4">
-                      <div className="font-medium text-gray-900 dark:text-white">
+                      <div className="font-medium text-text-primary">
                         {cliente.nome}
                       </div>
                       {cliente._count && cliente._count.pedidos > 0 && (
-                        <div className="text-xs text-gray-500">
+                        <div className="text-xs text-text-secondary">
                           {cliente._count.pedidos} pedido
                           {cliente._count.pedidos !== 1 ? "s" : ""}
                         </div>
                       )}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-text-secondary">
                       {formatCpfCnpj(cliente)}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-text-secondary">
                       {cliente.email || "—"}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-text-secondary">
                       {cliente.telefone || "—"}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-text-secondary">
                       {cliente.cidade && cliente.estado
                         ? `${cliente.cidade}/${cliente.estado}`
                         : cliente.cidade || cliente.estado || "—"}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-text-secondary">
                       {formatDate(cliente.ultimaCompra)}
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-right">
@@ -208,7 +208,7 @@ export default function ClientesPage() {
                           onClick={() =>
                             router.push(`/clientes/${cliente.id}/editar`)
                           }
-                          className="rounded-lg p-2 text-gray-400 hover:bg-green-50 hover:text-green-600 transition-colors"
+                          className="rounded-lg p-2 text-text-muted hover:bg-green-50 hover:text-green-600 transition-colors"
                           title="Editar"
                         >
                           <Pencil className="h-4 w-4" />
@@ -218,7 +218,7 @@ export default function ClientesPage() {
                             handleDelete(cliente.id, cliente.nome)
                           }
                           disabled={deletingId === cliente.id}
-                          className="rounded-lg p-2 text-gray-400 hover:bg-red-50 hover:text-red-600 transition-colors disabled:opacity-50"
+                          className="rounded-lg p-2 text-text-muted hover:bg-red-50 hover:text-red-600 transition-colors disabled:opacity-50"
                           title="Excluir"
                         >
                           {deletingId === cliente.id ? (

@@ -115,13 +115,13 @@ export default function PedidosPage() {
         <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>Pedidos</h1>
         <div className="flex items-center gap-3">
           {/* View Toggle */}
-          <div className="flex rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-[#1a2e1f]">
+          <div className="flex rounded-lg border border-card-border bg-card-bg">
             <button
               onClick={() => setView("kanban")}
               className={`flex items-center gap-1.5 rounded-l-lg px-3 py-2 text-sm font-medium transition-colors ${
                 view === "kanban"
                   ? "text-white"
-                  : "text-gray-600 hover:bg-gray-50"
+                  : "text-text-secondary hover:bg-hover-bg"
               }`}
               style={view === "kanban" ? { backgroundColor: '#1a4d2e' } : undefined}
             >
@@ -133,7 +133,7 @@ export default function PedidosPage() {
               className={`flex items-center gap-1.5 rounded-r-lg px-3 py-2 text-sm font-medium transition-colors ${
                 view === "table"
                   ? "text-white"
-                  : "text-gray-600 hover:bg-gray-50"
+                  : "text-text-secondary hover:bg-hover-bg"
               }`}
               style={view === "table" ? { backgroundColor: '#1a4d2e' } : undefined}
             >
@@ -183,7 +183,7 @@ export default function PedidosPage() {
                 {/* Cards */}
                 <div className="flex flex-col gap-2 p-3">
                   {items.length === 0 && (
-                    <p className="py-4 text-center text-xs text-gray-400">
+                    <p className="py-4 text-center text-xs text-text-muted">
                       Nenhum pedido
                     </p>
                   )}
@@ -191,20 +191,20 @@ export default function PedidosPage() {
                     <div
                       key={pedido.id}
                       onClick={() => router.push(`/pedidos/${pedido.id}`)}
-                      className="cursor-pointer rounded-lg bg-white dark:bg-[#1a2e1f] p-3 shadow-sm transition-shadow hover:shadow-md"
+                      className="cursor-pointer rounded-lg bg-card-bg p-3 shadow-sm transition-shadow hover:shadow-md"
                     >
                       <div className="mb-1 flex items-center justify-between">
-                        <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+                        <span className="text-sm font-semibold text-text-primary">
                           #{pedido.numero}
                         </span>
                         <span className="text-sm font-bold" style={{ color: '#1a4d2e' }}>
                           {formatCurrency(pedido.valorTotal)}
                         </span>
                       </div>
-                      <p className="mb-2 text-sm text-gray-600 dark:text-gray-400">
+                      <p className="mb-2 text-sm text-text-secondary">
                         {pedido.cliente.nome}
                       </p>
-                      <div className="flex items-center gap-3 text-xs text-gray-400">
+                      <div className="flex items-center gap-3 text-xs text-text-muted">
                         <span className="flex items-center gap-1">
                           <Weight size={12} />
                           {pedido.pesoTotal.toFixed(1)} kg
@@ -225,10 +225,10 @@ export default function PedidosPage() {
 
       {/* Table View */}
       {view === "table" && (
-        <div className="overflow-x-auto rounded-xl bg-white dark:bg-[#1a2e1f] shadow-sm">
+        <div className="overflow-x-auto rounded-xl bg-card-bg shadow-sm">
           <table className="w-full text-left text-sm">
             <thead>
-              <tr className="text-gray-500 dark:text-gray-400" style={{ backgroundColor: '#f5f0e1' }}>
+              <tr className="text-text-secondary" style={{ backgroundColor: '#f5f0e1' }}>
                 <th className="px-4 py-3 font-medium">Pedido</th>
                 <th className="px-4 py-3 font-medium">Cliente</th>
                 <th className="px-4 py-3 font-medium">Fase</th>
@@ -244,12 +244,12 @@ export default function PedidosPage() {
                   <tr
                     key={pedido.id}
                     onClick={() => router.push(`/pedidos/${pedido.id}`)}
-                    className="cursor-pointer border-b last:border-0 hover:bg-gray-50 dark:hover:bg-white/5"
+                    className="cursor-pointer border-b last:border-0 hover:bg-hover-bg"
                   >
-                    <td className="px-4 py-3 font-medium text-gray-800 dark:text-gray-200">
+                    <td className="px-4 py-3 font-medium text-text-primary">
                       #{pedido.numero}
                     </td>
-                    <td className="px-4 py-3 text-gray-600 dark:text-gray-400">
+                    <td className="px-4 py-3 text-text-secondary">
                       {pedido.cliente.nome}
                     </td>
                     <td className="px-4 py-3">
@@ -259,13 +259,13 @@ export default function PedidosPage() {
                         {config.label}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-right text-gray-600 dark:text-gray-400">
+                    <td className="px-4 py-3 text-right text-text-secondary">
                       {formatCurrency(pedido.valorTotal)}
                     </td>
-                    <td className="px-4 py-3 text-right text-gray-600 dark:text-gray-400">
+                    <td className="px-4 py-3 text-right text-text-secondary">
                       {pedido.pesoTotal.toFixed(1)} kg
                     </td>
-                    <td className="px-4 py-3 text-right text-gray-500 dark:text-gray-400">
+                    <td className="px-4 py-3 text-right text-text-secondary">
                       {formatDate(pedido.createdAt)}
                     </td>
                   </tr>
@@ -273,7 +273,7 @@ export default function PedidosPage() {
               })}
               {pedidos.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="py-8 text-center text-gray-400">
+                  <td colSpan={6} className="py-8 text-center text-text-muted">
                     Nenhum pedido encontrado.
                   </td>
                 </tr>

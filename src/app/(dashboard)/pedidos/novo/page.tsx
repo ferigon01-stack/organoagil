@@ -166,7 +166,7 @@ export default function NovoPedidoPage() {
       <div className="flex items-center gap-4">
         <button
           onClick={() => router.push("/pedidos")}
-          className="rounded-lg p-2 text-gray-600 hover:bg-gray-100"
+          className="rounded-lg p-2 text-text-secondary hover:bg-hover-bg"
         >
           <ArrowLeft size={20} />
         </button>
@@ -175,12 +175,12 @@ export default function NovoPedidoPage() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Cliente */}
-        <div className="rounded-xl bg-white dark:bg-[#1a2e1f] p-6 shadow-sm">
+        <div className="rounded-xl bg-card-bg p-6 shadow-sm">
           <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>Cliente</h2>
           <select
             value={clienteId}
             onChange={(e) => setClienteId(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 dark:border-white/20 dark:bg-white/10 dark:text-white px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+            className="w-full rounded-lg border border-input-border bg-input-bg text-text-primary px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
             required
           >
             <option value="">Selecione um cliente</option>
@@ -193,7 +193,7 @@ export default function NovoPedidoPage() {
         </div>
 
         {/* Itens */}
-        <div className="rounded-xl bg-white dark:bg-[#1a2e1f] p-6 shadow-sm">
+        <div className="rounded-xl bg-card-bg p-6 shadow-sm">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-lg font-semibold" style={{ color: '#1a4d2e' }}>Itens</h2>
             <button
@@ -213,16 +213,16 @@ export default function NovoPedidoPage() {
               return (
                 <div
                   key={index}
-                  className="flex flex-wrap items-end gap-3 rounded-lg border border-gray-100 dark:border-white/10 bg-gray-50 dark:bg-[#0f1a13] p-3"
+                  className="flex flex-wrap items-end gap-3 rounded-lg border border-card-border bg-brand-cream p-3"
                 >
                   <div className="min-w-[200px] flex-1">
-                    <label className="mb-1 block text-xs font-medium text-gray-500">
+                    <label className="mb-1 block text-xs font-medium text-text-secondary">
                       Produto
                     </label>
                     <select
                       value={item.produtoId}
                       onChange={(e) => updateItem(index, "produtoId", e.target.value)}
-                      className="w-full rounded-lg border border-gray-300 dark:border-white/20 dark:bg-white/10 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                      className="w-full rounded-lg border border-input-border bg-input-bg text-text-primary px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                       required
                     >
                       <option value="">Selecione</option>
@@ -235,7 +235,7 @@ export default function NovoPedidoPage() {
                   </div>
 
                   <div className="w-24">
-                    <label className="mb-1 block text-xs font-medium text-gray-500">
+                    <label className="mb-1 block text-xs font-medium text-text-secondary">
                       Qtd
                     </label>
                     <input
@@ -245,7 +245,7 @@ export default function NovoPedidoPage() {
                       onChange={(e) =>
                         updateItem(index, "quantidade", e.target.value)
                       }
-                      className="w-full rounded-lg border border-gray-300 dark:border-white/20 dark:bg-white/10 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                      className="w-full rounded-lg border border-input-border bg-input-bg text-text-primary px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                       required
                     />
                   </div>
@@ -253,23 +253,23 @@ export default function NovoPedidoPage() {
                   {produto && (
                     <>
                       <div className="w-24">
-                        <label className="mb-1 block text-xs font-medium text-gray-500">
+                        <label className="mb-1 block text-xs font-medium text-text-secondary">
                           Peso
                         </label>
-                        <p className="rounded-lg bg-gray-100 px-3 py-2 text-sm text-gray-600">
+                        <p className="rounded-lg bg-brand-cream px-3 py-2 text-sm text-text-secondary">
                           {produto.peso} kg
                         </p>
                       </div>
                       <div className="w-28">
-                        <label className="mb-1 block text-xs font-medium text-gray-500">
+                        <label className="mb-1 block text-xs font-medium text-text-secondary">
                           Preco Unit.
                         </label>
-                        <p className="rounded-lg bg-gray-100 px-3 py-2 text-sm text-gray-600">
+                        <p className="rounded-lg bg-brand-cream px-3 py-2 text-sm text-text-secondary">
                           {formatCurrency(produto.precoVenda)}
                         </p>
                       </div>
                       <div className="w-28">
-                        <label className="mb-1 block text-xs font-medium text-gray-500">
+                        <label className="mb-1 block text-xs font-medium text-text-secondary">
                           Subtotal
                         </label>
                         <p className="rounded-lg px-3 py-2 text-sm font-medium" style={{ backgroundColor: 'rgba(26, 77, 46, 0.1)', color: '#1a4d2e' }}>
@@ -294,13 +294,13 @@ export default function NovoPedidoPage() {
         </div>
 
         {/* Frete & Volumes */}
-        <div className="rounded-xl bg-white dark:bg-[#1a2e1f] p-6 shadow-sm">
+        <div className="rounded-xl bg-card-bg p-6 shadow-sm">
           <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
             Frete e Volumes
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="mb-1 block text-sm font-medium text-text-primary">
                 Valor do Frete (R$)
               </label>
               <input
@@ -309,11 +309,11 @@ export default function NovoPedidoPage() {
                 step={0.01}
                 value={valorFrete}
                 onChange={(e) => setValorFrete(Number(e.target.value) || 0)}
-                className="w-full rounded-lg border border-gray-300 dark:border-white/20 dark:bg-white/10 dark:text-white px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                className="w-full rounded-lg border border-input-border bg-input-bg text-text-primary px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="mb-1 block text-sm font-medium text-text-primary">
                 Volumes
               </label>
               <input
@@ -321,14 +321,14 @@ export default function NovoPedidoPage() {
                 min={1}
                 value={volumes}
                 onChange={(e) => setVolumes(Number(e.target.value) || 1)}
-                className="w-full rounded-lg border border-gray-300 dark:border-white/20 dark:bg-white/10 dark:text-white px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                className="w-full rounded-lg border border-input-border bg-input-bg text-text-primary px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
               />
             </div>
           </div>
         </div>
 
         {/* Observacoes */}
-        <div className="rounded-xl bg-white dark:bg-[#1a2e1f] p-6 shadow-sm">
+        <div className="rounded-xl bg-card-bg p-6 shadow-sm">
           <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>
             Observacoes
           </h2>
@@ -336,36 +336,36 @@ export default function NovoPedidoPage() {
             value={observacoes}
             onChange={(e) => setObservacoes(e.target.value)}
             rows={3}
-            className="w-full rounded-lg border border-gray-300 dark:border-white/20 dark:bg-white/10 dark:text-white px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+            className="w-full rounded-lg border border-input-border bg-input-bg text-text-primary px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
             placeholder="Observacoes sobre o pedido..."
           />
         </div>
 
         {/* Totais */}
-        <div className="rounded-xl bg-white dark:bg-[#1a2e1f] p-6 shadow-sm">
+        <div className="rounded-xl bg-card-bg p-6 shadow-sm">
           <h2 className="mb-4 text-lg font-semibold" style={{ color: '#1a4d2e' }}>Resumo</h2>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <span className="text-gray-600">Valor dos Produtos</span>
-              <span className="font-medium text-gray-800">
+              <span className="text-text-secondary">Valor dos Produtos</span>
+              <span className="font-medium text-text-primary">
                 {formatCurrency(valorProdutos)}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600">Valor do Frete</span>
-              <span className="font-medium text-gray-800">
+              <span className="text-text-secondary">Valor do Frete</span>
+              <span className="font-medium text-text-primary">
                 {formatCurrency(valorFrete)}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600">Peso Total</span>
-              <span className="font-medium text-gray-800">
+              <span className="text-text-secondary">Peso Total</span>
+              <span className="font-medium text-text-primary">
                 {pesoTotal.toFixed(1)} kg
               </span>
             </div>
             <hr />
             <div className="flex justify-between text-base">
-              <span className="font-semibold text-gray-800">Valor Total</span>
+              <span className="font-semibold text-text-primary">Valor Total</span>
               <span className="font-bold" style={{ color: '#1a4d2e' }}>
                 {formatCurrency(valorTotal)}
               </span>
@@ -374,7 +374,7 @@ export default function NovoPedidoPage() {
         </div>
 
         {/* Cotacao de Frete */}
-        <div className="rounded-xl bg-white dark:bg-[#1a2e1f] p-6 shadow-sm">
+        <div className="rounded-xl bg-card-bg p-6 shadow-sm">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-lg font-semibold" style={{ color: '#1a4d2e' }}>
               Cotacao de Frete
@@ -389,7 +389,7 @@ export default function NovoPedidoPage() {
               {copied ? "Copiado!" : "Copiar"}
             </button>
           </div>
-          <pre className="whitespace-pre-wrap rounded-lg bg-gray-50 dark:bg-[#0f1a13] p-4 text-sm text-gray-700 dark:text-gray-300">
+          <pre className="whitespace-pre-wrap rounded-lg bg-brand-cream p-4 text-sm text-text-primary">
             {cotacaoText}
           </pre>
         </div>

@@ -86,7 +86,7 @@ export default function ProdutosPage() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold" style={{ color: '#1a4d2e' }}>Produtos</h1>
-          <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
+          <p className="text-text-secondary text-sm mt-1">
             {produtos.length} produto{produtos.length !== 1 ? "s" : ""} cadastrado{produtos.length !== 1 ? "s" : ""}
           </p>
         </div>
@@ -103,9 +103,9 @@ export default function ProdutosPage() {
       </div>
 
       {produtos.length === 0 ? (
-        <div className="text-center py-16 bg-white dark:bg-[#1a2e1f] rounded-xl border border-gray-200 dark:border-white/10">
-          <Package className="mx-auto text-gray-300 mb-4" size={48} />
-          <p className="text-gray-500 text-lg">Nenhum produto cadastrado</p>
+        <div className="text-center py-16 bg-card-bg rounded-xl border border-card-border">
+          <Package className="mx-auto text-text-muted mb-4" size={48} />
+          <p className="text-text-secondary text-lg">Nenhum produto cadastrado</p>
           <button
             onClick={() => router.push("/produtos/novo")}
             className="mt-4 font-medium"
@@ -115,19 +115,19 @@ export default function ProdutosPage() {
           </button>
         </div>
       ) : (
-        <div className="bg-white dark:bg-[#1a2e1f] rounded-xl border border-gray-200 dark:border-white/10 overflow-hidden">
+        <div className="bg-card-bg rounded-xl border border-card-border overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-gray-200" style={{ backgroundColor: '#f5f0e1' }}>
-                  <th className="text-left px-4 py-3 text-sm font-semibold text-gray-600">Nome</th>
-                  <th className="text-right px-4 py-3 text-sm font-semibold text-gray-600">Peso (kg)</th>
-                  <th className="text-right px-4 py-3 text-sm font-semibold text-gray-600">Preco Venda</th>
-                  <th className="text-right px-4 py-3 text-sm font-semibold text-gray-600">Custo</th>
-                  <th className="text-center px-4 py-3 text-sm font-semibold text-gray-600">Margem (%)</th>
-                  <th className="text-center px-4 py-3 text-sm font-semibold text-gray-600">Duracao Media</th>
-                  <th className="text-center px-4 py-3 text-sm font-semibold text-gray-600">Unidade</th>
-                  <th className="text-center px-4 py-3 text-sm font-semibold text-gray-600">Acoes</th>
+                <tr className="border-b border-card-border" style={{ backgroundColor: '#f5f0e1' }}>
+                  <th className="text-left px-4 py-3 text-sm font-semibold text-text-secondary">Nome</th>
+                  <th className="text-right px-4 py-3 text-sm font-semibold text-text-secondary">Peso (kg)</th>
+                  <th className="text-right px-4 py-3 text-sm font-semibold text-text-secondary">Preco Venda</th>
+                  <th className="text-right px-4 py-3 text-sm font-semibold text-text-secondary">Custo</th>
+                  <th className="text-center px-4 py-3 text-sm font-semibold text-text-secondary">Margem (%)</th>
+                  <th className="text-center px-4 py-3 text-sm font-semibold text-text-secondary">Duracao Media</th>
+                  <th className="text-center px-4 py-3 text-sm font-semibold text-text-secondary">Unidade</th>
+                  <th className="text-center px-4 py-3 text-sm font-semibold text-text-secondary">Acoes</th>
                 </tr>
               </thead>
               <tbody>
@@ -136,14 +136,14 @@ export default function ProdutosPage() {
                   return (
                     <tr
                       key={produto.id}
-                      className="border-b border-gray-100 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                      className="border-b border-card-border hover:bg-hover-bg transition-colors"
                     >
-                      <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">{produto.nome}</td>
-                      <td className="px-4 py-3 text-right text-gray-600 dark:text-gray-400">{formatWeight(produto.peso)}</td>
-                      <td className="px-4 py-3 text-right text-gray-900 dark:text-white font-medium">
+                      <td className="px-4 py-3 font-medium text-text-primary">{produto.nome}</td>
+                      <td className="px-4 py-3 text-right text-text-secondary">{formatWeight(produto.peso)}</td>
+                      <td className="px-4 py-3 text-right text-text-primary font-medium">
                         {formatCurrency(produto.precoVenda)}
                       </td>
-                      <td className="px-4 py-3 text-right text-gray-600 dark:text-gray-400">
+                      <td className="px-4 py-3 text-right text-text-secondary">
                         {formatCurrency(produto.custoProducao)}
                       </td>
                       <td className="px-4 py-3 text-center">
@@ -153,24 +153,24 @@ export default function ProdutosPage() {
                           {margem.toFixed(1)}%
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-center text-gray-600 dark:text-gray-400">
+                      <td className="px-4 py-3 text-center text-text-secondary">
                         {produto.duracaoMedia ? `${produto.duracaoMedia} dias` : "—"}
                       </td>
-                      <td className="px-4 py-3 text-center text-gray-600 dark:text-gray-400 uppercase text-sm">
+                      <td className="px-4 py-3 text-center text-text-secondary uppercase text-sm">
                         {produto.unidade}
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center justify-center gap-1">
                           <button
                             onClick={() => router.push(`/produtos/${produto.id}/editar`)}
-                            className="p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                            className="p-2 text-text-muted hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors"
                             title="Editar"
                           >
                             <Pencil size={16} />
                           </button>
                           <button
                             onClick={() => handleDelete(produto.id, produto.nome)}
-                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                            className="p-2 text-text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                             title="Excluir"
                           >
                             <Trash2 size={16} />

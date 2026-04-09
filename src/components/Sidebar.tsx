@@ -51,7 +51,7 @@ export default function Sidebar() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-40 w-64 bg-gradient-to-b from-brand-green-dark to-brand-green text-white transform transition-transform lg:translate-x-0 ${
+        className={`fixed lg:static inset-y-0 left-0 z-40 w-64 bg-gradient-to-b from-sidebar-from to-sidebar-to text-white transform transition-transform lg:translate-x-0 ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
