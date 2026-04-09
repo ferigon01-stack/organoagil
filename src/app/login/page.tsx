@@ -111,7 +111,8 @@ export default function LoginPage() {
       <div className="relative z-10 w-full max-w-md px-4">
         {/* Logo and branding */}
         <div className="flex flex-col items-center mb-8">
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="/logo.jpeg"
             alt="Organo Ágil"
             width={120}
