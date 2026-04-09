@@ -16,7 +16,12 @@ import {
   Download,
   Trash2,
   Loader2,
+  FileDown,
 } from "lucide-react";
+import dynamic from "next/dynamic";
+import { pdf } from "@react-pdf/renderer";
+
+const PedidoPDF = dynamic(() => import("@/components/PedidoPDF"), { ssr: false });
 
 interface ItemPedido {
   id: string;
@@ -117,6 +122,7 @@ export default function PedidoDetailPage() {
   const [boleto, setBoleto] = useState("");
   const [anexos, setAnexos] = useState<Array<{id: string; nome: string; tipo: string; tamanho: number; fase: string; createdAt: string}>>([]);
   const [uploading, setUploading] = useState(false);
+  const [generatingPdf, setGeneratingPdf] = useState(false);
 
   const fetchPedido = () => {
     fetch(`/api/pedidos/${id}`)
@@ -222,6 +228,24 @@ export default function PedidoDetailPage() {
     }
   };
 
+  const generatePdf = async () => {
+    if (!pedido) return;
+    setGeneratingPdf(true);
+    try {
+      const blob = await pdf(<PedidoPDF pedido={pedido} />).toBlob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `pedido-${pedido.numero}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Erro ao gerar PDF:", error);
+    } finally {
+      setGeneratingPdf(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
@@ -289,13 +313,24 @@ export default function PedidoDetailPage() {
             </p>
           </div>
         </div>
-        <button
-          onClick={() => router.push(`/pedidos/${id}/editar`)}
-          className="flex items-center gap-2 rounded-lg border border-input-border bg-card-bg px-4 py-2 text-sm font-medium text-text-primary hover:bg-hover-bg"
-        >
-          <Edit size={16} />
-          Editar
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={generatePdf}
+            disabled={generatingPdf}
+            className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+            style={{ backgroundColor: "#b8960c" }}
+          >
+            {generatingPdf ? <Loader2 size={16} className="animate-spin" /> : <FileDown size={16} />}
+            {generatingPdf ? "Gerando..." : "Gerar PDF"}
+          </button>
+          <button
+            onClick={() => router.push(`/pedidos/${id}/editar`)}
+            className="flex items-center gap-2 rounded-lg border border-input-border bg-card-bg px-4 py-2 text-sm font-medium text-text-primary hover:bg-hover-bg"
+          >
+            <Edit size={16} />
+            Editar
+          </button>
+        </div>
       </div>
 
       {/* Phase Stepper */}
