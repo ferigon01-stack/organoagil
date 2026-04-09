@@ -122,12 +122,12 @@ export default function ProdutosPage() {
                 <tr className="border-b border-card-border" style={{ backgroundColor: '#f5f0e1' }}>
                   <th className="text-left px-4 py-3 text-sm font-semibold text-text-secondary">Nome</th>
                   <th className="text-right px-4 py-3 text-sm font-semibold text-text-secondary">Peso (kg)</th>
-                  <th className="text-right px-4 py-3 text-sm font-semibold text-text-secondary">Preco Venda</th>
+                  <th className="text-right px-4 py-3 text-sm font-semibold text-text-secondary">Preço Venda</th>
                   <th className="text-right px-4 py-3 text-sm font-semibold text-text-secondary">Custo</th>
                   <th className="text-center px-4 py-3 text-sm font-semibold text-text-secondary">Margem (%)</th>
-                  <th className="hidden sm:table-cell text-center px-4 py-3 text-sm font-semibold text-text-secondary">Duracao Media</th>
+                  <th className="hidden sm:table-cell text-center px-4 py-3 text-sm font-semibold text-text-secondary">Duração Média</th>
                   <th className="hidden sm:table-cell text-center px-4 py-3 text-sm font-semibold text-text-secondary">Unidade</th>
-                  <th className="text-center px-4 py-3 text-sm font-semibold text-text-secondary">Acoes</th>
+                  <th className="text-center px-4 py-3 text-sm font-semibold text-text-secondary">Ações</th>
                 </tr>
               </thead>
               <tbody>

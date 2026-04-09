@@ -136,7 +136,7 @@ export default function EditarProdutoPage() {
               onChange={handleChange}
               rows={3}
               className="w-full border border-input-border rounded-lg px-3 py-2 bg-input-bg text-text-primary focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
-              placeholder="Descricao do produto"
+              placeholder="Descrição do produto"
             />
           </div>
 
@@ -196,7 +196,7 @@ export default function EditarProdutoPage() {
 
             <div>
               <label className="block text-sm font-medium text-text-primary mb-1">
-                Custo de Producao (R$)
+                Custo de Produção (R$)
               </label>
               <input
                 type="number"
@@ -213,7 +213,7 @@ export default function EditarProdutoPage() {
 
           <div>
             <label className="block text-sm font-medium text-text-primary mb-1">
-              Duracao Media (dias)
+              Duração Média (dias)
             </label>
             <input
               type="number"

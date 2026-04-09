@@ -68,9 +68,9 @@ const FASES = [
 
 const FASE_LABELS: Record<string, string> = {
   PEDIDO: "Pedido",
-  ORCAMENTO: "Orcamento",
+  ORCAMENTO: "Orçamento",
   APROVADO: "Aprovado",
-  PRODUCAO: "Producao",
+  PRODUCAO: "Produção",
   ENVIO: "Envio",
   RECEBIDO: "Recebido",
 };
@@ -196,7 +196,7 @@ export default function PedidoDetailPage() {
     .join(", ");
 
   const cotacaoText = [
-    "Cotacao de frete",
+    "Cotação de frete",
     `${pedido.volumes} vol`,
     `${pedido.pesoTotal.toFixed(1)} kg`,
     `Sendo ${itemDescriptions}`,
@@ -348,7 +348,7 @@ export default function PedidoDetailPage() {
                 onChange={(e) => setNotaFiscal(e.target.value)}
                 disabled={pedido.fase === "RECEBIDO"}
                 className="w-full rounded-lg border border-input-border bg-input-bg text-text-primary px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c] disabled:bg-gray-100"
-                placeholder="Numero da nota fiscal"
+                placeholder="Número da nota fiscal"
               />
             </div>
             <div>
@@ -412,7 +412,7 @@ export default function PedidoDetailPage() {
           )}
           {pedido.cliente.endereco && (
             <div className="sm:col-span-2">
-              <span className="text-text-secondary">Endereco:</span>{" "}
+              <span className="text-text-secondary">Endereço:</span>{" "}
               <span className="text-text-primary">
                 {pedido.cliente.endereco}
                 {pedido.cliente.bairro && `, ${pedido.cliente.bairro}`}

@@ -145,7 +145,7 @@ export default function EditarPedidoPage() {
     .join(", ");
 
   const cotacaoText = [
-    "Cotacao de frete",
+    "Cotação de frete",
     `${volumes} vol`,
     `${pesoTotal.toFixed(1)} kg`,
     `Sendo ${itemDescriptions}`,

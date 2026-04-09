@@ -74,13 +74,13 @@ export default function CustosPage() {
 
   const chartData = produtosComMargem.map((p) => ({
     nome: p.nome.length > 20 ? p.nome.substring(0, 20) + '...' : p.nome,
-    'Custo de Producao': p.custoProducao,
-    'Preco de Venda': p.precoVenda,
+    'Custo de Produção': p.custoProducao,
+    'Preço de Venda': p.precoVenda,
   }))
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-brand-green">Analise de Custos</h1>
+      <h1 className="text-2xl font-bold text-brand-green">Análise de Custos</h1>
 
       {/* Summary Card */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -145,8 +145,8 @@ export default function CustosPage() {
             <thead>
               <tr className="border-b text-text-secondary">
                 <th className="pb-3 font-medium">Nome do Produto</th>
-                <th className="pb-3 font-medium text-right">Custo de Producao</th>
-                <th className="pb-3 font-medium text-right">Preco de Venda</th>
+                <th className="pb-3 font-medium text-right">Custo de Produção</th>
+                <th className="pb-3 font-medium text-right">Preço de Venda</th>
                 <th className="hidden sm:table-cell pb-3 font-medium text-right">Margem (R$)</th>
                 <th className="pb-3 font-medium text-right">Margem (%)</th>
               </tr>

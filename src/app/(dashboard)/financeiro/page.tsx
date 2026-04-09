@@ -47,7 +47,7 @@ interface Despesa {
 }
 
 const CATEGORIAS = [
-  { value: 'BONIFICACAO', label: 'Bonificacao' },
+  { value: 'BONIFICACAO', label: 'Bonificação' },
   { value: 'COMBUSTIVEL', label: 'Combustivel' },
   { value: 'HOSPEDAGEM', label: 'Hospedagem' },
   { value: 'IMPOSTOS', label: 'Impostos' },
@@ -56,7 +56,7 @@ const CATEGORIAS = [
 ]
 
 const CATEGORIA_LABELS: Record<string, string> = {
-  BONIFICACAO: 'Bonificacao',
+  BONIFICACAO: 'Bonificação',
   COMBUSTIVEL: 'Combustivel',
   HOSPEDAGEM: 'Hospedagem',
   IMPOSTOS: 'Impostos',
@@ -303,7 +303,7 @@ export default function FinanceiroPage() {
           <form onSubmit={handleSubmit} className="mb-6 rounded-lg border border-card-border bg-brand-cream p-4">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <div>
-                <label className="mb-1 block text-sm font-medium text-text-primary">Descricao</label>
+                <label className="mb-1 block text-sm font-medium text-text-primary">Descrição</label>
                 <input
                   type="text"
                   required
@@ -368,11 +368,11 @@ export default function FinanceiroPage() {
           <table className="w-full text-left text-sm">
             <thead>
               <tr className="border-b text-text-secondary">
-                <th className="pb-3 font-medium">Descricao</th>
+                <th className="pb-3 font-medium">Descrição</th>
                 <th className="hidden sm:table-cell pb-3 font-medium">Categoria</th>
                 <th className="pb-3 font-medium text-right">Valor</th>
                 <th className="pb-3 font-medium text-right">Data</th>
-                <th className="pb-3 font-medium text-right">Acoes</th>
+                <th className="pb-3 font-medium text-right">Ações</th>
               </tr>
             </thead>
             <tbody>
