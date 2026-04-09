@@ -11,6 +11,11 @@ import {
   Truck,
   FileText,
   Package,
+  Paperclip,
+  Upload,
+  Download,
+  Trash2,
+  Loader2,
 } from "lucide-react";
 
 interface ItemPedido {
@@ -110,6 +115,8 @@ export default function PedidoDetailPage() {
   const [copied, setCopied] = useState(false);
   const [notaFiscal, setNotaFiscal] = useState("");
   const [boleto, setBoleto] = useState("");
+  const [anexos, setAnexos] = useState<Array<{id: string; nome: string; tipo: string; tamanho: number; fase: string; createdAt: string}>>([]);
+  const [uploading, setUploading] = useState(false);
 
   const fetchPedido = () => {
     fetch(`/api/pedidos/${id}`)
@@ -123,10 +130,57 @@ export default function PedidoDetailPage() {
       .finally(() => setLoading(false));
   };
 
+  const fetchAnexos = () => {
+    fetch(`/api/pedidos/${id}/anexos`)
+      .then((res) => res.json())
+      .then((data) => setAnexos(data))
+      .catch((err) => console.error("Erro ao carregar anexos:", err));
+  };
+
   useEffect(() => {
     fetchPedido();
+    fetchAnexos();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !pedido) return;
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("fase", pedido.fase);
+      const res = await fetch(`/api/pedidos/${id}/anexos`, { method: "POST", body: formData });
+      if (res.ok) {
+        fetchAnexos();
+      } else {
+        const err = await res.json();
+        alert(err.error || "Erro ao enviar arquivo");
+      }
+    } catch (error) {
+      console.error("Erro no upload:", error);
+    } finally {
+      setUploading(false);
+      e.target.value = "";
+    }
+  };
+
+  const deleteAnexo = async (anexoId: string) => {
+    if (!confirm("Excluir este anexo?")) return;
+    try {
+      await fetch(`/api/pedidos/${id}/anexos/${anexoId}`, { method: "DELETE" });
+      fetchAnexos();
+    } catch (error) {
+      console.error("Erro ao excluir anexo:", error);
+    }
+  };
+
+  function formatFileSize(bytes: number) {
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+    return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+  }
 
   const advancePhase = async (newFase: string) => {
     setUpdating(true);
@@ -328,6 +382,70 @@ export default function PedidoDetailPage() {
             </button>
           )}
         </div>
+      </div>
+
+      {/* Anexos - Visível em todas as fases */}
+      <div className="rounded-xl bg-card-bg p-6 shadow-sm border border-card-border">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="flex items-center gap-2 text-lg font-semibold text-brand-green">
+            <Paperclip size={20} />
+            Anexos
+          </h2>
+          <label className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white cursor-pointer transition-colors ${uploading ? "opacity-50 cursor-not-allowed" : ""}`} style={{ backgroundColor: `var(--brand-green)` }}>
+            {uploading ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
+            {uploading ? "Enviando..." : "Anexar Arquivo"}
+            <input
+              type="file"
+              accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xls,.xlsx"
+              onChange={handleUpload}
+              disabled={uploading}
+              className="hidden"
+            />
+          </label>
+        </div>
+
+        {anexos.length === 0 ? (
+          <p className="text-sm text-text-muted py-4 text-center">
+            Nenhum anexo ainda. Clique em &quot;Anexar Arquivo&quot; para adicionar PDFs, imagens ou documentos.
+          </p>
+        ) : (
+          <div className="space-y-2">
+            {anexos.map((anexo) => (
+              <div
+                key={anexo.id}
+                className="flex items-center justify-between rounded-lg border border-card-border p-3 hover:bg-hover-bg transition-colors"
+              >
+                <div className="flex items-center gap-3 min-w-0">
+                  <FileText size={20} className="text-text-muted flex-shrink-0" />
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-text-primary truncate">{anexo.nome}</p>
+                    <p className="text-xs text-text-muted">
+                      {formatFileSize(anexo.tamanho)} &middot; {FASE_LABELS[anexo.fase] || anexo.fase} &middot; {formatDate(anexo.createdAt)}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1 flex-shrink-0 ml-2">
+                  <a
+                    href={`/api/pedidos/${id}/anexos/${anexo.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-lg p-2 text-text-secondary hover:bg-hover-bg transition-colors"
+                    title="Visualizar / Baixar"
+                  >
+                    <Download size={16} />
+                  </a>
+                  <button
+                    onClick={() => deleteAnexo(anexo.id)}
+                    className="rounded-lg p-2 text-red-400 hover:bg-red-50 hover:text-red-600 transition-colors"
+                    title="Excluir"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Nota Fiscal & Boleto (ENVIO phase) */}
