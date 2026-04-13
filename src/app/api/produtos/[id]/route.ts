@@ -33,7 +33,7 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { nome, descricao, peso, precoVenda, custoProducao, duracaoMedia, unidade, unidadesPorCaixa, caixaDimensoes } = body;
+    const { nome, descricao, peso, precoVenda, custoProducao, duracaoMedia, unidade, unidadesPorCaixa, caixaDimensoes, tipo } = body;
 
     const produto = await prisma.produto.update({
       where: { id },
@@ -47,6 +47,7 @@ export async function PUT(
         unidade: unidade || "un",
         unidadesPorCaixa: unidadesPorCaixa ? Number(unidadesPorCaixa) : null,
         caixaDimensoes: caixaDimensoes || null,
+        tipo: tipo || "PRODUTO",
       },
     });
 

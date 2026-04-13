@@ -101,20 +101,26 @@ interface PedidoPDFProps {
       pesoTotal: number;
       precoUnit: number;
       subtotal: number;
-      produto: { nome: string; peso: number; unidade: string };
+      produto: { nome: string; peso: number; unidade: string; tipo?: string };
     }>;
   };
 }
 
 export default function PedidoPDF({ pedido }: PedidoPDFProps) {
-  const itemDescriptions = pedido.itens
+  const produtos = pedido.itens.filter((item) => item.produto.tipo !== "SERVICO");
+  const servicos = pedido.itens.filter((item) => item.produto.tipo === "SERVICO");
+
+  const valorProdutos = produtos.reduce((sum, item) => sum + item.subtotal, 0);
+  const valorServicos = servicos.reduce((sum, item) => sum + item.subtotal, 0);
+
+  const itemDescriptions = produtos
     .map((item) => `${item.quantidade}x ${item.produto.nome} (${item.pesoTotal.toFixed(1)} kg)`)
     .join(", ");
 
   const cotacaoText = [
     `${pedido.volumes} vol`,
     `${pedido.pesoTotal.toFixed(1)} kg`,
-    `Sendo ${itemDescriptions}`,
+    itemDescriptions ? `Sendo ${itemDescriptions}` : "",
     `Valor total ${formatCurrency(pedido.valorTotal)}`,
     pedido.cliente.endereco || "",
     pedido.cliente.bairro ? `Bairro: ${pedido.cliente.bairro}` : "",
@@ -132,6 +138,8 @@ export default function PedidoPDF({ pedido }: PedidoPDFProps) {
           <View>
             <Text style={styles.logo}>Organo Ágil</Text>
             <Text style={styles.logoSub}>Sistema de Gestão</Text>
+            <Text style={styles.logoSub}>CNPJ: 63.512.791/0001-59</Text>
+            <Text style={styles.logoSub}>IE: 177.691.737.112</Text>
           </View>
           <View>
             <Text style={styles.pedidoNum}>Pedido #{pedido.numero}</Text>
@@ -179,35 +187,66 @@ export default function PedidoPDF({ pedido }: PedidoPDFProps) {
           )}
         </View>
 
-        {/* Itens */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Itens do Pedido</Text>
-          <View style={styles.table}>
-            <View style={styles.tableHeader}>
-              <Text style={styles.col1}>Produto</Text>
-              <Text style={styles.col2}>Qtd</Text>
-              <Text style={styles.col3}>Peso</Text>
-              <Text style={styles.col4}>Preco Unit.</Text>
-              <Text style={styles.col5}>Subtotal</Text>
-            </View>
-            {pedido.itens.map((item, i) => (
-              <View key={i} style={i % 2 === 0 ? styles.tableRow : styles.tableRowAlt}>
-                <Text style={styles.col1}>{item.produto.nome}</Text>
-                <Text style={styles.col2}>{item.quantidade}</Text>
-                <Text style={styles.col3}>{item.pesoTotal.toFixed(1)} kg</Text>
-                <Text style={styles.col4}>{formatCurrency(item.precoUnit)}</Text>
-                <Text style={styles.col5}>{formatCurrency(item.subtotal)}</Text>
+        {/* Produtos */}
+        {produtos.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Produtos</Text>
+            <View style={styles.table}>
+              <View style={styles.tableHeader}>
+                <Text style={styles.col1}>Produto</Text>
+                <Text style={styles.col2}>Qtd</Text>
+                <Text style={styles.col3}>Peso</Text>
+                <Text style={styles.col4}>Preco Unit.</Text>
+                <Text style={styles.col5}>Subtotal</Text>
               </View>
-            ))}
+              {produtos.map((item, i) => (
+                <View key={i} style={i % 2 === 0 ? styles.tableRow : styles.tableRowAlt}>
+                  <Text style={styles.col1}>{item.produto.nome}</Text>
+                  <Text style={styles.col2}>{item.quantidade}</Text>
+                  <Text style={styles.col3}>{item.pesoTotal.toFixed(1)} kg</Text>
+                  <Text style={styles.col4}>{formatCurrency(item.precoUnit)}</Text>
+                  <Text style={styles.col5}>{formatCurrency(item.subtotal)}</Text>
+                </View>
+              ))}
+            </View>
           </View>
-        </View>
+        )}
+
+        {/* Serviços */}
+        {servicos.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Serviços</Text>
+            <View style={styles.table}>
+              <View style={styles.tableHeader}>
+                <Text style={{ width: "40%" }}>Serviço</Text>
+                <Text style={{ width: "15%", textAlign: "center" }}>Qtd</Text>
+                <Text style={{ width: "22.5%", textAlign: "right" }}>Preco Unit.</Text>
+                <Text style={{ width: "22.5%", textAlign: "right" }}>Subtotal</Text>
+              </View>
+              {servicos.map((item, i) => (
+                <View key={i} style={i % 2 === 0 ? styles.tableRow : styles.tableRowAlt}>
+                  <Text style={{ width: "40%" }}>{item.produto.nome}</Text>
+                  <Text style={{ width: "15%", textAlign: "center" }}>{item.quantidade}</Text>
+                  <Text style={{ width: "22.5%", textAlign: "right" }}>{formatCurrency(item.precoUnit)}</Text>
+                  <Text style={{ width: "22.5%", textAlign: "right" }}>{formatCurrency(item.subtotal)}</Text>
+                </View>
+              ))}
+            </View>
+          </View>
+        )}
 
         {/* Totais */}
         <View style={styles.totals}>
           <View style={styles.totalRow}>
             <Text style={styles.totalLabel}>Valor dos Produtos</Text>
-            <Text style={styles.totalValue}>{formatCurrency(pedido.valorProdutos)}</Text>
+            <Text style={styles.totalValue}>{formatCurrency(valorProdutos)}</Text>
           </View>
+          {servicos.length > 0 && (
+            <View style={styles.totalRow}>
+              <Text style={styles.totalLabel}>Valor dos Serviços</Text>
+              <Text style={styles.totalValue}>{formatCurrency(valorServicos)}</Text>
+            </View>
+          )}
           <View style={styles.totalRow}>
             <Text style={styles.totalLabel}>Frete</Text>
             <Text style={styles.totalValue}>{formatCurrency(pedido.valorFrete)}</Text>

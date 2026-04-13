@@ -6,6 +6,7 @@ import { Plus, Pencil, Trash2, Package, Loader2 } from "lucide-react";
 
 interface Produto {
   id: string;
+  tipo: string;
   nome: string;
   descricao: string | null;
   peso: number;
@@ -123,6 +124,7 @@ export default function ProdutosPage() {
               <thead>
                 <tr className="border-b border-card-border" style={{ backgroundColor: '#f5f0e1' }}>
                   <th className="text-left px-4 py-3 text-sm font-semibold text-text-secondary">Nome</th>
+                  <th className="text-center px-4 py-3 text-sm font-semibold text-text-secondary">Tipo</th>
                   <th className="text-right px-4 py-3 text-sm font-semibold text-text-secondary">Peso (kg)</th>
                   <th className="text-right px-4 py-3 text-sm font-semibold text-text-secondary">Preço Venda</th>
                   <th className="text-right px-4 py-3 text-sm font-semibold text-text-secondary">Custo</th>
@@ -141,6 +143,11 @@ export default function ProdutosPage() {
                       className="border-b border-card-border hover:bg-hover-bg transition-colors"
                     >
                       <td className="px-4 py-3 text-sm font-medium text-text-primary">{produto.nome}</td>
+                      <td className="px-4 py-3 text-center">
+                        <span className={produto.tipo === "SERVICO" ? "bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-xs" : "bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-xs"}>
+                          {produto.tipo === "SERVICO" ? "Servi\u00e7o" : "Produto"}
+                        </span>
+                      </td>
                       <td className="px-4 py-3 text-sm text-right text-text-secondary">{formatWeight(produto.peso)}</td>
                       <td className="px-4 py-3 text-sm text-right text-text-primary font-medium">
                         {formatCurrency(produto.precoVenda)}

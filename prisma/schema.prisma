@@ -39,6 +39,7 @@ model Produto {
   id               String        @id @default(cuid())
   nome             String
   descricao        String?
+  tipo             String        @default("PRODUTO") // PRODUTO ou SERVICO
   peso             Float         // peso em kg
   precoVenda       Float
   custoProducao    Float         @default(0)

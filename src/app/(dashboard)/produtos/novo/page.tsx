@@ -8,6 +8,7 @@ export default function NovoProdutoPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
+    tipo: "PRODUTO",
     nome: "",
     descricao: "",
     peso: "",
@@ -34,6 +35,7 @@ export default function NovoProdutoPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          tipo: form.tipo,
           nome: form.nome,
           descricao: form.descricao || null,
           peso: parseFloat(form.peso),
@@ -75,6 +77,21 @@ export default function NovoProdutoPage() {
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="block text-sm font-medium text-text-primary mb-1">
+              Tipo
+            </label>
+            <select
+              name="tipo"
+              value={form.tipo}
+              onChange={handleChange}
+              className="w-full border border-input-border rounded-lg px-3 py-2 bg-input-bg text-text-primary focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
+            >
+              <option value="PRODUTO">Produto</option>
+              <option value="SERVICO">Servi&#231;o</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-text-primary mb-1">
               Nome <span className="text-red-500">*</span>
             </label>
             <input
@@ -110,14 +127,18 @@ export default function NovoProdutoPage() {
               <input
                 type="number"
                 name="peso"
-                value={form.peso}
+                value={form.tipo === "SERVICO" ? "0" : form.peso}
                 onChange={handleChange}
                 required
                 step="0.001"
                 min="0"
-                className="w-full border border-input-border rounded-lg px-3 py-2 bg-input-bg text-text-primary focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
+                disabled={form.tipo === "SERVICO"}
+                className="w-full border border-input-border rounded-lg px-3 py-2 bg-input-bg text-text-primary focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors disabled:opacity-50"
                 placeholder="0.000"
               />
+              {form.tipo === "SERVICO" && (
+                <span className="text-xs text-text-secondary mt-1 block">(n&#227;o aplic&#225;vel para servi&#231;os)</span>
+              )}
             </div>
 
             <div>
