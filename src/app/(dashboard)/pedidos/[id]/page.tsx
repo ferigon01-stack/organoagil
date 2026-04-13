@@ -236,7 +236,7 @@ export default function PedidoDetailPage() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `pedido-${pedido.numero}.pdf`;
+      a.download = `orcamento-${pedido.numero}.pdf`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);

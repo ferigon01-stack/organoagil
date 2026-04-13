@@ -5,6 +5,7 @@ import {
   Page,
   Text,
   View,
+  Image,
   StyleSheet,
   Font,
 } from "@react-pdf/renderer";
@@ -25,10 +26,12 @@ const lightGray = "#f3f4f6";
 const styles = StyleSheet.create({
   page: { padding: 40, fontSize: 10, fontFamily: "Inter", color: "#1f2937" },
   header: { flexDirection: "row", justifyContent: "space-between", marginBottom: 20, borderBottom: 2, borderBottomColor: green, paddingBottom: 15 },
-  logo: { fontSize: 22, fontWeight: "bold", color: green },
-  logoSub: { fontSize: 9, color: gray, marginTop: 2 },
-  pedidoNum: { fontSize: 16, fontWeight: "bold", color: green, textAlign: "right" },
-  pedidoDate: { fontSize: 9, color: gray, textAlign: "right", marginTop: 2 },
+  headerLeft: { flexDirection: "row", alignItems: "center", gap: 10 },
+  logoImage: { width: 50, height: 50, borderRadius: 25 },
+  logoText: { fontSize: 22, fontWeight: "bold", color: green },
+  logoSub: { fontSize: 8, color: gray, marginTop: 1 },
+  orcNum: { fontSize: 16, fontWeight: "bold", color: green, textAlign: "right" },
+  orcDate: { fontSize: 9, color: gray, textAlign: "right", marginTop: 2 },
   fase: { fontSize: 10, color: gold, fontWeight: "bold", textAlign: "right", marginTop: 4 },
   section: { marginBottom: 15 },
   sectionTitle: { fontSize: 12, fontWeight: "bold", color: green, marginBottom: 8, borderBottom: 1, borderBottomColor: "#e5e7eb", paddingBottom: 4 },
@@ -52,6 +55,11 @@ const styles = StyleSheet.create({
   grandTotalLabel: { fontSize: 12, fontWeight: "bold", color: green },
   grandTotalValue: { fontSize: 12, fontWeight: "bold", color: green },
   cotacao: { backgroundColor: lightGray, padding: 12, borderRadius: 4, fontSize: 9, lineHeight: 1.5, marginTop: 5 },
+  signatures: { flexDirection: "row", justifyContent: "space-between", marginTop: 40, paddingTop: 10 },
+  signatureBlock: { width: "45%", alignItems: "center" },
+  signatureLine: { borderBottom: 1, borderBottomColor: "#1f2937", width: "100%", marginBottom: 5 },
+  signatureName: { fontSize: 9, fontWeight: "bold", color: "#1f2937" },
+  signatureRole: { fontSize: 8, color: gray },
   footer: { position: "absolute", bottom: 30, left: 40, right: 40, flexDirection: "row", justifyContent: "space-between", fontSize: 8, color: gray, borderTop: 1, borderTopColor: "#e5e7eb", paddingTop: 8 },
 });
 
@@ -135,15 +143,17 @@ export default function PedidoPDF({ pedido }: PedidoPDFProps) {
       <Page size="A4" style={styles.page}>
         {/* Header */}
         <View style={styles.header}>
-          <View>
-            <Text style={styles.logo}>Organo Ágil</Text>
-            <Text style={styles.logoSub}>Sistema de Gestão</Text>
-            <Text style={styles.logoSub}>CNPJ: 63.512.791/0001-59</Text>
-            <Text style={styles.logoSub}>IE: 177.691.737.112</Text>
+          <View style={styles.headerLeft}>
+            <Image src="https://organoagil.vercel.app/logo.jpeg" style={styles.logoImage} />
+            <View>
+              <Text style={styles.logoText}>Organo Ágil</Text>
+              <Text style={styles.logoSub}>CNPJ: 63.512.791/0001-59</Text>
+              <Text style={styles.logoSub}>IE: 177.691.737.112</Text>
+            </View>
           </View>
           <View>
-            <Text style={styles.pedidoNum}>Pedido #{pedido.numero}</Text>
-            <Text style={styles.pedidoDate}>{formatDate(pedido.createdAt)}</Text>
+            <Text style={styles.orcNum}>Orçamento #{pedido.numero}</Text>
+            <Text style={styles.orcDate}>{formatDate(pedido.createdAt)}</Text>
             <Text style={styles.fase}>{FASE_LABELS[pedido.fase] || pedido.fase}</Text>
           </View>
         </View>
@@ -196,7 +206,7 @@ export default function PedidoPDF({ pedido }: PedidoPDFProps) {
                 <Text style={styles.col1}>Produto</Text>
                 <Text style={styles.col2}>Qtd</Text>
                 <Text style={styles.col3}>Peso</Text>
-                <Text style={styles.col4}>Preco Unit.</Text>
+                <Text style={styles.col4}>Preço Unit.</Text>
                 <Text style={styles.col5}>Subtotal</Text>
               </View>
               {produtos.map((item, i) => (
@@ -220,7 +230,7 @@ export default function PedidoPDF({ pedido }: PedidoPDFProps) {
               <View style={styles.tableHeader}>
                 <Text style={{ width: "40%" }}>Serviço</Text>
                 <Text style={{ width: "15%", textAlign: "center" }}>Qtd</Text>
-                <Text style={{ width: "22.5%", textAlign: "right" }}>Preco Unit.</Text>
+                <Text style={{ width: "22.5%", textAlign: "right" }}>Preço Unit.</Text>
                 <Text style={{ width: "22.5%", textAlign: "right" }}>Subtotal</Text>
               </View>
               {servicos.map((item, i) => (
@@ -237,10 +247,12 @@ export default function PedidoPDF({ pedido }: PedidoPDFProps) {
 
         {/* Totais */}
         <View style={styles.totals}>
-          <View style={styles.totalRow}>
-            <Text style={styles.totalLabel}>Valor dos Produtos</Text>
-            <Text style={styles.totalValue}>{formatCurrency(valorProdutos)}</Text>
-          </View>
+          {produtos.length > 0 && (
+            <View style={styles.totalRow}>
+              <Text style={styles.totalLabel}>Valor dos Produtos</Text>
+              <Text style={styles.totalValue}>{formatCurrency(valorProdutos)}</Text>
+            </View>
+          )}
           {servicos.length > 0 && (
             <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>Valor dos Serviços</Text>
@@ -251,39 +263,59 @@ export default function PedidoPDF({ pedido }: PedidoPDFProps) {
             <Text style={styles.totalLabel}>Frete</Text>
             <Text style={styles.totalValue}>{formatCurrency(pedido.valorFrete)}</Text>
           </View>
-          <View style={styles.totalRow}>
-            <Text style={styles.totalLabel}>Peso Total</Text>
-            <Text style={styles.totalValue}>{pedido.pesoTotal.toFixed(1)} kg</Text>
-          </View>
-          <View style={styles.totalRow}>
-            <Text style={styles.totalLabel}>Volumes</Text>
-            <Text style={styles.totalValue}>{pedido.volumes}</Text>
-          </View>
+          {produtos.length > 0 && (
+            <>
+              <View style={styles.totalRow}>
+                <Text style={styles.totalLabel}>Peso Total</Text>
+                <Text style={styles.totalValue}>{pedido.pesoTotal.toFixed(1)} kg</Text>
+              </View>
+              <View style={styles.totalRow}>
+                <Text style={styles.totalLabel}>Volumes</Text>
+                <Text style={styles.totalValue}>{pedido.volumes}</Text>
+              </View>
+            </>
+          )}
           <View style={styles.grandTotal}>
             <Text style={styles.grandTotalLabel}>VALOR TOTAL</Text>
             <Text style={styles.grandTotalValue}>{formatCurrency(pedido.valorTotal)}</Text>
           </View>
         </View>
 
-        {/* Cotação de Frete */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Cotação de Frete</Text>
-          <View style={styles.cotacao}>
-            <Text>{cotacaoText}</Text>
-          </View>
-        </View>
-
-        {/* Observações */}
-        {pedido.observacoes && (
+        {/* Cotação de Frete - só se tem produtos */}
+        {produtos.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Observações</Text>
-            <Text style={{ fontSize: 9 }}>{pedido.observacoes}</Text>
+            <Text style={styles.sectionTitle}>Cotação de Frete</Text>
+            <View style={styles.cotacao}>
+              <Text>{cotacaoText}</Text>
+            </View>
           </View>
         )}
 
+        {/* Condições de Pagamento */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Condições de Pagamento</Text>
+          <Text style={{ fontSize: 9 }}>
+            {pedido.observacoes || "A definir."}
+          </Text>
+        </View>
+
+        {/* Assinaturas */}
+        <View style={styles.signatures}>
+          <View style={styles.signatureBlock}>
+            <View style={styles.signatureLine} />
+            <Text style={styles.signatureName}>Maicon Augusto</Text>
+            <Text style={styles.signatureRole}>Organo Ágil</Text>
+          </View>
+          <View style={styles.signatureBlock}>
+            <View style={styles.signatureLine} />
+            <Text style={styles.signatureName}>{pedido.cliente.nome}</Text>
+            <Text style={styles.signatureRole}>Cliente</Text>
+          </View>
+        </View>
+
         {/* Footer */}
         <View style={styles.footer}>
-          <Text>Organo Ágil - Sistema de Gestão</Text>
+          <Text>Organo Ágil - CNPJ: 63.512.791/0001-59</Text>
           <Text>Gerado em {new Date().toLocaleDateString("pt-BR")}</Text>
         </View>
       </Page>
