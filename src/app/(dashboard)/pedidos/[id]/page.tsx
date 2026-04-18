@@ -261,7 +261,7 @@ export default function PedidoDetailPage() {
   if (!pedido) {
     return (
       <div className="flex h-full items-center justify-center text-text-secondary">
-        Pedido nao encontrado.
+        Pedido não encontrado.
       </div>
     );
   }
@@ -288,7 +288,7 @@ export default function PedidoDetailPage() {
     .filter(Boolean);
 
   const cotacaoText = [
-    "Cotacao de frete",
+    "Cotação de frete",
     `${pedido.volumes} vol`,
     `${pedido.pesoTotal.toFixed(1)} kg`,
     `Sendo ${itemDescriptions}`,
@@ -427,7 +427,7 @@ export default function PedidoDetailPage() {
               onMouseEnter={(e) => !updating && (e.currentTarget.style.backgroundColor = '#2d6b3f')}
               onMouseLeave={(e) => !updating && (e.currentTarget.style.backgroundColor = `var(--brand-green)`)}
             >
-              Avancar para {FASE_LABELS[nextFase]}
+              Avançar para {FASE_LABELS[nextFase]}
               <ChevronRight size={16} />
             </button>
           )}
@@ -529,7 +529,7 @@ export default function PedidoDetailPage() {
                 onChange={(e) => setBoleto(e.target.value)}
                 disabled={pedido.fase === "RECEBIDO"}
                 className="w-full rounded-lg border border-input-border bg-input-bg text-text-primary px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c] disabled:bg-gray-100"
-                placeholder="Codigo do boleto"
+                placeholder="Código do boleto"
               />
             </div>
           </div>
@@ -606,7 +606,7 @@ export default function PedidoDetailPage() {
                 <th className="pb-3 font-medium">Produto</th>
                 <th className="pb-3 font-medium text-center">Qtd</th>
                 <th className="pb-3 font-medium text-right">Peso</th>
-                <th className="pb-3 font-medium text-right">Preco Unit.</th>
+                <th className="pb-3 font-medium text-right">Preço Unit.</th>
                 <th className="pb-3 font-medium text-right">Subtotal</th>
               </tr>
             </thead>
@@ -674,7 +674,7 @@ export default function PedidoDetailPage() {
       {pedido.observacoes && (
         <div className="rounded-xl bg-card-bg p-6 shadow-sm">
           <h2 className="mb-2 text-lg font-semibold">
-            Observacoes
+            Observações
           </h2>
           <p className="text-sm text-text-secondary">{pedido.observacoes}</p>
         </div>
@@ -685,7 +685,7 @@ export default function PedidoDetailPage() {
         <div className="mb-4 flex items-center justify-between">
           <h2 className="flex items-center gap-2 text-lg font-semibold">
             <FileText size={20} />
-            Cotacao de Frete
+            Cotação de Frete
           </h2>
           <button
             onClick={copyToClipboard}
