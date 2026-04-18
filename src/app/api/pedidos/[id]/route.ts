@@ -39,7 +39,7 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { clienteId, valorFrete, volumes, observacoes, itens } = body;
+    const { clienteId, valorFrete, desconto, volumes, observacoes, itens } = body;
 
     if (!clienteId || !itens || itens.length === 0) {
       return NextResponse.json(
@@ -59,12 +59,16 @@ export async function PUT(
     let pesoTotal = 0;
 
     const itensData = itens.map(
-      (item: { produtoId: string; quantidade: number }) => {
+      (item: { produtoId: string; quantidade: number; precoUnit?: number }) => {
         const produto = produtoMap.get(item.produtoId);
         if (!produto) throw new Error(`Produto ${item.produtoId} não encontrado`);
 
+        const precoUnit =
+          item.precoUnit != null && !isNaN(Number(item.precoUnit))
+            ? Number(item.precoUnit)
+            : produto.precoVenda;
         const itemPeso = item.quantidade * produto.peso;
-        const subtotal = item.quantidade * produto.precoVenda;
+        const subtotal = item.quantidade * precoUnit;
         valorProdutos += subtotal;
         pesoTotal += itemPeso;
 
@@ -72,13 +76,17 @@ export async function PUT(
           produtoId: item.produtoId,
           quantidade: item.quantidade,
           pesoTotal: itemPeso,
-          precoUnit: produto.precoVenda,
+          precoUnit,
           subtotal,
         };
       }
     );
 
-    const valorTotal = valorProdutos + (Number(valorFrete) || 0);
+    const descontoValue = Math.max(0, Number(desconto) || 0);
+    const valorTotal = Math.max(
+      0,
+      valorProdutos + (Number(valorFrete) || 0) - descontoValue
+    );
 
     // Delete existing items and recreate
     await prisma.itemPedido.deleteMany({ where: { pedidoId: id } });
@@ -89,6 +97,7 @@ export async function PUT(
         clienteId,
         valorProdutos,
         valorFrete: Number(valorFrete) || 0,
+        desconto: descontoValue,
         valorTotal,
         pesoTotal,
         volumes: Number(volumes) || 1,

@@ -34,6 +34,7 @@ interface Produto {
 interface ItemForm {
   produtoId: string;
   quantidade: number;
+  precoUnit: number;
 }
 
 interface Pedido {
@@ -41,11 +42,13 @@ interface Pedido {
   numero: number;
   clienteId: string;
   valorFrete: number;
+  desconto: number;
   volumes: number;
   observacoes?: string;
   itens: {
     produtoId: string;
     quantidade: number;
+    precoUnit: number;
   }[];
 }
 
@@ -64,8 +67,9 @@ export default function EditarPedidoPage() {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [clienteId, setClienteId] = useState("");
-  const [itens, setItens] = useState<ItemForm[]>([{ produtoId: "", quantidade: 1 }]);
+  const [itens, setItens] = useState<ItemForm[]>([{ produtoId: "", quantidade: 1, precoUnit: 0 }]);
   const [valorFrete, setValorFrete] = useState(0);
+  const [desconto, setDesconto] = useState(0);
   const [volumes, setVolumes] = useState(1);
   const [observacoes, setObservacoes] = useState("");
   const [pedidoNumero, setPedidoNumero] = useState(0);
@@ -87,14 +91,16 @@ export default function EditarPedidoPage() {
         // Prefill form
         setClienteId(pedidoData.clienteId);
         setValorFrete(pedidoData.valorFrete);
+        setDesconto(pedidoData.desconto || 0);
         setVolumes(pedidoData.volumes);
         setObservacoes(pedidoData.observacoes || "");
         setPedidoNumero(pedidoData.numero);
         setItens(
           pedidoData.itens.map(
-            (item: { produtoId: string; quantidade: number }) => ({
+            (item: { produtoId: string; quantidade: number; precoUnit: number }) => ({
               produtoId: item.produtoId,
               quantidade: item.quantidade,
+              precoUnit: item.precoUnit,
             })
           )
         );
@@ -131,15 +137,15 @@ export default function EditarPedidoPage() {
     return acc + (produto ? item.quantidade * produto.peso : 0);
   }, 0);
 
-  const valorProdutos = itens.reduce((acc, item) => {
-    const produto = produtoMap.get(item.produtoId);
-    return acc + (produto ? item.quantidade * produto.precoVenda : 0);
-  }, 0);
+  const valorProdutos = itens.reduce(
+    (acc, item) => acc + item.quantidade * item.precoUnit,
+    0
+  );
 
-  const valorTotal = valorProdutos + valorFrete;
+  const valorTotal = Math.max(0, valorProdutos + valorFrete - desconto);
 
   const addItem = () => {
-    setItens([...itens, { produtoId: "", quantidade: 1 }]);
+    setItens([...itens, { produtoId: "", quantidade: 1, precoUnit: 0 }]);
   };
 
   const removeItem = (index: number) => {
@@ -147,12 +153,24 @@ export default function EditarPedidoPage() {
     setItens(itens.filter((_, i) => i !== index));
   };
 
-  const updateItem = (index: number, field: keyof ItemForm, value: string | number) => {
+  const updateItem = (
+    index: number,
+    field: keyof ItemForm,
+    value: string | number
+  ) => {
     const updated = [...itens];
-    if (field === "quantidade") {
-      updated[index][field] = Number(value) || 0;
-    } else {
-      updated[index][field] = value as string;
+    if (field === "produtoId") {
+      const produtoId = value as string;
+      const produto = produtoMap.get(produtoId);
+      updated[index] = {
+        ...updated[index],
+        produtoId,
+        precoUnit: produto ? produto.precoVenda : 0,
+      };
+    } else if (field === "quantidade") {
+      updated[index] = { ...updated[index], quantidade: Number(value) || 0 };
+    } else if (field === "precoUnit") {
+      updated[index] = { ...updated[index], precoUnit: Number(value) || 0 };
     }
     setItens(updated);
   };
@@ -215,6 +233,7 @@ export default function EditarPedidoPage() {
         body: JSON.stringify({
           clienteId,
           valorFrete,
+          desconto,
           volumes,
           observacoes: observacoes || null,
           itens: validItens,
@@ -345,16 +364,23 @@ export default function EditarPedidoPage() {
                         <label className="mb-1 block text-xs font-medium text-text-secondary">
                           Preco Unit.
                         </label>
-                        <p className="rounded-lg bg-brand-cream px-3 py-2 text-sm text-text-secondary">
-                          {formatCurrency(produto.precoVenda)}
-                        </p>
+                        <input
+                          type="number"
+                          min={0}
+                          step={0.01}
+                          value={item.precoUnit}
+                          onChange={(e) =>
+                            updateItem(index, "precoUnit", e.target.value)
+                          }
+                          className="w-full rounded-lg border border-input-border bg-input-bg text-text-primary px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                        />
                       </div>
                       <div className="w-full sm:w-28">
                         <label className="mb-1 block text-xs font-medium text-text-secondary">
                           Subtotal
                         </label>
                         <p className="rounded-lg px-3 py-2 text-sm font-medium" style={{ backgroundColor: 'rgba(26, 77, 46, 0.1)', color: `var(--brand-green)` }}>
-                          {formatCurrency(item.quantidade * produto.precoVenda)}
+                          {formatCurrency(item.quantidade * item.precoUnit)}
                         </p>
                       </div>
                     </>
@@ -374,12 +400,12 @@ export default function EditarPedidoPage() {
           </div>
         </div>
 
-        {/* Frete & Volumes */}
+        {/* Frete, Desconto & Volumes */}
         <div className="rounded-xl bg-card-bg p-6 shadow-sm">
           <h2 className="mb-4 text-lg font-semibold text-brand-green">
-            Frete e Volumes
+            Frete, Desconto e Volumes
           </h2>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div>
               <label className="mb-1 block text-sm font-medium text-text-primary">
                 Valor do Frete (R$)
@@ -390,6 +416,19 @@ export default function EditarPedidoPage() {
                 step={0.01}
                 value={valorFrete}
                 onChange={(e) => setValorFrete(Number(e.target.value) || 0)}
+                className="w-full rounded-lg border border-input-border bg-input-bg text-text-primary px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+              />
+            </div>
+            <div>
+              <label className="mb-1 block text-sm font-medium text-text-primary">
+                Desconto (R$)
+              </label>
+              <input
+                type="number"
+                min={0}
+                step={0.01}
+                value={desconto}
+                onChange={(e) => setDesconto(Number(e.target.value) || 0)}
                 className="w-full rounded-lg border border-input-border bg-input-bg text-text-primary px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
               />
             </div>
@@ -443,6 +482,14 @@ export default function EditarPedidoPage() {
                 {formatCurrency(valorFrete)}
               </span>
             </div>
+            {desconto > 0 && (
+              <div className="flex justify-between">
+                <span className="text-text-secondary">Desconto</span>
+                <span className="font-medium text-red-600">
+                  - {formatCurrency(desconto)}
+                </span>
+              </div>
+            )}
             <div className="flex justify-between">
               <span className="text-text-secondary">Peso Total</span>
               <span className="font-medium text-text-primary">

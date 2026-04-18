@@ -60,6 +60,7 @@ model Pedido {
   fase            FasePedido   @default(PEDIDO)
   valorProdutos   Float        @default(0)
   valorFrete      Float        @default(0)
+  desconto        Float        @default(0)
   valorTotal      Float        @default(0)
   pesoTotal       Float        @default(0)
   volumes         Int          @default(1)

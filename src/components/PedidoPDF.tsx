@@ -87,6 +87,7 @@ interface PedidoPDFProps {
     fase: string;
     valorProdutos: number;
     valorFrete: number;
+    desconto?: number;
     valorTotal: number;
     pesoTotal: number;
     volumes: number;
@@ -263,6 +264,14 @@ export default function PedidoPDF({ pedido }: PedidoPDFProps) {
             <Text style={styles.totalLabel}>Frete</Text>
             <Text style={styles.totalValue}>{formatCurrency(pedido.valorFrete)}</Text>
           </View>
+          {pedido.desconto && pedido.desconto > 0 ? (
+            <View style={styles.totalRow}>
+              <Text style={styles.totalLabel}>Desconto</Text>
+              <Text style={[styles.totalValue, { color: "#b91c1c" }]}>
+                - {formatCurrency(pedido.desconto)}
+              </Text>
+            </View>
+          ) : null}
           {produtos.length > 0 && (
             <>
               <View style={styles.totalRow}>

@@ -41,6 +41,7 @@ interface Pedido {
   fase: string;
   valorProdutos: number;
   valorFrete: number;
+  desconto: number;
   valorTotal: number;
   pesoTotal: number;
   volumes: number;
@@ -643,6 +644,14 @@ export default function PedidoDetailPage() {
             <span className="text-text-secondary">Frete</span>
             <span className="font-medium">{formatCurrency(pedido.valorFrete)}</span>
           </div>
+          {pedido.desconto > 0 && (
+            <div className="flex justify-between">
+              <span className="text-text-secondary">Desconto</span>
+              <span className="font-medium text-red-600">
+                - {formatCurrency(pedido.desconto)}
+              </span>
+            </div>
+          )}
           <div className="flex justify-between">
             <span className="text-text-secondary">Peso Total</span>
             <span className="font-medium">{pedido.pesoTotal.toFixed(1)} kg</span>
