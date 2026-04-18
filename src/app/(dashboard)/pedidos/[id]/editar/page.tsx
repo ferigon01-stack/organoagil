@@ -10,6 +10,7 @@ import {
   Check,
   Save,
 } from "lucide-react";
+import { formatCurrencyInput, parseCurrencyInput } from "@/lib/currency";
 
 interface Cliente {
   id: string;
@@ -360,17 +361,20 @@ export default function EditarPedidoPage() {
                           {produto.peso} kg
                         </p>
                       </div>
-                      <div className="w-full sm:w-28">
+                      <div className="w-full sm:w-32">
                         <label className="mb-1 block text-xs font-medium text-text-secondary">
                           Preco Unit.
                         </label>
                         <input
-                          type="number"
-                          min={0}
-                          step={0.01}
-                          value={item.precoUnit}
+                          type="text"
+                          inputMode="decimal"
+                          value={formatCurrencyInput(item.precoUnit)}
                           onChange={(e) =>
-                            updateItem(index, "precoUnit", e.target.value)
+                            updateItem(
+                              index,
+                              "precoUnit",
+                              parseCurrencyInput(e.target.value)
+                            )
                           }
                           className="w-full rounded-lg border border-input-border bg-input-bg text-text-primary px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
                         />
@@ -408,27 +412,25 @@ export default function EditarPedidoPage() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div>
               <label className="mb-1 block text-sm font-medium text-text-primary">
-                Valor do Frete (R$)
+                Valor do Frete
               </label>
               <input
-                type="number"
-                min={0}
-                step={0.01}
-                value={valorFrete}
-                onChange={(e) => setValorFrete(Number(e.target.value) || 0)}
+                type="text"
+                inputMode="decimal"
+                value={formatCurrencyInput(valorFrete)}
+                onChange={(e) => setValorFrete(parseCurrencyInput(e.target.value))}
                 className="w-full rounded-lg border border-input-border bg-input-bg text-text-primary px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
               />
             </div>
             <div>
               <label className="mb-1 block text-sm font-medium text-text-primary">
-                Desconto (R$)
+                Desconto
               </label>
               <input
-                type="number"
-                min={0}
-                step={0.01}
-                value={desconto}
-                onChange={(e) => setDesconto(Number(e.target.value) || 0)}
+                type="text"
+                inputMode="decimal"
+                value={formatCurrencyInput(desconto)}
+                onChange={(e) => setDesconto(parseCurrencyInput(e.target.value))}
                 className="w-full rounded-lg border border-input-border bg-input-bg text-text-primary px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
               />
             </div>
