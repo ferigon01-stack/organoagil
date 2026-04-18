@@ -122,6 +122,7 @@ export default function PedidoDetailPage() {
   const [anexos, setAnexos] = useState<Array<{id: string; nome: string; tipo: string; tamanho: number; fase: string; createdAt: string}>>([]);
   const [uploading, setUploading] = useState(false);
   const [generatingPdf, setGeneratingPdf] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const fetchPedido = () => {
     fetch(`/api/pedidos/${id}`)
@@ -224,6 +225,24 @@ export default function PedidoDetailPage() {
       console.error("Erro ao salvar:", error);
     } finally {
       setUpdating(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!pedido) return;
+    const ok = confirm(
+      `Excluir o Pedido #${pedido.numero}? Esta ação não pode ser desfeita.`
+    );
+    if (!ok) return;
+    setDeleting(true);
+    try {
+      const res = await fetch(`/api/pedidos/${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Falha ao excluir");
+      router.push("/pedidos");
+    } catch (error) {
+      console.error("Erro ao excluir pedido:", error);
+      alert("Erro ao excluir pedido.");
+      setDeleting(false);
     }
   };
 
@@ -344,6 +363,14 @@ export default function PedidoDetailPage() {
           >
             <Edit size={16} />
             Editar
+          </button>
+          <button
+            onClick={handleDelete}
+            disabled={deleting}
+            className="flex items-center gap-2 rounded-lg border border-red-300 bg-card-bg px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 disabled:opacity-50"
+          >
+            {deleting ? <Loader2 size={16} className="animate-spin" /> : <Trash2 size={16} />}
+            {deleting ? "Excluindo..." : "Excluir"}
           </button>
         </div>
       </div>
