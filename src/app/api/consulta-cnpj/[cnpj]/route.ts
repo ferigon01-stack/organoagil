@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-interface BrasilAPICnpj {
+interface CnpjRaw {
   cnpj?: string;
   razao_social?: string;
   nome_fantasia?: string;
@@ -14,10 +14,30 @@ interface BrasilAPICnpj {
   codigo_municipio_ibge?: number;
   ddd_telefone_1?: string;
   ddd_telefone_2?: string;
-  email?: string;
+  email?: string | null;
   cnae_fiscal?: number;
   cnae_fiscal_descricao?: string;
   descricao_situacao_cadastral?: string;
+}
+
+const UA = "organoagil/1.0 (+https://organoagil.vercel.app)";
+
+async function fetchMinhaReceita(cnpj: string): Promise<CnpjRaw | null> {
+  const res = await fetch(`https://minhareceita.org/${cnpj}`, {
+    headers: { Accept: "application/json", "User-Agent": UA },
+    cache: "no-store",
+  });
+  if (!res.ok) return null;
+  return (await res.json()) as CnpjRaw;
+}
+
+async function fetchBrasilAPI(cnpj: string): Promise<CnpjRaw | null> {
+  const res = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`, {
+    headers: { Accept: "application/json", "User-Agent": UA },
+    cache: "no-store",
+  });
+  if (!res.ok) return null;
+  return (await res.json()) as CnpjRaw;
 }
 
 function formatTelefone(raw: string | undefined) {
@@ -54,26 +74,16 @@ export async function GET(
   }
 
   try {
-    const res = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${digits}`, {
-      headers: { Accept: "application/json" },
-      cache: "no-store",
-    });
+    const data =
+      (await fetchMinhaReceita(digits).catch(() => null)) ||
+      (await fetchBrasilAPI(digits).catch(() => null));
 
-    if (res.status === 404) {
+    if (!data) {
       return NextResponse.json(
-        { error: "CNPJ não encontrado na Receita Federal" },
+        { error: "CNPJ não encontrado ou fonte indisponível" },
         { status: 404 }
       );
     }
-
-    if (!res.ok) {
-      return NextResponse.json(
-        { error: `Falha ao consultar CNPJ (HTTP ${res.status})` },
-        { status: 502 }
-      );
-    }
-
-    const data = (await res.json()) as BrasilAPICnpj;
 
     return NextResponse.json({
       razao_social: data.razao_social || "",
