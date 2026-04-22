@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Save, Loader2, UserPlus } from "lucide-react";
+import { ArrowLeft, Save, Loader2, UserPlus, Search } from "lucide-react";
 
 const ESTADOS = [
   "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG",
@@ -13,6 +13,8 @@ export default function NovoClientePage() {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [erro, setErro] = useState("");
+  const [consultandoCnpj, setConsultandoCnpj] = useState(false);
+  const [cnpjInfo, setCnpjInfo] = useState<string>("");
   const [form, setForm] = useState({
     nome: "",
     cpf: "",
@@ -34,6 +36,43 @@ export default function NovoClientePage() {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+
+  async function consultarCnpj() {
+    const digits = form.cnpj.replace(/\D/g, "");
+    if (digits.length !== 14) return;
+    setConsultandoCnpj(true);
+    setCnpjInfo("");
+    try {
+      const res = await fetch(`/api/consulta-cnpj/${digits}`);
+      const data = await res.json();
+      if (!res.ok) {
+        setCnpjInfo(data.error || "Não foi possível consultar o CNPJ");
+        return;
+      }
+      setForm((prev) => ({
+        ...prev,
+        nome: prev.nome || data.nome_fantasia || data.razao_social || "",
+        endereco: prev.endereco || data.endereco || "",
+        numero: prev.numero || data.numero || "",
+        bairro: prev.bairro || data.bairro || "",
+        cep: prev.cep || data.cep || "",
+        cidade: prev.cidade || data.cidade || "",
+        estado: prev.estado || data.estado || "",
+        codigoIbge: prev.codigoIbge || data.codigo_ibge || "",
+        telefone: prev.telefone || data.telefone || "",
+        email: prev.email || data.email || "",
+      }));
+      setCnpjInfo(
+        data.situacao && data.situacao.toLowerCase() !== "ativa"
+          ? `Atenção: situação cadastral "${data.situacao}"`
+          : "Dados preenchidos automaticamente pela Receita Federal"
+      );
+    } catch {
+      setCnpjInfo("Erro ao consultar CNPJ");
+    } finally {
+      setConsultandoCnpj(false);
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -135,14 +174,33 @@ export default function NovoClientePage() {
               <label className="mb-1 block text-sm font-medium text-text-primary">
                 CNPJ
               </label>
-              <input
-                type="text"
-                name="cnpj"
-                value={form.cnpj}
-                onChange={handleChange}
-                className="w-full rounded-lg border border-input-border px-3 py-2.5 text-sm text-text-primary bg-input-bg placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
-                placeholder="00.000.000/0000-00"
-              />
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  name="cnpj"
+                  value={form.cnpj}
+                  onChange={handleChange}
+                  onBlur={consultarCnpj}
+                  className="w-full rounded-lg border border-input-border px-3 py-2.5 text-sm text-text-primary bg-input-bg placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                  placeholder="00.000.000/0000-00"
+                />
+                <button
+                  type="button"
+                  onClick={consultarCnpj}
+                  disabled={consultandoCnpj || form.cnpj.replace(/\D/g, "").length !== 14}
+                  className="inline-flex items-center justify-center rounded-lg border border-input-border bg-card-bg px-3 text-text-muted hover:bg-hover-bg disabled:opacity-40 disabled:cursor-not-allowed"
+                  title="Buscar dados do CNPJ na Receita Federal"
+                >
+                  {consultandoCnpj ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Search className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
+              {cnpjInfo && (
+                <p className="mt-1 text-xs text-text-muted">{cnpjInfo}</p>
+              )}
             </div>
             <div>
               <label className="mb-1 block text-sm font-medium text-text-primary">
