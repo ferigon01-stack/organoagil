@@ -84,15 +84,20 @@ export async function POST(
       );
     }
 
-    // Validate fiscal data on products
+    // Validate fiscal data on products (NCM must be 8 digits after stripping)
     const missingFiscal: string[] = [];
     for (const item of produtos) {
-      if (!item.produto.ncm) missingFiscal.push(`${item.produto.nome}: NCM`);
+      const ncmDigits = (item.produto.ncm || "").replace(/\D/g, "");
+      if (ncmDigits.length !== 8) {
+        missingFiscal.push(
+          `${item.produto.nome}: NCM "${item.produto.ncm || "vazio"}" inválido (precisa ter 8 dígitos)`
+        );
+      }
     }
     if (missingFiscal.length > 0) {
       return NextResponse.json(
         {
-          error: `Produtos sem dados fiscais: ${missingFiscal.join(", ")}. Edite os produtos e preencha NCM.`,
+          error: `Produtos com NCM inválido: ${missingFiscal.join("; ")}. Edite os produtos e corrija o NCM.`,
         },
         { status: 400 }
       );
@@ -205,14 +210,22 @@ export async function POST(
       result.httpStatus >= 400;
 
     const errosList = Array.isArray(result.erros) && result.erros.length > 0
-      ? result.erros.map((e) => `[${e.codigo}] ${e.mensagem}`).join(" | ")
+      ? result.erros
+          .map((e) => {
+            const ref =
+              (e as { campo?: string; codigo?: string }).campo ||
+              (e as { codigo?: string }).codigo ||
+              "";
+            return ref ? `[${ref}] ${e.mensagem}` : e.mensagem;
+          })
+          .join(" | ")
       : null;
 
-    let mensagem =
-      result.mensagem_sefaz ||
-      result.mensagem ||
-      errosList ||
-      null;
+    const mensagemBase = result.mensagem_sefaz || result.mensagem || null;
+    let mensagem: string | null =
+      mensagemBase && errosList
+        ? `${mensagemBase} — ${errosList}`
+        : mensagemBase || errosList;
 
     if (!mensagem && isError) {
       const httpInfo = `HTTP ${result.httpStatus}`;
