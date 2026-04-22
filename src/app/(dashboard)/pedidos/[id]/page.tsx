@@ -255,6 +255,11 @@ export default function PedidoDetailPage() {
       const data = await res.json();
       if (!res.ok) {
         alert(data.error || "Erro ao emitir NFe");
+      } else if (data.status === "erro" || data.status === "rejeitado") {
+        alert(
+          `NFe rejeitada pela Focus/SEFAZ.\n\nMotivo: ${data.mensagem || "sem detalhes"}`
+        );
+        fetchPedido();
       } else {
         alert(
           `NFe enviada! Status: ${data.status}. Aguarde e clique em "Atualizar status" em alguns segundos.`

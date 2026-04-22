@@ -91,16 +91,27 @@ export interface FocusNFeResponse {
 export async function emitirNFe(
   ref: string,
   payload: FocusNFePayload
-): Promise<FocusNFeResponse> {
+): Promise<FocusNFeResponse & { httpStatus?: number; rawBody?: string }> {
   const { baseUrl, auth } = getConfig();
   const res = await fetch(`${baseUrl}/v2/nfe?ref=${encodeURIComponent(ref)}`, {
     method: "POST",
     headers: { Authorization: auth, "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
-  const data = await res.json().catch(() => ({}));
+  const text = await res.text();
+  let data: Record<string, unknown> = {};
+  try {
+    data = text ? JSON.parse(text) : {};
+  } catch {
+    data = {};
+  }
   if (!res.ok) {
-    return { status: "erro", ...data };
+    console.error("[FocusNFe] emitir falhou", {
+      httpStatus: res.status,
+      ref,
+      body: text.slice(0, 2000),
+    });
+    return { status: "erro", httpStatus: res.status, rawBody: text.slice(0, 2000), ...data };
   }
   return data;
 }

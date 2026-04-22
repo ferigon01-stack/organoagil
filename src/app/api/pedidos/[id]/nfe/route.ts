@@ -185,7 +185,16 @@ export async function POST(
 
     // Focus NFe returns status "processando_autorizacao" initially
     const status = (result.status || "processando").toLowerCase();
-    const mensagem = result.mensagem_sefaz || result.mensagem || result.erros?.[0]?.mensagem || null;
+    let mensagem =
+      result.mensagem_sefaz ||
+      result.mensagem ||
+      result.erros?.[0]?.mensagem ||
+      null;
+    if (!mensagem && status === "erro") {
+      const httpInfo = result.httpStatus ? `HTTP ${result.httpStatus}` : "sem resposta";
+      const body = result.rawBody || JSON.stringify(result);
+      mensagem = `${httpInfo} — ${body}`.slice(0, 1000);
+    }
 
     await prisma.pedido.update({
       where: { id },
