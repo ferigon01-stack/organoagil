@@ -73,6 +73,7 @@ model Pedido {
   pesoTotal       Float        @default(0)
   volumes         Int          @default(1)
   observacoes     String?
+  condicaoPagamento String?    // ex: "28" ou "28/56/84" — dias corridos
   notaFiscal      String?
   boleto          String?
   dataEnvio       DateTime?

@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Font,
 } from "@react-pdf/renderer";
+import { calcularParcelas, formatarCondicao } from "@/lib/parcelas";
 
 Font.register({
   family: "Inter",
@@ -92,6 +93,7 @@ interface PedidoPDFProps {
     pesoTotal: number;
     volumes: number;
     observacoes?: string;
+    condicaoPagamento?: string;
     createdAt: string;
     cliente: {
       nome: string;
@@ -303,10 +305,56 @@ export default function PedidoPDF({ pedido }: PedidoPDFProps) {
         {/* Condições de Pagamento */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Condições de Pagamento</Text>
-          <Text style={{ fontSize: 9 }}>
-            {pedido.observacoes || "A definir."}
-          </Text>
+          {pedido.condicaoPagamento ? (
+            (() => {
+              const parcelas = calcularParcelas(
+                pedido.valorTotal,
+                pedido.condicaoPagamento,
+                new Date(pedido.createdAt)
+              );
+              return (
+                <View>
+                  <Text style={{ fontSize: 9, marginBottom: 6 }}>
+                    {formatarCondicao(pedido.condicaoPagamento)}
+                  </Text>
+                  {parcelas.length > 0 && (
+                    <View style={styles.table}>
+                      <View style={styles.tableHeader}>
+                        <Text style={{ width: "30%" }}>Parcela</Text>
+                        <Text style={{ width: "35%" }}>Vencimento</Text>
+                        <Text style={{ width: "35%", textAlign: "right" }}>Valor</Text>
+                      </View>
+                      {parcelas.map((p, i) => (
+                        <View key={p.numero} style={i % 2 === 0 ? styles.tableRow : styles.tableRowAlt}>
+                          <Text style={{ width: "30%" }}>
+                            {parcelas.length > 1 ? `${p.numero}/${parcelas.length}` : "Única"}
+                            {p.dias === 0 ? " (à vista)" : ` (${p.dias} dias)`}
+                          </Text>
+                          <Text style={{ width: "35%" }}>
+                            {p.dataVencimento.toLocaleDateString("pt-BR")}
+                          </Text>
+                          <Text style={{ width: "35%", textAlign: "right" }}>
+                            {formatCurrency(p.valor)}
+                          </Text>
+                        </View>
+                      ))}
+                    </View>
+                  )}
+                </View>
+              );
+            })()
+          ) : (
+            <Text style={{ fontSize: 9 }}>{pedido.observacoes || "A definir."}</Text>
+          )}
         </View>
+
+        {/* Observações */}
+        {pedido.observacoes && pedido.condicaoPagamento && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Observações</Text>
+            <Text style={{ fontSize: 9 }}>{pedido.observacoes}</Text>
+          </View>
+        )}
 
         {/* Assinaturas */}
         <View style={styles.signatures}>

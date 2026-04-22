@@ -19,7 +19,9 @@ import {
   FileDown,
   Receipt,
   RefreshCw,
+  Calendar,
 } from "lucide-react";
+import { calcularParcelas, formatarCondicao } from "@/lib/parcelas";
 
 interface ItemPedido {
   id: string;
@@ -48,6 +50,7 @@ interface Pedido {
   pesoTotal: number;
   volumes: number;
   observacoes?: string;
+  condicaoPagamento?: string;
   notaFiscal?: string;
   boleto?: string;
   dataEnvio?: string;
@@ -896,6 +899,58 @@ export default function PedidoDetailPage() {
           </div>
         </div>
       </div>
+
+      {/* Condição de Pagamento / Parcelas */}
+      {pedido.condicaoPagamento && (
+        <div className="rounded-xl bg-card-bg p-6 shadow-sm">
+          <h2 className="mb-2 flex items-center gap-2 text-lg font-semibold">
+            <Calendar size={20} />
+            Condição de Pagamento
+          </h2>
+          <p className="mb-3 text-sm text-text-secondary">
+            {formatarCondicao(pedido.condicaoPagamento)}
+          </p>
+          {(() => {
+            const parcelas = calcularParcelas(
+              pedido.valorTotal,
+              pedido.condicaoPagamento,
+              new Date(pedido.createdAt)
+            );
+            if (parcelas.length === 0) return null;
+            return (
+              <div className="overflow-x-auto rounded-lg border border-card-border">
+                <table className="w-full text-left text-sm">
+                  <thead>
+                    <tr style={{ backgroundColor: "#f5f0e1" }} className="text-text-secondary">
+                      <th className="px-3 py-2 font-medium">Parcela</th>
+                      <th className="px-3 py-2 font-medium">Vencimento</th>
+                      <th className="px-3 py-2 font-medium text-right">Valor</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {parcelas.map((p) => (
+                      <tr key={p.numero} className="border-t border-card-border">
+                        <td className="px-3 py-2 font-medium text-text-primary">
+                          {parcelas.length > 1 ? `${p.numero}/${parcelas.length}` : "Única"}
+                          <span className="ml-2 text-xs text-text-muted">
+                            ({p.dias === 0 ? "à vista" : `${p.dias} dias`})
+                          </span>
+                        </td>
+                        <td className="px-3 py-2 text-text-secondary">
+                          {p.dataVencimento.toLocaleDateString("pt-BR")}
+                        </td>
+                        <td className="px-3 py-2 text-right font-medium text-text-primary">
+                          {formatCurrency(p.valor)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            );
+          })()}
+        </div>
+      )}
 
       {/* Observacoes */}
       {pedido.observacoes && (
