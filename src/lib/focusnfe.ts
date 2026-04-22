@@ -24,8 +24,8 @@ export interface FocusNFeItem {
   unidade_tributavel: string;
   quantidade_tributavel: number;
   valor_unitario_tributavel: number;
-  ncm: string;
-  cest?: string;
+  codigo_ncm: string;
+  codigo_cest?: string;
   icms_origem: string;
   icms_situacao_tributaria: string; // CSOSN (Simples Nacional)
   pis_situacao_tributaria: string;

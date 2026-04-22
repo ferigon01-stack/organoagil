@@ -137,8 +137,8 @@ export async function POST(
       unidade_tributavel: item.produto.unidade || "un",
       quantidade_tributavel: item.quantidade,
       valor_unitario_tributavel: item.precoUnit,
-      ncm: (item.produto.ncm || "").replace(/\D/g, ""),
-      cest: item.produto.cest ? item.produto.cest.replace(/\D/g, "") : undefined,
+      codigo_ncm: (item.produto.ncm || "").replace(/\D/g, ""),
+      codigo_cest: item.produto.cest ? item.produto.cest.replace(/\D/g, "") : undefined,
       icms_origem: item.produto.origem || "0",
       icms_situacao_tributaria: "102", // CSOSN 102 - Simples Nacional sem permissão de crédito
       pis_situacao_tributaria: "07", // Operação isenta da contribuição
