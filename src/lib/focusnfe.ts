@@ -164,20 +164,35 @@ export async function cancelarNFe(
   return parsed;
 }
 
+async function fetchFocusArquivo(caminho: string, auth: string, baseUrl: string) {
+  const url = caminho.startsWith("http") ? caminho : `${baseUrl}${caminho}`;
+  const res = await fetch(url, { headers: { Authorization: auth } });
+  if (!res.ok) return null;
+  return res;
+}
+
 export async function baixarDanfe(ref: string): Promise<ArrayBuffer | null> {
   const { baseUrl, auth } = getConfig();
-  const res = await fetch(`${baseUrl}/v2/nfe/${encodeURIComponent(ref)}.pdf`, {
+  const meta = await fetch(`${baseUrl}/v2/nfe/${encodeURIComponent(ref)}`, {
     headers: { Authorization: auth },
   });
-  if (!res.ok) return null;
-  return await res.arrayBuffer();
+  if (!meta.ok) return null;
+  const data = (await meta.json().catch(() => null)) as { caminho_danfe?: string } | null;
+  if (!data?.caminho_danfe) return null;
+  const pdf = await fetchFocusArquivo(data.caminho_danfe, auth, baseUrl);
+  if (!pdf) return null;
+  return await pdf.arrayBuffer();
 }
 
 export async function baixarXml(ref: string): Promise<string | null> {
   const { baseUrl, auth } = getConfig();
-  const res = await fetch(`${baseUrl}/v2/nfe/${encodeURIComponent(ref)}.xml`, {
+  const meta = await fetch(`${baseUrl}/v2/nfe/${encodeURIComponent(ref)}`, {
     headers: { Authorization: auth },
   });
-  if (!res.ok) return null;
-  return await res.text();
+  if (!meta.ok) return null;
+  const data = (await meta.json().catch(() => null)) as { caminho_xml_nota_fiscal?: string } | null;
+  if (!data?.caminho_xml_nota_fiscal) return null;
+  const xml = await fetchFocusArquivo(data.caminho_xml_nota_fiscal, auth, baseUrl);
+  if (!xml) return null;
+  return await xml.text();
 }
