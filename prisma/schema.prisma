@@ -22,12 +22,15 @@ model Cliente {
   cpf               String?
   cnpj              String?
   inscricaoEstadual String?
+  indicadorIE       String    @default("9") // 1=Contribuinte, 2=Isento, 9=Não contribuinte
   email             String?
   telefone          String?
   endereco          String?
+  numero            String?
   bairro            String?
   cidade            String?
   estado            String?
+  codigoIbge        String?   // código IBGE da cidade (7 dígitos) para NFe
   cep               String?
   ultimaCompra      DateTime?
   createdAt         DateTime  @default(now())
@@ -48,6 +51,10 @@ model Produto {
   unidade          String        @default("un") // un, L, kg, etc.
   unidadesPorCaixa Int?          // quantas unidades cabem por caixa
   caixaDimensoes   String?       // dimensões da caixa ex: "25x30x20"
+  // Dados fiscais (NFe)
+  ncm              String?       // código NCM (8 dígitos)
+  origem           String        @default("0") // 0-8, 0 = nacional
+  cest             String?       // código CEST (opcional)
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
   itensPedido      ItemPedido[]
@@ -70,6 +77,14 @@ model Pedido {
   boleto          String?
   dataEnvio       DateTime?
   dataRecebimento DateTime?
+  // NFe
+  nfeStatus       String?      // null, "processando", "autorizada", "cancelada", "erro"
+  nfeRef          String?      @unique // nossa referência enviada para Focus NFe
+  nfeNumero       Int?
+  nfeSerie        Int?
+  nfeChave        String?
+  nfeDataEmissao  DateTime?
+  nfeMensagem     String?      // mensagem de erro ou justificativa de cancelamento
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
   itens           ItemPedido[]

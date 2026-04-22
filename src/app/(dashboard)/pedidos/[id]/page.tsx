@@ -17,6 +17,8 @@ import {
   Trash2,
   Loader2,
   FileDown,
+  Receipt,
+  RefreshCw,
 } from "lucide-react";
 
 interface ItemPedido {
@@ -50,6 +52,13 @@ interface Pedido {
   boleto?: string;
   dataEnvio?: string;
   dataRecebimento?: string;
+  nfeStatus?: string | null;
+  nfeRef?: string | null;
+  nfeNumero?: number | null;
+  nfeSerie?: number | null;
+  nfeChave?: string | null;
+  nfeMensagem?: string | null;
+  nfeDataEmissao?: string | null;
   createdAt: string;
   updatedAt: string;
   cliente: {
@@ -123,6 +132,9 @@ export default function PedidoDetailPage() {
   const [uploading, setUploading] = useState(false);
   const [generatingPdf, setGeneratingPdf] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [emittingNfe, setEmittingNfe] = useState(false);
+  const [checkingNfe, setCheckingNfe] = useState(false);
+  const [cancellingNfe, setCancellingNfe] = useState(false);
 
   const fetchPedido = () => {
     fetch(`/api/pedidos/${id}`)
@@ -225,6 +237,78 @@ export default function PedidoDetailPage() {
       console.error("Erro ao salvar:", error);
     } finally {
       setUpdating(false);
+    }
+  };
+
+  const emitirNfe = async () => {
+    if (!pedido) return;
+    const ok = confirm(
+      "Emitir NFe para este pedido? Em homologação a nota não tem valor fiscal."
+    );
+    if (!ok) return;
+    setEmittingNfe(true);
+    try {
+      const res = await fetch(`/api/pedidos/${id}/nfe`, { method: "POST" });
+      const data = await res.json();
+      if (!res.ok) {
+        alert(data.error || "Erro ao emitir NFe");
+      } else {
+        alert(
+          `NFe enviada! Status: ${data.status}. Aguarde e clique em "Atualizar status" em alguns segundos.`
+        );
+        fetchPedido();
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Erro ao emitir NFe");
+    } finally {
+      setEmittingNfe(false);
+    }
+  };
+
+  const consultarNfe = async () => {
+    setCheckingNfe(true);
+    try {
+      const res = await fetch(`/api/pedidos/${id}/nfe`);
+      const data = await res.json();
+      if (!res.ok) {
+        alert(data.error || "Erro ao consultar NFe");
+      } else {
+        fetchPedido();
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setCheckingNfe(false);
+    }
+  };
+
+  const cancelarNfe = async () => {
+    const justificativa = prompt(
+      "Motivo do cancelamento (mínimo 15 caracteres):"
+    );
+    if (!justificativa || justificativa.trim().length < 15) {
+      alert("Justificativa deve ter no mínimo 15 caracteres");
+      return;
+    }
+    setCancellingNfe(true);
+    try {
+      const res = await fetch(`/api/pedidos/${id}/nfe`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ justificativa }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        alert(data.error || "Erro ao cancelar NFe");
+      } else {
+        alert(`NFe cancelada. Status: ${data.status}`);
+        fetchPedido();
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setCancellingNfe(false);
     }
   };
 
@@ -459,6 +543,122 @@ export default function PedidoDetailPage() {
             </button>
           )}
         </div>
+      </div>
+
+      {/* Nota Fiscal Eletrônica */}
+      <div className="rounded-xl bg-card-bg p-6 shadow-sm border border-card-border">
+        <div className="mb-4 flex items-center justify-between flex-wrap gap-2">
+          <h2 className="flex items-center gap-2 text-lg font-semibold text-brand-green">
+            <Receipt size={20} />
+            Nota Fiscal Eletrônica
+          </h2>
+          {pedido.nfeStatus && (
+            <span
+              className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${
+                pedido.nfeStatus === "autorizado" || pedido.nfeStatus === "autorizada"
+                  ? "bg-green-100 text-green-700"
+                  : pedido.nfeStatus === "cancelado" || pedido.nfeStatus === "cancelada"
+                  ? "bg-gray-200 text-gray-700"
+                  : pedido.nfeStatus.includes("erro") || pedido.nfeStatus.includes("rejeit")
+                  ? "bg-red-100 text-red-700"
+                  : "bg-yellow-100 text-yellow-700"
+              }`}
+            >
+              {pedido.nfeStatus}
+            </span>
+          )}
+        </div>
+
+        {!pedido.nfeStatus ? (
+          <div className="text-sm text-text-secondary">
+            <p className="mb-3">Nenhuma NFe emitida para este pedido ainda.</p>
+            <button
+              onClick={emitirNfe}
+              disabled={emittingNfe}
+              className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+              style={{ backgroundColor: `var(--brand-green)` }}
+            >
+              {emittingNfe ? <Loader2 size={16} className="animate-spin" /> : <Receipt size={16} />}
+              {emittingNfe ? "Emitindo..." : "Emitir NFe"}
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-3 text-sm">
+            {pedido.nfeNumero && (
+              <div>
+                <span className="text-text-secondary">Número:</span>{" "}
+                <span className="font-medium text-text-primary">
+                  {pedido.nfeNumero}
+                  {pedido.nfeSerie ? ` / Série ${pedido.nfeSerie}` : ""}
+                </span>
+              </div>
+            )}
+            {pedido.nfeChave && (
+              <div>
+                <span className="text-text-secondary">Chave:</span>{" "}
+                <span className="font-mono text-xs text-text-primary break-all">
+                  {pedido.nfeChave}
+                </span>
+              </div>
+            )}
+            {pedido.nfeDataEmissao && (
+              <div>
+                <span className="text-text-secondary">Emitida em:</span>{" "}
+                <span className="text-text-primary">
+                  {formatDateTime(pedido.nfeDataEmissao)}
+                </span>
+              </div>
+            )}
+            {pedido.nfeMensagem && (
+              <div className="rounded-lg bg-brand-cream p-3 text-xs text-text-primary">
+                {pedido.nfeMensagem}
+              </div>
+            )}
+            <div className="flex flex-wrap gap-2 pt-2">
+              <button
+                onClick={consultarNfe}
+                disabled={checkingNfe}
+                className="flex items-center gap-2 rounded-lg border border-input-border bg-card-bg px-4 py-2 text-sm font-medium text-text-primary hover:bg-hover-bg disabled:opacity-50"
+              >
+                {checkingNfe ? <Loader2 size={16} className="animate-spin" /> : <RefreshCw size={16} />}
+                Atualizar status
+              </button>
+              {(pedido.nfeStatus === "autorizado" || pedido.nfeStatus === "autorizada") && (
+                <>
+                  <a
+                    href={`/api/pedidos/${id}/nfe/pdf`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white"
+                    style={{ backgroundColor: "#b8960c" }}
+                  >
+                    <FileDown size={16} />
+                    Baixar DANFE
+                  </a>
+                  <button
+                    onClick={cancelarNfe}
+                    disabled={cancellingNfe}
+                    className="flex items-center gap-2 rounded-lg border border-red-300 bg-card-bg px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 disabled:opacity-50"
+                  >
+                    {cancellingNfe ? <Loader2 size={16} className="animate-spin" /> : <Trash2 size={16} />}
+                    Cancelar NFe
+                  </button>
+                </>
+              )}
+              {(pedido.nfeStatus?.includes("erro") || pedido.nfeStatus?.includes("rejeit")) && (
+                <button
+                  onClick={emitirNfe}
+                  disabled={emittingNfe}
+                  className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+                  style={{ backgroundColor: `var(--brand-green)` }}
+                >
+                  {emittingNfe ? <Loader2 size={16} className="animate-spin" /> : <Receipt size={16} />}
+                  Reemitir
+                </button>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Anexos - Visível em todas as fases */}

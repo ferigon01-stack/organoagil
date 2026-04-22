@@ -22,6 +22,9 @@ export default function EditarProdutoPage() {
     unidade: "un",
     unidadesPorCaixa: "",
     caixaDimensoes: "",
+    ncm: "",
+    origem: "0",
+    cest: "",
   });
 
   useEffect(() => {
@@ -45,6 +48,9 @@ export default function EditarProdutoPage() {
           unidade: data.unidade || "un",
           unidadesPorCaixa: String(data.unidadesPorCaixa ?? ""),
           caixaDimensoes: data.caixaDimensoes ?? "",
+          ncm: data.ncm ?? "",
+          origem: data.origem ?? "0",
+          cest: data.cest ?? "",
         });
       } catch {
         alert("Erro ao carregar produto.");
@@ -82,6 +88,9 @@ export default function EditarProdutoPage() {
           unidade: form.unidade,
           unidadesPorCaixa: parseInt(form.unidadesPorCaixa) || null,
           caixaDimensoes: form.caixaDimensoes || null,
+          ncm: form.ncm || null,
+          origem: form.origem || "0",
+          cest: form.cest || null,
         }),
       });
 
@@ -284,6 +293,65 @@ export default function EditarProdutoPage() {
               />
             </div>
           </div>
+
+          {form.tipo === "PRODUTO" && (
+            <div className="rounded-lg border border-card-border p-4 space-y-4">
+              <h2 className="text-sm font-semibold text-brand-green">
+                Dados Fiscais (NFe)
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-text-primary mb-1">
+                    NCM
+                  </label>
+                  <input
+                    type="text"
+                    name="ncm"
+                    value={form.ncm}
+                    onChange={handleChange}
+                    maxLength={8}
+                    className="w-full border border-input-border rounded-lg px-3 py-2 bg-input-bg text-text-primary focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
+                    placeholder="Ex: 31010000"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-text-primary mb-1">
+                    Origem
+                  </label>
+                  <select
+                    name="origem"
+                    value={form.origem}
+                    onChange={handleChange}
+                    className="w-full border border-input-border rounded-lg px-3 py-2 bg-input-bg text-text-primary focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
+                  >
+                    <option value="0">0 - Nacional</option>
+                    <option value="1">1 - Estrangeira (Importação direta)</option>
+                    <option value="2">2 - Estrangeira (Mercado interno)</option>
+                    <option value="3">3 - Nacional com +40% conteúdo estrangeiro</option>
+                    <option value="4">4 - Nacional com processos produtivos básicos</option>
+                    <option value="5">5 - Nacional com &lt;40% conteúdo estrangeiro</option>
+                    <option value="6">6 - Estrangeira (Importação direta, sem similar)</option>
+                    <option value="7">7 - Estrangeira (Mercado interno, sem similar)</option>
+                    <option value="8">8 - Nacional com +70% conteúdo estrangeiro</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-text-primary mb-1">
+                    CEST (opcional)
+                  </label>
+                  <input
+                    type="text"
+                    name="cest"
+                    value={form.cest}
+                    onChange={handleChange}
+                    maxLength={7}
+                    className="w-full border border-input-border rounded-lg px-3 py-2 bg-input-bg text-text-primary focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
+                    placeholder="Ex: 0101500"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="flex gap-3 pt-2">
             <button

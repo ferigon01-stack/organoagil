@@ -22,12 +22,15 @@ export default function EditarClientePage() {
     cpf: "",
     cnpj: "",
     inscricaoEstadual: "",
+    indicadorIE: "9",
     email: "",
     telefone: "",
     endereco: "",
+    numero: "",
     bairro: "",
     cidade: "",
     estado: "",
+    codigoIbge: "",
     cep: "",
   });
 
@@ -42,12 +45,15 @@ export default function EditarClientePage() {
             cpf: data.cpf || "",
             cnpj: data.cnpj || "",
             inscricaoEstadual: data.inscricaoEstadual || "",
+            indicadorIE: data.indicadorIE || "9",
             email: data.email || "",
             telefone: data.telefone || "",
             endereco: data.endereco || "",
+            numero: data.numero || "",
             bairro: data.bairro || "",
             cidade: data.cidade || "",
             estado: data.estado || "",
+            codigoIbge: data.codigoIbge || "",
             cep: data.cep || "",
           });
         } else {
@@ -201,6 +207,21 @@ export default function EditarClientePage() {
                 placeholder="Inscrição estadual"
               />
             </div>
+            <div className="sm:col-span-2">
+              <label className="mb-1 block text-sm font-medium text-text-primary">
+                Indicador de IE (NFe)
+              </label>
+              <select
+                name="indicadorIE"
+                value={form.indicadorIE}
+                onChange={handleChange}
+                className="w-full rounded-lg border border-input-border px-3 py-2.5 text-sm text-text-primary bg-input-bg focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+              >
+                <option value="1">1 - Contribuinte de ICMS</option>
+                <option value="2">2 - Contribuinte isento de IE</option>
+                <option value="9">9 - Não contribuinte (pessoa física / consumidor final)</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -245,7 +266,7 @@ export default function EditarClientePage() {
             Endereço
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div className="sm:col-span-2">
+            <div>
               <label className="mb-1 block text-sm font-medium text-text-primary">
                 Endereço
               </label>
@@ -255,7 +276,20 @@ export default function EditarClientePage() {
                 value={form.endereco}
                 onChange={handleChange}
                 className="w-full rounded-lg border border-input-border px-3 py-2.5 text-sm text-text-primary bg-input-bg placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
-                placeholder="Rua, número, complemento"
+                placeholder="Rua / logradouro"
+              />
+            </div>
+            <div>
+              <label className="mb-1 block text-sm font-medium text-text-primary">
+                Número
+              </label>
+              <input
+                type="text"
+                name="numero"
+                value={form.numero}
+                onChange={handleChange}
+                className="w-full rounded-lg border border-input-border px-3 py-2.5 text-sm text-text-primary bg-input-bg placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                placeholder="Número"
               />
             </div>
             <div>
@@ -314,6 +348,23 @@ export default function EditarClientePage() {
                   </option>
                 ))}
               </select>
+            </div>
+            <div className="sm:col-span-2">
+              <label className="mb-1 block text-sm font-medium text-text-primary">
+                Código IBGE do Município (NFe)
+              </label>
+              <input
+                type="text"
+                name="codigoIbge"
+                value={form.codigoIbge}
+                onChange={handleChange}
+                maxLength={7}
+                className="w-full rounded-lg border border-input-border px-3 py-2.5 text-sm text-text-primary bg-input-bg placeholder-gray-400 focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+                placeholder="7 dígitos — deixe em branco para buscar automático"
+              />
+              <p className="mt-1 text-xs text-text-muted">
+                Se não souber, deixe em branco — o sistema tenta buscar pelo nome da cidade/UF na emissão da NFe.
+              </p>
             </div>
           </div>
         </div>
