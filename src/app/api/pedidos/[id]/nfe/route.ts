@@ -183,15 +183,39 @@ export async function POST(
 
     const result = await emitirNFe(nfeRef, payload);
 
-    // Focus NFe returns status "processando_autorizacao" initially
+    console.log("[NFe] resposta Focus", {
+      pedidoId: id,
+      nfeRef,
+      httpStatus: result.httpStatus,
+      status: result.status,
+      mensagem_sefaz: result.mensagem_sefaz,
+      mensagem: result.mensagem,
+      codigo: result.codigo,
+      erros: result.erros,
+    });
+
     const status = (result.status || "processando").toLowerCase();
+    const isError =
+      status === "erro" ||
+      status === "rejeitada" ||
+      status === "rejeitado" ||
+      status.startsWith("erro_") ||
+      status.startsWith("denegad") ||
+      status.startsWith("rejeitad") ||
+      result.httpStatus >= 400;
+
+    const errosList = Array.isArray(result.erros) && result.erros.length > 0
+      ? result.erros.map((e) => `[${e.codigo}] ${e.mensagem}`).join(" | ")
+      : null;
+
     let mensagem =
       result.mensagem_sefaz ||
       result.mensagem ||
-      result.erros?.[0]?.mensagem ||
+      errosList ||
       null;
-    if (!mensagem && status === "erro") {
-      const httpInfo = result.httpStatus ? `HTTP ${result.httpStatus}` : "sem resposta";
+
+    if (!mensagem && isError) {
+      const httpInfo = `HTTP ${result.httpStatus}`;
       const body = result.rawBody || JSON.stringify(result);
       mensagem = `${httpInfo} — ${body}`.slice(0, 1000);
     }
@@ -205,7 +229,7 @@ export async function POST(
       },
     });
 
-    return NextResponse.json({ nfeRef, status, mensagem, raw: result });
+    return NextResponse.json({ nfeRef, status, mensagem, isError, raw: result });
   } catch (error) {
     console.error("Erro ao emitir NFe:", error);
     return NextResponse.json(
@@ -228,7 +252,11 @@ export async function GET(
 
     const result = await consultarNFe(pedido.nfeRef);
     const status = (result.status || pedido.nfeStatus || "").toLowerCase();
-    const mensagem = result.mensagem_sefaz || result.mensagem || null;
+    const errosList = Array.isArray(result.erros) && result.erros.length > 0
+      ? result.erros.map((e) => `[${e.codigo}] ${e.mensagem}`).join(" | ")
+      : null;
+    const mensagem =
+      result.mensagem_sefaz || result.mensagem || errosList || null;
 
     const updated = await prisma.pedido.update({
       where: { id },

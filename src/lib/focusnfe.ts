@@ -88,16 +88,9 @@ export interface FocusNFeResponse {
   erros?: Array<{ codigo: string; mensagem: string }>;
 }
 
-export async function emitirNFe(
-  ref: string,
-  payload: FocusNFePayload
-): Promise<FocusNFeResponse & { httpStatus?: number; rawBody?: string }> {
-  const { baseUrl, auth } = getConfig();
-  const res = await fetch(`${baseUrl}/v2/nfe?ref=${encodeURIComponent(ref)}`, {
-    method: "POST",
-    headers: { Authorization: auth, "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
+type FocusNFeRaw = FocusNFeResponse & { httpStatus: number; rawBody: string };
+
+async function parseFocusResponse(res: Response): Promise<FocusNFeRaw> {
   const text = await res.text();
   let data: Record<string, unknown> = {};
   try {
@@ -105,38 +98,70 @@ export async function emitirNFe(
   } catch {
     data = {};
   }
-  if (!res.ok) {
-    console.error("[FocusNFe] emitir falhou", {
-      httpStatus: res.status,
-      ref,
-      body: text.slice(0, 2000),
-    });
-    return { status: "erro", httpStatus: res.status, rawBody: text.slice(0, 2000), ...data };
-  }
-  return data;
+  const rawBody = text.slice(0, 4000);
+  return { httpStatus: res.status, rawBody, ...data };
 }
 
-export async function consultarNFe(ref: string): Promise<FocusNFeResponse> {
+export async function emitirNFe(
+  ref: string,
+  payload: FocusNFePayload
+): Promise<FocusNFeRaw> {
+  const { baseUrl, auth } = getConfig();
+  const res = await fetch(`${baseUrl}/v2/nfe?ref=${encodeURIComponent(ref)}`, {
+    method: "POST",
+    headers: { Authorization: auth, "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  const parsed = await parseFocusResponse(res);
+  if (!res.ok) {
+    console.error("[FocusNFe] emitir falhou", {
+      httpStatus: parsed.httpStatus,
+      ref,
+      body: parsed.rawBody,
+    });
+    return { ...parsed, status: parsed.status || "erro" };
+  }
+  console.log("[FocusNFe] emitir retorno", {
+    httpStatus: parsed.httpStatus,
+    ref,
+    status: parsed.status,
+    mensagem_sefaz: parsed.mensagem_sefaz,
+  });
+  return parsed;
+}
+
+export async function consultarNFe(ref: string): Promise<FocusNFeRaw> {
   const { baseUrl, auth } = getConfig();
   const res = await fetch(`${baseUrl}/v2/nfe/${encodeURIComponent(ref)}`, {
     headers: { Authorization: auth },
   });
-  const data = await res.json().catch(() => ({}));
-  return data;
+  const parsed = await parseFocusResponse(res);
+  console.log("[FocusNFe] consultar retorno", {
+    httpStatus: parsed.httpStatus,
+    ref,
+    status: parsed.status,
+    mensagem_sefaz: parsed.mensagem_sefaz,
+  });
+  return parsed;
 }
 
 export async function cancelarNFe(
   ref: string,
   justificativa: string
-): Promise<FocusNFeResponse> {
+): Promise<FocusNFeRaw> {
   const { baseUrl, auth } = getConfig();
   const res = await fetch(`${baseUrl}/v2/nfe/${encodeURIComponent(ref)}`, {
     method: "DELETE",
     headers: { Authorization: auth, "Content-Type": "application/json" },
     body: JSON.stringify({ justificativa }),
   });
-  const data = await res.json().catch(() => ({}));
-  return data;
+  const parsed = await parseFocusResponse(res);
+  console.log("[FocusNFe] cancelar retorno", {
+    httpStatus: parsed.httpStatus,
+    ref,
+    status: parsed.status,
+  });
+  return parsed;
 }
 
 export async function baixarDanfe(ref: string): Promise<ArrayBuffer | null> {

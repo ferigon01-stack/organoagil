@@ -255,9 +255,9 @@ export default function PedidoDetailPage() {
       const data = await res.json();
       if (!res.ok) {
         alert(data.error || "Erro ao emitir NFe");
-      } else if (data.status === "erro" || data.status === "rejeitado") {
+      } else if (data.isError) {
         alert(
-          `NFe rejeitada pela Focus/SEFAZ.\n\nMotivo: ${data.mensagem || "sem detalhes"}`
+          `NFe rejeitada pela Focus/SEFAZ.\n\nStatus: ${data.status}\nMotivo: ${data.mensagem || "sem detalhes — veja os logs da Vercel"}`
         );
         fetchPedido();
       } else {
