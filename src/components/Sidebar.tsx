@@ -11,6 +11,7 @@ import {
   ShoppingCart,
   DollarSign,
   Calculator,
+  MapPin,
   LogOut,
   Menu,
   X,
@@ -23,6 +24,7 @@ const navItems = [
   { href: "/clientes", label: "Clientes", icon: Users },
   { href: "/produtos", label: "Produtos", icon: Package },
   { href: "/pedidos", label: "Pedidos", icon: ShoppingCart },
+  { href: "/visitas", label: "Visitas", icon: MapPin },
   { href: "/financeiro", label: "Financeiro", icon: DollarSign },
   { href: "/custos", label: "Custos", icon: Calculator },
 ];

@@ -33,6 +33,7 @@ model Cliente {
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
   pedidos           Pedido[]
+  visitas           Visita[]
 }
 
 model Produto {
@@ -106,6 +107,28 @@ model ItemPedido {
   pesoTotal  Float   // quantidade * peso do produto
   precoUnit  Float
   subtotal   Float
+}
+
+model Visita {
+  id          String         @id @default(cuid())
+  clienteId   String
+  cliente     Cliente        @relation(fields: [clienteId], references: [id])
+  data        DateTime
+  observacoes String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  anexos      AnexoVisita[]
+}
+
+model AnexoVisita {
+  id        String   @id @default(cuid())
+  visitaId  String
+  visita    Visita   @relation(fields: [visitaId], references: [id], onDelete: Cascade)
+  nome      String
+  tipo      String   // mime type
+  tamanho   Int      // bytes
+  dados     String   // base64 encoded file
+  createdAt DateTime @default(now())
 }
 
 model Despesa {
