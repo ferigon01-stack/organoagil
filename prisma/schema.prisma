@@ -55,6 +55,9 @@ model Produto {
   ncm              String?       // código NCM (8 dígitos)
   origem           String        @default("0") // 0-8, 0 = nacional
   cest             String?       // código CEST (opcional)
+  // Loja pública (landings de influencer)
+  vitrineLoja      Boolean       @default(false)
+  imagemUrl        String?       // imagem exibida na vitrine pública
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
   itensPedido      ItemPedido[]
@@ -86,6 +89,9 @@ model Pedido {
   nfeChave        String?
   nfeDataEmissao  DateTime?
   nfeMensagem     String?      // mensagem de erro ou justificativa de cancelamento
+  // Origem (landing de influencer)
+  influencerId    String?
+  influencer      Influencer?  @relation(fields: [influencerId], references: [id])
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
   itens           ItemPedido[]
@@ -166,4 +172,18 @@ enum CategoriaDespesa {
   IMPOSTOS
   SISTEMAS
   OUTROS
+}
+
+model Influencer {
+  id          String   @id @default(cuid())
+  slug        String   @unique // ex: "marina" — vira /i/marina
+  nome        String
+  telefone    String?
+  comissaoPct Float    @default(0) // ex: 10 = 10%
+  ativo       Boolean  @default(true)
+  observacoes String?
+  fotoUrl     String?  // foto da influencer pra avatar da landing
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  pedidos     Pedido[]
 }

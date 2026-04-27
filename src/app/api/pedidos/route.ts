@@ -6,6 +6,7 @@ export async function GET() {
     const pedidos = await prisma.pedido.findMany({
       include: {
         cliente: true,
+        influencer: true,
         itens: {
           include: { produto: true },
         },

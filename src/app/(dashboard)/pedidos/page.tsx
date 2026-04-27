@@ -19,6 +19,7 @@ interface Pedido {
   pesoTotal: number;
   createdAt: string;
   cliente: { nome: string };
+  influencer?: { nome: string; slug: string } | null;
 }
 
 const FASES = [
@@ -201,9 +202,14 @@ export default function PedidosPage() {
                           {formatCurrency(pedido.valorTotal)}
                         </span>
                       </div>
-                      <p className="mb-2 text-sm text-text-secondary">
+                      <p className="mb-1 text-sm text-text-secondary">
                         {pedido.cliente.nome}
                       </p>
+                      {pedido.influencer && (
+                        <p className="mb-2 inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-medium text-amber-700">
+                          via {pedido.influencer.nome}
+                        </p>
+                      )}
                       <div className="flex items-center gap-3 text-xs text-text-muted">
                         <span className="flex items-center gap-1">
                           <Weight size={12} />
@@ -250,7 +256,12 @@ export default function PedidosPage() {
                       #{pedido.numero}
                     </td>
                     <td className="px-4 py-3 text-text-secondary">
-                      {pedido.cliente.nome}
+                      <div>{pedido.cliente.nome}</div>
+                      {pedido.influencer && (
+                        <div className="mt-0.5 inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-medium text-amber-700">
+                          via {pedido.influencer.nome}
+                        </div>
+                      )}
                     </td>
                     <td className="px-4 py-3">
                       <span

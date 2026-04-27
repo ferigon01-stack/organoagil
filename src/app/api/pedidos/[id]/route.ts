@@ -11,6 +11,7 @@ export async function GET(
       where: { id },
       include: {
         cliente: true,
+        influencer: true,
         itens: { include: { produto: true } },
       },
     });

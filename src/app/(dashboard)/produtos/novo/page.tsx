@@ -21,12 +21,17 @@ export default function NovoProdutoPage() {
     ncm: "",
     origem: "0",
     cest: "",
+    vitrineLoja: false,
+    imagemUrl: "",
   });
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const target = e.target as HTMLInputElement;
+    const value =
+      target.type === "checkbox" ? target.checked : target.value;
+    setForm({ ...form, [e.target.name]: value });
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -51,6 +56,8 @@ export default function NovoProdutoPage() {
           ncm: form.ncm || null,
           origem: form.origem || "0",
           cest: form.cest || null,
+          vitrineLoja: form.vitrineLoja,
+          imagemUrl: form.imagemUrl || null,
         }),
       });
 
@@ -245,6 +252,42 @@ export default function NovoProdutoPage() {
               />
             </div>
           </div>
+
+          {form.tipo === "PRODUTO" && (
+            <div className="rounded-lg border border-card-border p-4 space-y-4">
+              <h2 className="text-sm font-semibold text-brand-green">
+                Loja pública (landings de influencer)
+              </h2>
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  name="vitrineLoja"
+                  checked={form.vitrineLoja}
+                  onChange={handleChange}
+                  className="w-4 h-4"
+                />
+                <span className="text-sm text-text-primary">
+                  Mostrar este produto nas páginas das influencers
+                </span>
+              </label>
+              <div>
+                <label className="block text-sm font-medium text-text-primary mb-1">
+                  URL da imagem (opcional)
+                </label>
+                <input
+                  type="text"
+                  name="imagemUrl"
+                  value={form.imagemUrl}
+                  onChange={handleChange}
+                  placeholder="/produtos/bioguard.jpeg"
+                  className="w-full border border-input-border rounded-lg px-3 py-2 bg-input-bg text-text-primary focus:ring-2 focus:ring-[#b8960c] focus:border-[#b8960c] outline-none transition-colors"
+                />
+                <span className="text-xs text-text-secondary mt-1 block">
+                  Caminho local (ex: /produtos/bioguard.jpeg) ou URL completa.
+                </span>
+              </div>
+            </div>
+          )}
 
           {form.tipo === "PRODUTO" && (
             <div className="rounded-lg border border-card-border p-4 space-y-4">
