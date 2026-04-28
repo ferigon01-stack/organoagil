@@ -1,18 +1,113 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Award,
+  Bug,
+  Check,
+  Heart,
+  Home,
   Leaf,
   Loader2,
   Minus,
+  PawPrint,
   Plus,
   ShieldCheck,
   ShoppingBag,
   Sparkles,
+  Timer,
   X,
 } from "lucide-react";
+
+function Fly({
+  className,
+  style,
+}: {
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <svg
+      className={className}
+      style={style}
+      width="36"
+      height="32"
+      viewBox="0 0 60 50"
+      fill="none"
+      aria-hidden={true}
+    >
+      {/* asa esquerda */}
+      <path
+        d="M28 18 C 14 8, 4 12, 2 22 C 4 28, 16 26, 28 22 Z"
+        fill="rgba(220,220,220,0.25)"
+        stroke="currentColor"
+        strokeWidth="0.6"
+      />
+      <path
+        d="M8 16 Q 18 18, 24 22 M 6 22 Q 16 22, 24 22 M 10 26 Q 18 25, 24 22"
+        stroke="currentColor"
+        strokeWidth="0.4"
+        fill="none"
+        opacity="0.7"
+      />
+      {/* asa direita */}
+      <path
+        d="M32 18 C 46 8, 56 12, 58 22 C 56 28, 44 26, 32 22 Z"
+        fill="rgba(220,220,220,0.25)"
+        stroke="currentColor"
+        strokeWidth="0.6"
+      />
+      <path
+        d="M52 16 Q 42 18, 36 22 M 54 22 Q 44 22, 36 22 M 50 26 Q 42 25, 36 22"
+        stroke="currentColor"
+        strokeWidth="0.4"
+        fill="none"
+        opacity="0.7"
+      />
+      {/* tórax */}
+      <ellipse cx="30" cy="22" rx="6" ry="5" fill="currentColor" />
+      {/* abdômen segmentado */}
+      <ellipse cx="30" cy="33" rx="7" ry="9" fill="currentColor" />
+      <path
+        d="M24 29 Q 30 30, 36 29 M 24 33 Q 30 34, 36 33 M 25 37 Q 30 38, 35 37"
+        stroke="rgba(220,220,220,0.4)"
+        strokeWidth="0.6"
+        fill="none"
+      />
+      {/* cabeça */}
+      <ellipse cx="30" cy="13" rx="5" ry="4.5" fill="currentColor" />
+      {/* olhos */}
+      <ellipse cx="27" cy="12" rx="2" ry="2.5" fill="#5b1a1a" />
+      <ellipse cx="33" cy="12" rx="2" ry="2.5" fill="#5b1a1a" />
+      <circle cx="26.5" cy="11.5" r="0.5" fill="#fff" opacity="0.7" />
+      <circle cx="32.5" cy="11.5" r="0.5" fill="#fff" opacity="0.7" />
+      {/* antenas */}
+      <path
+        d="M28 9 Q 27 6, 26 4 M 32 9 Q 33 6, 34 4"
+        stroke="currentColor"
+        strokeWidth="0.7"
+        fill="none"
+        strokeLinecap="round"
+      />
+      {/* pernas */}
+      <path
+        d="M26 24 L 20 30 L 18 35 M 27 26 L 22 33 L 20 39 M 28 27 L 24 36 L 23 42"
+        stroke="currentColor"
+        strokeWidth="0.8"
+        fill="none"
+        strokeLinecap="round"
+      />
+      <path
+        d="M34 24 L 40 30 L 42 35 M 33 26 L 38 33 L 40 39 M 32 27 L 36 36 L 37 42"
+        stroke="currentColor"
+        strokeWidth="0.8"
+        fill="none"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
 
 interface ProdutoLoja {
   id: string;
@@ -51,6 +146,26 @@ function formatCep(raw: string) {
 }
 
 export default function StoreClient({ influencer, produtos }: Props) {
+  const pageRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!pageRef.current) return;
+    const targets = pageRef.current.querySelectorAll<HTMLElement>("[data-reveal]");
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.setAttribute("data-revealed", "true");
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+    );
+    targets.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
   const [carrinho, setCarrinho] = useState<Record<string, number>>({});
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [enviando, setEnviando] = useState(false);
@@ -169,14 +284,21 @@ export default function StoreClient({ influencer, produtos }: Props) {
   }
 
   return (
-    <div className="pb-32 bg-[#fbf9f2]">
+    <div ref={pageRef} className="pb-32 bg-[#0a1f12]">
+      <div className="fly-zone" aria-hidden={true}>
+        <Fly className="fly fly-1" />
+        <Fly className="fly fly-2" />
+        <Fly className="fly fly-3" />
+        <Fly className="fly fly-4" />
+        <Fly className="fly fly-5" />
+      </div>
       <section
-        className="relative text-white px-4 sm:px-6 pt-5 pb-12 sm:pt-6 sm:pb-20"
+        className="relative text-white px-4 sm:px-6 pt-5 pb-14 sm:pt-6 sm:pb-24"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(15,46,26,0.72), rgba(15,46,26,0.88)), url(/hero-bioguard.jpg)",
+            "linear-gradient(180deg, rgba(15,46,26,0.62) 0%, rgba(10,31,18,0.55) 40%, rgba(10,31,18,0.94) 100%), url(/hero-cavalo.jpg)",
           backgroundSize: "cover",
-          backgroundPosition: "center 30%",
+          backgroundPosition: "center center",
           backgroundRepeat: "no-repeat",
         }}
       >
@@ -207,51 +329,208 @@ export default function StoreClient({ influencer, produtos }: Props) {
           </div>
         </div>
 
-        <div className="max-w-2xl mx-auto text-center mt-10 sm:mt-14">
-          <p className="inline-flex items-center gap-1 bg-[#d4b23a]/15 text-[#e8c94a] text-[11px] font-semibold uppercase tracking-wider px-3 py-1 rounded-full">
-            <Sparkles size={12} /> Venda Exclusiva
-          </p>
-          <h2 className="mt-4 text-2xl sm:text-3xl font-extrabold leading-tight">
-            Proteção contra insetos{" "}
-            <span className="text-[#e8c94a]">de verdade</span>, sem complicação.
-          </h2>
-          <p className="mt-3 text-sm sm:text-base text-white/80 max-w-md mx-auto">
-            Eficaz contra todos os invertebrados — com ação imediata e residual
-            de até 3 dias.
-          </p>
-        </div>
-      </section>
-
-      <section className="bg-white border-y border-[#e8d9a8]/40 px-4 sm:px-6 py-4">
-        <div className="max-w-2xl mx-auto grid grid-cols-3 gap-2 text-center">
-          <div className="flex flex-col items-center gap-1">
-            <Award size={20} className="text-[#b8960c]" />
-            <span className="text-[11px] sm:text-xs font-semibold text-[#1a4d2e] leading-tight">
-              Melhor
-              <br />
-              custo-benefício
-            </span>
-          </div>
-          <div className="flex flex-col items-center gap-1">
-            <Leaf size={20} className="text-[#b8960c]" />
-            <span className="text-[11px] sm:text-xs font-semibold text-[#1a4d2e] leading-tight">
-              Tecnologia
-              <br />
-              orgânica
-            </span>
-          </div>
-          <div className="flex flex-col items-center gap-1">
-            <ShieldCheck size={20} className="text-[#b8960c]" />
-            <span className="text-[11px] sm:text-xs font-semibold text-[#1a4d2e] leading-tight">
-              Uso
-              <br />
-              doméstico
-            </span>
+        <div
+          data-reveal
+          className="max-w-xl mx-auto text-center mt-10 sm:mt-14 relative"
+        >
+          <div
+            aria-hidden
+            className="absolute inset-0 -inset-x-4 sm:-inset-x-8 -inset-y-4 sm:-inset-y-6 rounded-3xl"
+            style={{
+              background:
+                "radial-gradient(ellipse at center, rgba(10,31,18,0.85) 0%, rgba(10,31,18,0.55) 60%, rgba(10,31,18,0) 100%)",
+            }}
+          />
+          <div className="relative">
+            <p className="inline-flex items-center gap-1 bg-[#d4b23a]/20 text-[#e8c94a] text-[11px] font-semibold uppercase tracking-wider px-3 py-1 rounded-full ring-1 ring-[#d4b23a]/40">
+              <Sparkles size={12} /> Venda Exclusiva
+            </p>
+            <h2 className="mt-4 text-2xl sm:text-4xl font-extrabold leading-tight drop-shadow-lg">
+              Proteção contra insetos{" "}
+              <span className="text-[#e8c94a]">de verdade</span>, sem
+              complicação.
+            </h2>
+            <p className="mt-3 text-sm sm:text-base text-white/85 max-w-md mx-auto">
+              Eficaz contra todos os invertebrados — com ação imediata e
+              residual de até 3 dias.
+            </p>
           </div>
         </div>
       </section>
 
-      <main className="max-w-2xl mx-auto px-4 sm:px-6 pt-6">
+      <section
+        data-reveal
+        className="px-4 sm:px-6 py-8"
+        style={{ backgroundColor: "#ede4cc" }}
+      >
+        <div className="max-w-2xl mx-auto grid grid-cols-3 gap-3 sm:gap-4 text-center">
+          {[
+            { Icon: Award, l1: "Melhor", l2: "custo-benefício" },
+            { Icon: Leaf, l1: "Tecnologia", l2: "orgânica" },
+            { Icon: ShieldCheck, l1: "Uso", l2: "doméstico" },
+          ].map(({ Icon, l1, l2 }, idx) => (
+            <div
+              key={l1}
+              data-reveal={idx === 0 ? "left" : idx === 2 ? "right" : "up"}
+              style={{ ["--reveal-delay" as string]: `${idx * 120}ms` }}
+              className="flex flex-col items-center gap-2"
+            >
+              <div
+                className="rounded-full flex items-center justify-center"
+                style={{
+                  width: 60,
+                  height: 60,
+                  background:
+                    "radial-gradient(circle at 30% 30%, #e8c94a, #8a6e0a)",
+                  border: "2px solid #ede4cc",
+                  boxShadow:
+                    "0 0 0 2px #b8960c, 0 6px 14px rgba(138,110,10,0.25)",
+                }}
+              >
+                <Icon size={24} className="text-white drop-shadow" />
+              </div>
+              <span className="text-[11px] sm:text-xs font-bold text-[#1a4d2e] leading-tight uppercase tracking-wide">
+                {l1}
+                <br />
+                {l2}
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section
+        className="px-4 sm:px-6 py-14 sm:py-20"
+        style={{ backgroundColor: "#0a1f12" }}
+      >
+        <div className="max-w-2xl mx-auto text-center">
+          <div data-reveal>
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <span className="h-px w-12 bg-[#d4b23a]/40" />
+              <Sparkles size={14} className="text-[#d4b23a]" />
+              <span className="h-px w-12 bg-[#d4b23a]/40" />
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
+              Pra quem é o <span className="text-[#e8c94a]">BioGuard</span>
+            </h3>
+            <p className="text-white/60 text-sm mt-2 max-w-md mx-auto">
+              Pensado pra proteger quem mais importa, sem agredir.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-8">
+            {[
+              { Icon: PawPrint, label: "Pets" },
+              { Icon: Home, label: "Sua casa" },
+              { Icon: Heart, label: "Família" },
+              { Icon: Leaf, label: "Plantação" },
+            ].map(({ Icon, label }, idx) => (
+              <div
+                key={label}
+                data-reveal={idx % 2 === 0 ? "left" : "right"}
+                className="rounded-2xl border border-[#d4b23a]/30 px-3 py-5 sm:py-6"
+                style={{
+                  backgroundColor: "rgba(15,46,26,0.7)",
+                  ["--reveal-delay" as string]: `${idx * 110}ms`,
+                }}
+              >
+                <Icon
+                  size={28}
+                  className="mx-auto text-[#e8c94a]"
+                  strokeWidth={1.5}
+                />
+                <p className="mt-3 text-sm font-bold text-white uppercase tracking-wide">
+                  {label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section
+        className="px-4 sm:px-6 py-14 sm:py-20"
+        style={{ backgroundColor: "#ede4cc" }}
+      >
+        <div className="max-w-2xl mx-auto">
+          <div data-reveal className="text-center mb-8">
+            <span className="text-[11px] font-semibold uppercase tracking-widest text-[#b8960c]">
+              Por que escolher
+            </span>
+            <h3 className="mt-2 text-2xl sm:text-3xl font-extrabold text-[#0a1f12]">
+              Tecnologia que cuida de quem você ama
+            </h3>
+          </div>
+
+          <ul className="space-y-3">
+            {[
+              {
+                Icon: Timer,
+                title: "Ação imediata + residual de 3 dias",
+                desc: "Mata na hora e continua protegendo enquanto você cuida da rotina.",
+              },
+              {
+                Icon: Bug,
+                title: "Eficaz contra todos os invertebrados",
+                desc: "Mosquitos, baratas, formigas, aranhas, pulgas — tudo num só produto.",
+              },
+              {
+                Icon: Leaf,
+                title: "Tecnologia orgânica",
+                desc: "Aroma de citronela, sem cheiro tóxico. Respeitoso com pets e crianças.",
+              },
+              {
+                Icon: Award,
+                title: "Melhor custo-benefício do mercado",
+                desc: "Você protege a casa toda gastando menos do que com vários produtos diferentes.",
+              },
+            ].map(({ Icon, title, desc }, idx) => (
+              <li
+                key={title}
+                data-reveal={idx % 2 === 0 ? "left" : "right"}
+                className="flex gap-3 sm:gap-4 rounded-xl p-4 sm:p-5 bg-white border border-[#c9b988]/50 shadow-sm"
+                style={{ ["--reveal-delay" as string]: `${idx * 110}ms` }}
+              >
+                <div
+                  className="shrink-0 rounded-full flex items-center justify-center"
+                  style={{
+                    width: 44,
+                    height: 44,
+                    background:
+                      "radial-gradient(circle at 30% 30%, #e8c94a, #8a6e0a)",
+                  }}
+                >
+                  <Icon size={20} className="text-white" />
+                </div>
+                <div>
+                  <p className="font-bold text-[#0a1f12] text-sm sm:text-base flex items-center gap-2">
+                    <Check size={14} className="text-[#b8960c]" />
+                    {title}
+                  </p>
+                  <p className="text-gray-600 text-sm mt-1 leading-relaxed">
+                    {desc}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <main
+        data-reveal
+        className="px-4 sm:px-6 pt-14 sm:pt-20 pb-10"
+        style={{ backgroundColor: "#0a1f12" }}
+      >
+        <div className="max-w-2xl mx-auto">
+          <div className="text-center mb-6">
+            <span className="text-[11px] font-semibold uppercase tracking-widest text-[#d4b23a]">
+              Garanta o seu
+            </span>
+            <h3 className="mt-1 text-2xl sm:text-3xl font-extrabold text-white">
+              Proteção começa aqui
+            </h3>
+          </div>
         {produtos.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-xl border border-gray-200">
             <p className="text-gray-500">
@@ -265,7 +544,7 @@ export default function StoreClient({ influencer, produtos }: Props) {
               return (
                 <article
                   key={produto.id}
-                  className="bg-white rounded-2xl border border-[#e8d9a8]/60 overflow-hidden shadow-md"
+                  className="bg-white rounded-2xl border-2 border-[#c9b988]/70 overflow-hidden shadow-lg"
                 >
                   {produto.imagemUrl ? (
                     <div
@@ -341,16 +620,36 @@ export default function StoreClient({ influencer, produtos }: Props) {
           </div>
         )}
 
-        <div className="mt-8 mb-2 text-center">
-          <p className="text-base sm:text-lg font-bold text-[#1a4d2e]">
+        <div className="mt-12 mb-2 text-center">
+          <div className="flex items-center justify-center gap-3 mb-5">
+            <span className="h-px w-16 bg-[#d4b23a]/40" />
+            <PawPrint size={16} className="text-[#d4b23a]" />
+            <span className="h-px w-16 bg-[#d4b23a]/40" />
+          </div>
+          <p className="text-lg sm:text-xl font-extrabold text-white">
             BioGuard:{" "}
-            <span className="text-[#b8960c]">
+            <span className="text-[#e8c94a]">
               proteção prática, resultado real.
             </span>
           </p>
-          <p className="mt-2 text-xs text-gray-500">
+          <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#d4b23a]/30 bg-[#0f2e1a]/60">
+            <PawPrint size={14} className="text-[#e8c94a]" />
+            <span className="text-xs text-white/80 font-medium">
+              Em parceria com{" "}
+              <a
+                href="https://www.instagram.com/petpraserfeliz_"
+                target="_blank"
+                rel="noreferrer"
+                className="text-[#e8c94a] hover:underline"
+              >
+                @petpraserfeliz_
+              </a>
+            </span>
+          </div>
+          <p className="mt-5 text-xs text-white/40">
             Pedido feito direto pelo WhatsApp da Organo Ágil.
           </p>
+        </div>
         </div>
       </main>
 

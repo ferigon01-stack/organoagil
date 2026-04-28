@@ -3,5 +3,12 @@ export default function LojaLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="min-h-screen bg-white text-gray-900">{children}</div>;
+  return (
+    <div
+      className="min-h-screen"
+      style={{ backgroundColor: "#0a1f12" }}
+    >
+      {children}
+    </div>
+  );
 }
