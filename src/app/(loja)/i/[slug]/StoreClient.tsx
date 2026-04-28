@@ -20,6 +20,144 @@ import {
   X,
 } from "lucide-react";
 
+function SprayBottle({
+  className,
+  style,
+}: {
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <svg
+      className={className}
+      style={style}
+      viewBox="0 0 100 200"
+      width="100"
+      height="200"
+      aria-hidden={true}
+    >
+      <defs>
+        <linearGradient id="bottleBody" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#e8e8e8" />
+          <stop offset="20%" stopColor="#ffffff" />
+          <stop offset="60%" stopColor="#fafafa" />
+          <stop offset="100%" stopColor="#d8d8d8" />
+        </linearGradient>
+        <linearGradient id="triggerGreen" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#0f2e1a" />
+          <stop offset="50%" stopColor="#2d6b3f" />
+          <stop offset="100%" stopColor="#0f2e1a" />
+        </linearGradient>
+        <linearGradient id="labelDark" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#0f2e1a" />
+          <stop offset="100%" stopColor="#1a4d2e" />
+        </linearGradient>
+      </defs>
+
+      {/* gatilho/cabeça branca */}
+      <path
+        d="M40 8 Q34 10 34 22 L34 34 L62 34 L62 22 Q62 10 56 8 Z"
+        fill="url(#bottleBody)"
+        stroke="#0f2e1a"
+        strokeWidth="0.8"
+      />
+      {/* bocal/tampa */}
+      <rect x="44" y="2" width="12" height="8" fill="url(#bottleBody)" stroke="#0f2e1a" strokeWidth="0.6" rx="1" />
+      {/* gatilho lateral verde */}
+      <path
+        d="M34 18 L 18 24 Q 12 26 12 32 L 12 38 Q 12 42 16 44 L 26 42 L 34 38 Z"
+        fill="url(#triggerGreen)"
+        stroke="#0a1f12"
+        strokeWidth="0.6"
+      />
+      {/* bocal preto na ponta do gatilho */}
+      <rect x="10" y="30" width="4" height="6" fill="#1a1a1a" rx="0.5" />
+
+      {/* anel verde do gargalo */}
+      <rect x="30" y="34" width="40" height="10" fill="url(#triggerGreen)" stroke="#0a1f12" strokeWidth="0.6" />
+      {/* nervuras do anel */}
+      <line x1="34" y1="36" x2="34" y2="42" stroke="#0a1f12" strokeWidth="0.4" opacity="0.6" />
+      <line x1="40" y1="36" x2="40" y2="42" stroke="#0a1f12" strokeWidth="0.4" opacity="0.6" />
+      <line x1="46" y1="36" x2="46" y2="42" stroke="#0a1f12" strokeWidth="0.4" opacity="0.6" />
+      <line x1="52" y1="36" x2="52" y2="42" stroke="#0a1f12" strokeWidth="0.4" opacity="0.6" />
+      <line x1="58" y1="36" x2="58" y2="42" stroke="#0a1f12" strokeWidth="0.4" opacity="0.6" />
+      <line x1="64" y1="36" x2="64" y2="42" stroke="#0a1f12" strokeWidth="0.4" opacity="0.6" />
+
+      {/* corpo da garrafa (alongado, ombros suaves) */}
+      <path
+        d="M28 44 Q 22 50 22 60 L 22 178 Q 22 192 36 192 L 64 192 Q 78 192 78 178 L 78 60 Q 78 50 72 44 Z"
+        fill="url(#bottleBody)"
+        stroke="#0f2e1a"
+        strokeWidth="1"
+      />
+
+      {/* rótulo verde com bordas douradas */}
+      <rect x="24" y="72" width="52" height="76" fill="url(#labelDark)" stroke="#b8960c" strokeWidth="1.5" />
+      <rect x="26" y="74" width="48" height="72" fill="none" stroke="#d4b23a" strokeWidth="0.4" opacity="0.7" />
+      {/* faixas douradas */}
+      <rect x="24" y="70" width="52" height="2" fill="#b8960c" />
+      <rect x="24" y="148" width="52" height="2" fill="#b8960c" />
+
+      {/* logo Organo Ágil mini (folha estilizada) */}
+      <g transform="translate(50,84)">
+        <circle r="5" fill="#fafafa" />
+        <path d="M -2 -1 Q 0 -3 2 -1 Q 1 1 0 0 Q -1 1 -2 -1 Z" fill="#1a4d2e" />
+        <path d="M 0 0 L 1 2" stroke="#b8960c" strokeWidth="0.6" />
+      </g>
+      <text x="50" y="98" textAnchor="middle" fill="#fafafa" fontSize="2.6" fontFamily="system-ui, sans-serif" fontWeight="700" letterSpacing="0.2">
+        Organo Ágil
+      </text>
+
+      {/* faixa dourada com BIOGUARD */}
+      <rect x="28" y="102" width="44" height="14" fill="#b8960c" />
+      <text
+        x="50"
+        y="113"
+        textAnchor="middle"
+        fill="#0f2e1a"
+        fontSize="9"
+        fontWeight="900"
+        fontFamily="system-ui, sans-serif"
+        letterSpacing="0.5"
+      >
+        BIOGUARD
+      </text>
+
+      {/* descrição */}
+      <text x="50" y="122" textAnchor="middle" fill="#fafafa" fontSize="2.5" fontFamily="system-ui, sans-serif" letterSpacing="0.1">
+        INSETICIDA HÍBRIDO
+      </text>
+      <text x="50" y="126" textAnchor="middle" fill="#fafafa" fontSize="2.5" fontFamily="system-ui, sans-serif" letterSpacing="0.1">
+        DE AÇÃO AMPLA
+      </text>
+
+      {/* 3 selos dourados de insetos */}
+      <g>
+        <circle cx="36" cy="135" r="3.2" fill="#b8960c" />
+        <circle cx="50" cy="135" r="3.2" fill="#b8960c" />
+        <circle cx="64" cy="135" r="3.2" fill="#b8960c" />
+        <text x="36" y="137" textAnchor="middle" fill="#0f2e1a" fontSize="3.5">🐜</text>
+        <text x="50" y="137" textAnchor="middle" fill="#0f2e1a" fontSize="3.5">🦟</text>
+        <text x="64" y="137" textAnchor="middle" fill="#0f2e1a" fontSize="3.5">🪳</text>
+      </g>
+
+      {/* tagline embaixo */}
+      <text x="50" y="146" textAnchor="middle" fill="#d4b23a" fontSize="2.3" fontFamily="system-ui, sans-serif">
+        Proteção inteligente
+      </text>
+
+      {/* selos pretos abaixo do rótulo */}
+      <text x="50" y="158" textAnchor="middle" fill="#0f2e1a" fontSize="2.2" fontFamily="system-ui, sans-serif" fontWeight="700">
+        500ml · citronela
+      </text>
+
+      {/* highlight lateral */}
+      <rect x="26" y="48" width="3" height="138" fill="#ffffff" opacity="0.5" rx="1" />
+      <rect x="71" y="48" width="2" height="138" fill="#000000" opacity="0.08" rx="1" />
+    </svg>
+  );
+}
+
 function Fly({
   className,
   style,
@@ -289,8 +427,26 @@ export default function StoreClient({ influencer, produtos }: Props) {
         <Fly className="fly fly-1" />
         <Fly className="fly fly-2" />
         <Fly className="fly fly-3" />
-        <Fly className="fly fly-4" />
-        <Fly className="fly fly-5" />
+        <Fly className="fly fly-target" />
+        <Fly className="fly fly-target-left" />
+      </div>
+      <div className="spray-zone spray-zone-right" aria-hidden={true}>
+        <SprayBottle className="spray-bottle" />
+        <span className="droplet droplet-1" />
+        <span className="droplet droplet-2" />
+        <span className="droplet droplet-3" />
+        <span className="droplet droplet-4" />
+        <span className="droplet droplet-5" />
+        <span className="droplet droplet-6" />
+      </div>
+      <div className="spray-zone spray-zone-left" aria-hidden={true}>
+        <SprayBottle className="spray-bottle" />
+        <span className="droplet droplet-1" />
+        <span className="droplet droplet-2" />
+        <span className="droplet droplet-3" />
+        <span className="droplet droplet-4" />
+        <span className="droplet droplet-5" />
+        <span className="droplet droplet-6" />
       </div>
       <section
         className="relative text-white px-4 sm:px-6 pt-5 pb-14 sm:pt-6 sm:pb-24"
