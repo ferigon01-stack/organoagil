@@ -438,8 +438,12 @@ export default function StoreClient({ influencer, produtos }: Props) {
         <Fly className="fly fly-1" />
         <Fly className="fly fly-2" />
         <Fly className="fly fly-3" />
-        <Fly className="fly fly-target" />
-        <Fly className="fly fly-target-left" />
+        <Fly className="fly fly-target target-r1" />
+        <Fly className="fly fly-target target-r2" />
+        <Fly className="fly fly-target target-r3" />
+        <Fly className="fly fly-target-left target-l1" />
+        <Fly className="fly fly-target-left target-l2" />
+        <Fly className="fly fly-target-left target-l3" />
       </div>
       <div className="spray-zone spray-zone-right" aria-hidden={true}>
         <SprayBottle className="spray-bottle" />
