@@ -285,6 +285,7 @@ function formatCep(raw: string) {
 
 export default function StoreClient({ influencer, produtos }: Props) {
   const pageRef = useRef<HTMLDivElement>(null);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     if (!pageRef.current) return;
@@ -302,6 +303,13 @@ export default function StoreClient({ influencer, produtos }: Props) {
     );
     targets.forEach((el) => io.observe(el));
     return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 220);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const [carrinho, setCarrinho] = useState<Record<string, number>>({});
@@ -422,7 +430,10 @@ export default function StoreClient({ influencer, produtos }: Props) {
   }
 
   return (
-    <div ref={pageRef} className="pb-32 bg-[#0a1f12]">
+    <div
+      ref={pageRef}
+      className={`pb-32 bg-[#0a1f12] ${scrolled ? "scrolled" : ""}`}
+    >
       <div className="fly-zone" aria-hidden={true}>
         <Fly className="fly fly-1" />
         <Fly className="fly fly-2" />
