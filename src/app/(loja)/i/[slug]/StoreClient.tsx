@@ -435,9 +435,6 @@ export default function StoreClient({ influencer, produtos }: Props) {
       className={`pb-32 bg-[#0a1f12] ${scrolled ? "scrolled" : ""}`}
     >
       <div className="fly-zone" aria-hidden={true}>
-        <Fly className="fly fly-1" />
-        <Fly className="fly fly-2" />
-        <Fly className="fly fly-3" />
         <Fly className="fly fly-target target-r1" />
         <Fly className="fly fly-target target-r2" />
         <Fly className="fly fly-target target-r3" />
