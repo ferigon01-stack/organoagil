@@ -174,9 +174,9 @@ body {
   70%  { transform: translate(65vw, 90vh) rotate(10deg); }
   100% { transform: translate(calc(100vw + 80px), 84vh) rotate(0deg); }
 }
-.fly-1 { animation: fly-path-a 12s linear infinite; }
-.fly-2 { animation: fly-path-b 15s linear infinite; animation-delay: 3s; }
-.fly-3 { animation: fly-path-c 17s linear infinite; animation-delay: 6s; }
+.fly-1 { animation: fly-path-a 22s linear infinite; }
+.fly-2 { animation: fly-path-b 26s linear infinite; animation-delay: 6s; }
+.fly-3 { animation: fly-path-c 30s linear infinite; animation-delay: 12s; }
 @media (prefers-reduced-motion: reduce) {
   .fly-zone { display: none; }
 }
@@ -219,9 +219,9 @@ body {
   transform: rotate(-25deg);
   transform-origin: 70% 70%;
   filter: drop-shadow(0 6px 10px rgba(0,0,0,0.4));
-  animation: spray-pulse 8s ease-in-out infinite;
+  animation: spray-pulse 10s ease-in-out infinite;
 }
-.spray-zone-left .spray-bottle { animation-delay: 4s; }
+.spray-zone-left .spray-bottle { animation-delay: 5s; }
 
 @keyframes spray-pulse {
   0%, 8% { transform: rotate(-25deg) scale(1); }
@@ -250,13 +250,13 @@ body {
   30%      { transform: translate(-95px, -38px) scale(0.6) rotate(80deg); opacity: 0; }
   100%     { opacity: 0; transform: translate(0, 0) scale(0.5); }
 }
-.droplet-1 { animation: droplet-shoot 8s ease-out infinite; animation-delay: 0s;    width: 5px; height: 7px; }
-.droplet-2 { animation: droplet-shoot 8s ease-out infinite; animation-delay: 0.08s; left: 6px;  top: 22px; width: 7px; height: 9px; }
-.droplet-3 { animation: droplet-shoot 8s ease-out infinite; animation-delay: 0.15s; left: 10px; top: 14px; width: 4px; height: 6px; }
-.droplet-4 { animation: droplet-shoot 8s ease-out infinite; animation-delay: 0.22s; left: 4px;  top: 24px; width: 6px; height: 8px; }
-.droplet-5 { animation: droplet-shoot 8s ease-out infinite; animation-delay: 0.3s;  left: 12px; top: 18px; width: 5px; height: 7px; }
-.droplet-6 { animation: droplet-shoot 8s ease-out infinite; animation-delay: 0.38s; left: 8px;  top: 20px; width: 4px; height: 6px; }
-.spray-zone-left .droplet { animation-delay: calc(var(--d, 0s) + 4s); }
+.droplet-1 { animation: droplet-shoot 10s ease-out infinite; animation-delay: 0s;    width: 5px; height: 7px; }
+.droplet-2 { animation: droplet-shoot 10s ease-out infinite; animation-delay: 0.08s; left: 6px;  top: 22px; width: 7px; height: 9px; }
+.droplet-3 { animation: droplet-shoot 10s ease-out infinite; animation-delay: 0.15s; left: 10px; top: 14px; width: 4px; height: 6px; }
+.droplet-4 { animation: droplet-shoot 10s ease-out infinite; animation-delay: 0.22s; left: 4px;  top: 24px; width: 6px; height: 8px; }
+.droplet-5 { animation: droplet-shoot 10s ease-out infinite; animation-delay: 0.3s;  left: 12px; top: 18px; width: 5px; height: 7px; }
+.droplet-6 { animation: droplet-shoot 10s ease-out infinite; animation-delay: 0.38s; left: 8px;  top: 20px; width: 4px; height: 6px; }
+.spray-zone-left .droplet { animation-delay: calc(var(--d, 0s) + 5s); }
 .spray-zone-left .droplet-1 { --d: 0s; }
 .spray-zone-left .droplet-2 { --d: 0.08s; }
 .spray-zone-left .droplet-3 { --d: 0.15s; }
@@ -294,7 +294,7 @@ body {
   30%, 100% { transform: translate(-60px, 64vh); opacity: 0; }
 }
 
-/* LEFT side - voam da direita pro spray-left, sincronizadas com o pulse +4s */
+/* LEFT side - voam da direita pro spray-left, sincronizadas com o pulse +5s */
 @keyframes target-fly-l1 {
   0%, 50% { transform: translate(calc(100vw + 60px), 70vh) scaleX(-1) rotate(0deg); opacity: 0.92; }
   59%  { transform: translate(220px, 64vh) scaleX(-1) rotate(0deg); opacity: 0.92; }
@@ -324,14 +324,14 @@ body {
 }
 
 .fly-zone .fly-target { color: #1a1a1a; }
-.fly-zone .target-r1 { animation: target-fly-r1 8s ease-in-out infinite !important; }
-.fly-zone .target-r2 { animation: target-fly-r2 8s ease-in-out infinite !important; }
-.fly-zone .target-r3 { animation: target-fly-r3 8s ease-in-out infinite !important; }
+.fly-zone .target-r1 { animation: target-fly-r1 10s ease-in-out infinite !important; }
+.fly-zone .target-r2 { animation: target-fly-r2 10s ease-in-out infinite !important; }
+.fly-zone .target-r3 { animation: target-fly-r3 10s ease-in-out infinite !important; }
 
 .fly-zone .fly-target-left { color: #1a1a1a; }
-.fly-zone .target-l1 { animation: target-fly-l1 8s ease-in-out infinite !important; }
-.fly-zone .target-l2 { animation: target-fly-l2 8s ease-in-out infinite !important; }
-.fly-zone .target-l3 { animation: target-fly-l3 8s ease-in-out infinite !important; }
+.fly-zone .target-l1 { animation: target-fly-l1 10s ease-in-out infinite !important; }
+.fly-zone .target-l2 { animation: target-fly-l2 10s ease-in-out infinite !important; }
+.fly-zone .target-l3 { animation: target-fly-l3 10s ease-in-out infinite !important; }
 
 @media (prefers-reduced-motion: reduce) {
   .spray-zone { display: none; }
