@@ -40,6 +40,7 @@ export default async function LojaInfluencerPage({
         slug: influencer.slug,
         nome: influencer.nome,
         fotoUrl: influencer.fotoUrl,
+        descontoPct: influencer.descontoPct,
       }}
       produtos={produtos.map((p) => ({
         id: p.id,

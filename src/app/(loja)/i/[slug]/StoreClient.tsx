@@ -257,7 +257,12 @@ interface ProdutoLoja {
 }
 
 interface Props {
-  influencer: { slug: string; nome: string; fotoUrl: string | null };
+  influencer: {
+    slug: string;
+    nome: string;
+    fotoUrl: string | null;
+    descontoPct: number;
+  };
   produtos: ProdutoLoja[];
 }
 
@@ -360,11 +365,18 @@ export default function StoreClient({ influencer, produtos }: Props) {
         .filter((i) => i.quantidade > 0),
     [carrinho, produtos]
   );
-  const total = itens.reduce(
+  const subtotal = itens.reduce(
     (sum, i) => sum + i.produto.precoVenda * i.quantidade,
     0
   );
+  const descontoPct = Math.max(0, Math.min(100, influencer.descontoPct || 0));
+  const desconto =
+    descontoPct > 0
+      ? Number(((subtotal * descontoPct) / 100).toFixed(2))
+      : 0;
+  const total = Math.max(0, subtotal - desconto);
   const totalItens = itens.reduce((sum, i) => sum + i.quantidade, 0);
+  const temDesconto = descontoPct > 0;
 
   function incrementar(id: string) {
     setCarrinho((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
@@ -734,22 +746,47 @@ export default function StoreClient({ influencer, produtos }: Props) {
                     </div>
                   ) : null}
                   <div className="p-5 sm:p-6">
-                    <h3 className="text-xl font-extrabold text-[#1a4d2e] uppercase tracking-tight">
-                      {produto.nome}
-                    </h3>
+                    <div className="flex items-start justify-between gap-2">
+                      <h3 className="text-xl font-extrabold text-[#1a4d2e] uppercase tracking-tight">
+                        {produto.nome}
+                      </h3>
+                      {temDesconto && (
+                        <span className="shrink-0 bg-[#b8960c] text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wide">
+                          {descontoPct.toFixed(0)}% OFF
+                        </span>
+                      )}
+                    </div>
                     {produto.descricao && (
                       <p className="text-sm text-gray-600 mt-1.5 leading-relaxed">
                         {produto.descricao}
                       </p>
                     )}
+                    {temDesconto && (
+                      <p className="text-xs text-[#b8960c] font-semibold mt-2">
+                        Desconto exclusivo via {influencer.nome}
+                      </p>
+                    )}
                     <div className="mt-5 flex items-center justify-between gap-3">
                       <div>
                         <p className="text-[11px] text-gray-500 uppercase tracking-wider">
-                          A partir de
+                          {temDesconto ? "A partir de" : "A partir de"}
                         </p>
-                        <span className="text-3xl font-extrabold text-[#1a4d2e]">
-                          {formatBRL(produto.precoVenda)}
-                        </span>
+                        {temDesconto ? (
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-base text-gray-400 line-through">
+                              {formatBRL(produto.precoVenda)}
+                            </span>
+                            <span className="text-3xl font-extrabold text-[#1a4d2e]">
+                              {formatBRL(
+                                produto.precoVenda * (1 - descontoPct / 100)
+                              )}
+                            </span>
+                          </div>
+                        ) : (
+                          <span className="text-3xl font-extrabold text-[#1a4d2e]">
+                            {formatBRL(produto.precoVenda)}
+                          </span>
+                        )}
                       </div>
                       {quantidade === 0 ? (
                         <button
@@ -828,9 +865,21 @@ export default function StoreClient({ influencer, produtos }: Props) {
               <p className="text-[11px] text-gray-500 uppercase tracking-wider">
                 {totalItens} {totalItens === 1 ? "item" : "itens"} · Total
               </p>
-              <p className="text-xl font-extrabold text-[#1a4d2e]">
-                {formatBRL(total)}
-              </p>
+              <div className="flex items-baseline gap-2">
+                {temDesconto && (
+                  <span className="text-sm text-gray-400 line-through">
+                    {formatBRL(subtotal)}
+                  </span>
+                )}
+                <p className="text-xl font-extrabold text-[#1a4d2e]">
+                  {formatBRL(total)}
+                </p>
+              </div>
+              {temDesconto && (
+                <p className="text-[10px] text-[#b8960c] font-semibold uppercase tracking-wide">
+                  -{formatBRL(desconto)} via {influencer.nome}
+                </p>
+              )}
             </div>
             <button
               onClick={() => setCheckoutOpen(true)}
@@ -1032,7 +1081,25 @@ export default function StoreClient({ influencer, produtos }: Props) {
                     </span>
                   </div>
                 ))}
-                <div className="border-t border-gray-200 mt-2 pt-2 flex justify-between font-bold text-gray-900">
+                {temDesconto && (
+                  <>
+                    <div className="border-t border-gray-200 mt-2 pt-2 flex justify-between text-gray-600">
+                      <span>Subtotal</span>
+                      <span>{formatBRL(subtotal)}</span>
+                    </div>
+                    <div className="flex justify-between text-[#b8960c] font-semibold">
+                      <span>
+                        Desconto via {influencer.nome} ({descontoPct.toFixed(0)}%)
+                      </span>
+                      <span>-{formatBRL(desconto)}</span>
+                    </div>
+                  </>
+                )}
+                <div
+                  className={`${
+                    temDesconto ? "" : "border-t border-gray-200 mt-2 pt-2"
+                  } flex justify-between font-bold text-gray-900`}
+                >
                   <span>Total</span>
                   <span>{formatBRL(total)}</span>
                 </div>

@@ -132,12 +132,17 @@ export async function POST(request: NextRequest) {
       clienteRow = await prisma.cliente.create({ data: dadosCliente });
     }
 
+    const descontoPct = Math.max(0, Math.min(100, influencer.descontoPct || 0));
+    const desconto = Number(((valorProdutos * descontoPct) / 100).toFixed(2));
+    const valorTotal = Math.max(0, valorProdutos - desconto);
+
     const pedido = await prisma.pedido.create({
       data: {
         clienteId: clienteRow.id,
         influencerId: influencer.id,
         valorProdutos,
-        valorTotal: valorProdutos,
+        desconto,
+        valorTotal,
         pesoTotal,
         volumes: 1,
         observacoes: observacoes?.trim() || null,
@@ -170,14 +175,26 @@ export async function POST(request: NextRequest) {
       ? `${clienteRow.cep.slice(0, 5)}-${clienteRow.cep.slice(5)}`
       : "";
 
+    const linhasValor =
+      desconto > 0
+        ? [
+            `Subtotal: ${formatBRL(valorProdutos)}`,
+            `Desconto via ${influencer.nome} (${descontoPct.toFixed(0)}%): -${formatBRL(desconto)}`,
+            `*Total: ${formatBRL(valorTotal)}*`,
+            `(frete a combinar)`,
+          ]
+        : [
+            `Subtotal: *${formatBRL(valorProdutos)}*`,
+            `(frete a combinar)`,
+          ];
+
     const mensagem = [
       `Olá! Vim pela *${influencer.nome}* 💚`,
       ``,
       `*Pedido #${pedido.numero}*`,
       linhasItens,
       ``,
-      `Subtotal: *${formatBRL(valorProdutos)}*`,
-      `(frete a combinar)`,
+      ...linhasValor,
       ``,
       `*Cliente:* ${clienteRow.nome}`,
       `*Telefone:* ${clienteRow.telefone || ""}`,

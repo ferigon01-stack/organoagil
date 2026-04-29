@@ -92,6 +92,9 @@ model Pedido {
   // Origem (landing de influencer)
   influencerId    String?
   influencer      Influencer?  @relation(fields: [influencerId], references: [id])
+  // Pagamento — usado pra calcular comissão da influencer
+  pago            Boolean      @default(false)
+  dataPagamento   DateTime?
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
   itens           ItemPedido[]
@@ -175,15 +178,22 @@ enum CategoriaDespesa {
 }
 
 model Influencer {
-  id          String   @id @default(cuid())
-  slug        String   @unique // ex: "marina" — vira /i/marina
-  nome        String
-  telefone    String?
-  comissaoPct Float    @default(0) // ex: 10 = 10%
-  ativo       Boolean  @default(true)
-  observacoes String?
-  fotoUrl     String?  // foto da influencer pra avatar da landing
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  pedidos     Pedido[]
+  id            String   @id @default(cuid())
+  slug          String   @unique // ex: "marina" — vira /i/marina
+  nome          String
+  telefone      String?
+  comissaoPct   Float    @default(0) // legado — não usar (manter pra não perder dado)
+  descontoPct   Float    @default(0) // % aplicado no preço pra clientes vindos do link
+  // Comissão escalonada por unidade vendida (paga)
+  comissaoT1Valor Float  @default(0)  // R$/unidade no tier 1
+  comissaoT1Ate   Int    @default(50) // limite superior em unidades do tier 1
+  comissaoT2Valor Float  @default(0)
+  comissaoT2Ate   Int    @default(100)
+  comissaoT3Valor Float  @default(0)  // a partir de comissaoT2Ate+1
+  ativo         Boolean  @default(true)
+  observacoes   String?
+  fotoUrl       String?  // foto da influencer pra avatar da landing
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  pedidos       Pedido[]
 }
