@@ -50,6 +50,7 @@ interface Pedido {
   pesoTotal: number;
   volumes: number;
   observacoes?: string;
+  observacoesNfe?: string;
   condicaoPagamento?: string;
   notaFiscal?: string;
   boleto?: string;
@@ -653,7 +654,9 @@ export default function PedidoDetailPage() {
                   </button>
                 </>
               )}
-              {(pedido.nfeStatus?.includes("erro") || pedido.nfeStatus?.includes("rejeit")) && (
+              {(pedido.nfeStatus?.includes("erro") ||
+                pedido.nfeStatus?.includes("rejeit") ||
+                pedido.nfeStatus?.includes("cancel")) && (
                 <button
                   onClick={emitirNfe}
                   disabled={emittingNfe}
@@ -957,13 +960,29 @@ export default function PedidoDetailPage() {
         </div>
       )}
 
-      {/* Observacoes */}
+      {/* Observacoes da NFe */}
+      {pedido.observacoesNfe && (
+        <div className="rounded-xl bg-card-bg p-6 shadow-sm">
+          <h2 className="mb-1 text-lg font-semibold">
+            Observações da NFe
+          </h2>
+          <p className="mb-2 text-xs text-text-muted">
+            Sai em &quot;Informações Complementares&quot; da DANFE.
+          </p>
+          <p className="whitespace-pre-line text-sm text-text-secondary">{pedido.observacoesNfe}</p>
+        </div>
+      )}
+
+      {/* Observacoes internas */}
       {pedido.observacoes && (
         <div className="rounded-xl bg-card-bg p-6 shadow-sm">
-          <h2 className="mb-2 text-lg font-semibold">
-            Observações
+          <h2 className="mb-1 text-lg font-semibold">
+            Observações internas
           </h2>
-          <p className="text-sm text-text-secondary">{pedido.observacoes}</p>
+          <p className="mb-2 text-xs text-text-muted">
+            Não sai na NFe nem para o cliente.
+          </p>
+          <p className="whitespace-pre-line text-sm text-text-secondary">{pedido.observacoes}</p>
         </div>
       )}
 

@@ -26,7 +26,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { clienteId, valorFrete, desconto, volumes, observacoes, condicaoPagamento, itens } = body;
+    const { clienteId, valorFrete, desconto, volumes, observacoes, observacoesNfe, condicaoPagamento, itens } = body;
 
     if (!clienteId || !itens || itens.length === 0) {
       return NextResponse.json(
@@ -85,6 +85,7 @@ export async function POST(request: NextRequest) {
         pesoTotal,
         volumes: Number(volumes) || 1,
         observacoes: observacoes || null,
+        observacoesNfe: observacoesNfe || null,
         condicaoPagamento: condicaoPagamento || null,
         itens: {
           create: itensData,

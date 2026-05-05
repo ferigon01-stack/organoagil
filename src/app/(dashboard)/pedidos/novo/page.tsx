@@ -55,6 +55,7 @@ export default function NovoPedidoPage() {
   const [desconto, setDesconto] = useState(0);
   const [volumes, setVolumes] = useState(1);
   const [observacoes, setObservacoes] = useState("");
+  const [observacoesNfe, setObservacoesNfe] = useState("");
   const [condicaoPagamento, setCondicaoPagamento] = useState("28");
   const [saving, setSaving] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -199,6 +200,7 @@ export default function NovoPedidoPage() {
           desconto,
           volumes,
           observacoes: observacoes || null,
+          observacoesNfe: observacoesNfe || null,
           condicaoPagamento: condicaoPagamento || null,
           itens: validItens,
         }),
@@ -425,17 +427,37 @@ export default function NovoPedidoPage() {
           </p>
         </div>
 
-        {/* Observacoes */}
+        {/* Observacoes da NFe */}
         <div className="rounded-xl bg-card-bg p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold text-brand-green">
-            Observações
+          <h2 className="mb-1 text-lg font-semibold text-brand-green">
+            Observações da NFe
           </h2>
+          <p className="mb-3 text-xs text-text-muted">
+            Sai em &quot;Informações Complementares&quot; da DANFE. A condição de pagamento já é incluída automaticamente — coloque aqui só o resto (ex: número do pedido do cliente).
+          </p>
+          <textarea
+            value={observacoesNfe}
+            onChange={(e) => setObservacoesNfe(e.target.value)}
+            rows={3}
+            className="w-full rounded-lg border border-input-border bg-input-bg text-text-primary px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
+            placeholder="Ex: Pedido 4508280942 — Bonificação de 4 borrifadores"
+          />
+        </div>
+
+        {/* Observacoes internas */}
+        <div className="rounded-xl bg-card-bg p-6 shadow-sm">
+          <h2 className="mb-1 text-lg font-semibold text-brand-green">
+            Observações internas
+          </h2>
+          <p className="mb-3 text-xs text-text-muted">
+            Só aparece aqui no sistema. Não vai pra NFe nem pro cliente.
+          </p>
           <textarea
             value={observacoes}
             onChange={(e) => setObservacoes(e.target.value)}
             rows={3}
             className="w-full rounded-lg border border-input-border bg-input-bg text-text-primary px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c]"
-            placeholder="Observações sobre o pedido..."
+            placeholder="Anotações internas sobre o pedido..."
           />
         </div>
 

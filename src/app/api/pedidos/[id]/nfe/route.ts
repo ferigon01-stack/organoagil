@@ -12,6 +12,27 @@ function onlyDigits(s: string | null | undefined) {
   return (s || "").replace(/\D/g, "");
 }
 
+function formatCondicaoPagamento(condicao: string | null | undefined) {
+  const v = (condicao || "").trim();
+  if (!v) return null;
+  const partes = v.split("/").map((p) => p.trim()).filter(Boolean);
+  if (partes.length === 0) return null;
+  if (partes.length === 1) return `Condição de pagamento: ${partes[0]} dias`;
+  return `Condição de pagamento: ${partes.join("/")} dias`;
+}
+
+function buildInfoComplementar(
+  observacoesNfe: string | null | undefined,
+  condicaoPagamento: string | null | undefined
+) {
+  const linhas: string[] = [];
+  const cond = formatCondicaoPagamento(condicaoPagamento);
+  if (cond) linhas.push(cond);
+  const obs = (observacoesNfe || "").trim();
+  if (obs) linhas.push(obs);
+  return linhas.length > 0 ? linhas.join("\n") : undefined;
+}
+
 function getEmitenteConfig() {
   return {
     cnpj: "63512791000159",
@@ -182,6 +203,11 @@ export async function POST(
       valor_frete: pedido.valorFrete || undefined,
       valor_desconto: pedido.desconto || undefined,
       presenca_comprador: 9,
+
+      informacoes_adicionais_contribuinte: buildInfoComplementar(
+        pedido.observacoesNfe,
+        pedido.condicaoPagamento
+      ),
 
       items,
     };

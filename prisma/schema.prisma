@@ -75,7 +75,8 @@ model Pedido {
   valorTotal      Float        @default(0)
   pesoTotal       Float        @default(0)
   volumes         Int          @default(1)
-  observacoes     String?
+  observacoes     String?      // observação interna (não sai na NFe)
+  observacoesNfe  String?      // observação que vai em "Informações Complementares" da DANFE
   condicaoPagamento String?    // ex: "28" ou "28/56/84" — dias corridos
   notaFiscal      String?
   boleto          String?

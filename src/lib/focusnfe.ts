@@ -68,6 +68,8 @@ export interface FocusNFePayload {
   valor_desconto?: number;
   presenca_comprador: number; // 9 = não se aplica (operação não presencial)
 
+  informacoes_adicionais_contribuinte?: string; // texto livre que sai em "Informações Complementares" da DANFE
+
   items: FocusNFeItem[];
 }
 
