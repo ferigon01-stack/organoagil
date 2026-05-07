@@ -12,11 +12,28 @@ export async function generateMetadata({
   const { slug } = await params;
   const influencer = await prisma.influencer.findUnique({ where: { slug } });
   if (!influencer || !influencer.ativo) {
-    return { title: "Organo Ágil" };
+    return { title: "OrganoÁgil" };
   }
+  const title = `OrganoÁgil — Indicação de ${influencer.nome}`;
+  const description = `${influencer.nome} indica o BioGuard, da OrganoÁgil: proteção contra insetos com ação imediata, segura para pets e família.`;
+  const ogImage = influencer.fotoUrl || "/og-image.png";
   return {
-    title: `Compre com ${influencer.nome} — Organo Ágil`,
-    description: `Faça seu pedido Organo Ágil pela ${influencer.nome}.`,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      locale: "pt_BR",
+      siteName: "OrganoÁgil",
+      images: [{ url: ogImage, alt: `Indicação de ${influencer.nome}` }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+    },
   };
 }
 
