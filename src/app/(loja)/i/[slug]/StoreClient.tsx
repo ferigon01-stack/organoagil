@@ -787,6 +787,9 @@ export default function StoreClient({ influencer, produtos }: Props) {
                             {formatBRL(produto.precoVenda)}
                           </span>
                         )}
+                        <p className="text-[11px] text-gray-500 mt-1">
+                          Frete a calcular
+                        </p>
                       </div>
                       {quantidade === 0 ? (
                         <button
