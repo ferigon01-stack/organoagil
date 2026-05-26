@@ -146,6 +146,25 @@ export async function POST(
     // Determine CFOP by state (5xxx same state, 6xxx different state)
     const cfopBase = cliente.estado === emitente.uf ? "5102" : "6102";
 
+    // SEFAZ requires per-item freight that sums exactly to the header total.
+    // Apportion by item subtotal; rounding remainder goes to the last item.
+    const round2 = (n: number) => Math.round(n * 100) / 100;
+    const totalProdutos = produtos.reduce((sum, item) => sum + item.subtotal, 0);
+    const valorFreteTotal = pedido.valorFrete || 0;
+    const fretesPorItem: number[] = [];
+    if (valorFreteTotal > 0 && totalProdutos > 0) {
+      let acumulado = 0;
+      for (let i = 0; i < produtos.length; i++) {
+        if (i === produtos.length - 1) {
+          fretesPorItem.push(round2(valorFreteTotal - acumulado));
+        } else {
+          const f = round2(valorFreteTotal * (produtos[i].subtotal / totalProdutos));
+          fretesPorItem.push(f);
+          acumulado += f;
+        }
+      }
+    }
+
     const items: FocusNFeItem[] = produtos.map((item, idx) => ({
       numero_item: idx + 1,
       codigo_produto: item.produtoId.slice(-10),
@@ -160,6 +179,7 @@ export async function POST(
       valor_unitario_tributavel: item.precoUnit,
       codigo_ncm: (item.produto.ncm || "").replace(/\D/g, ""),
       codigo_cest: item.produto.cest ? item.produto.cest.replace(/\D/g, "") : undefined,
+      valor_frete: valorFreteTotal > 0 ? fretesPorItem[idx] : undefined,
       icms_origem: item.produto.origem || "0",
       icms_situacao_tributaria: "102", // CSOSN 102 - Simples Nacional sem permissão de crédito
       pis_situacao_tributaria: "07", // Operação isenta da contribuição
