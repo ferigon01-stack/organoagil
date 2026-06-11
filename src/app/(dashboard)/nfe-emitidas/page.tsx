@@ -12,6 +12,8 @@ interface NfeEmitida {
   nfeSerie: number | null
   nfeChave: string | null
   nfeDataEmissao: string | null
+  competenciaMes: number
+  competenciaAno: number
   cliente: { nome: string; cpf: string | null; cnpj: string | null }
 }
 
@@ -68,9 +70,8 @@ function isCancelada(status: string | null) {
 }
 
 export default function NfeEmitidasPage() {
-  const now = new Date()
-  // Valor "" = todos os meses
-  const [periodo, setPeriodo] = useState(`${now.getMonth() + 1}-${now.getFullYear()}`)
+  // Valor "" = todos os meses (padrão, pra nunca abrir vazia)
+  const [periodo, setPeriodo] = useState('')
   const [busca, setBusca] = useState('')
   const [notas, setNotas] = useState<NfeEmitida[]>([])
   const [loading, setLoading] = useState(true)
@@ -204,7 +205,11 @@ export default function NfeEmitidasPage() {
                     </td>
                     <td className="px-6 py-4 text-sm text-text-secondary">#{n.numero}</td>
                     <td className="px-6 py-4 text-sm text-text-primary">{n.cliente.nome}</td>
-                    <td className="px-6 py-4 text-sm text-text-secondary">{formatDateTime(n.nfeDataEmissao)}</td>
+                    <td className="px-6 py-4 text-sm text-text-secondary">
+                      {n.nfeDataEmissao
+                        ? formatDateTime(n.nfeDataEmissao)
+                        : `${String(n.competenciaMes).padStart(2, '0')}/${n.competenciaAno}`}
+                    </td>
                     <td className="px-6 py-4 text-right text-sm text-text-secondary">{formatCurrency(n.valorTotal)}</td>
                     <td className="px-6 py-4 text-center">
                       <span
