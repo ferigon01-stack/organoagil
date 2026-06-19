@@ -80,6 +80,8 @@ model Pedido {
   condicaoPagamento String?    // ex: "28" ou "28/56/84" — dias corridos
   notaFiscal      String?
   boleto          String?
+  transportadoraId String?
+  transportadora   Transportadora? @relation(fields: [transportadoraId], references: [id])
   // Local de entrega (grupo "entrega" da NFe) — quando difere do endereço do destinatário
   entregaLogradouro  String?
   entregaNumero      String?
@@ -141,6 +143,24 @@ model ItemPedido {
   pesoTotal  Float   // quantidade * peso do produto
   precoUnit  Float
   subtotal   Float
+}
+
+model Transportadora {
+  id                String   @id @default(cuid())
+  nome              String   // razão social
+  cnpj              String?
+  inscricaoEstadual String?
+  endereco          String?
+  numero            String?
+  bairro            String?
+  cidade            String?
+  estado            String?
+  cep               String?
+  telefone          String?
+  ativo             Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  pedidos           Pedido[]
 }
 
 model Visita {

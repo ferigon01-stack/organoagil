@@ -71,6 +71,7 @@ export async function POST(
       where: { id },
       include: {
         cliente: true,
+        transportadora: true,
         itens: { include: { produto: true } },
       },
     });
@@ -209,6 +210,22 @@ export async function POST(
         }
       : {};
 
+    // Transportador (grupo transporte) — quando o pedido tem transportadora vinculada.
+    const transp = pedido.transportadora;
+    const transportadorFields = transp
+      ? {
+          cnpj_transportador: onlyDigits(transp.cnpj) || undefined,
+          nome_transportador: transp.nome,
+          inscricao_estadual_transportador:
+            onlyDigits(transp.inscricaoEstadual) || undefined,
+          endereco_transportador:
+            [transp.endereco, transp.numero].filter(Boolean).join(", ").slice(0, 60) ||
+            undefined,
+          municipio_transportador: transp.cidade || undefined,
+          uf_transportador: transp.estado || undefined,
+        }
+      : {};
+
     const payload: FocusNFePayload = {
       natureza_operacao: "VENDA",
       data_emissao: new Date().toISOString(),
@@ -246,6 +263,8 @@ export async function POST(
       valor_frete: pedido.valorFrete || undefined,
       valor_desconto: pedido.desconto || undefined,
       presenca_comprador: 9,
+
+      ...transportadorFields,
 
       informacoes_adicionais_contribuinte: buildInfoComplementar(
         pedido.observacoesNfe,

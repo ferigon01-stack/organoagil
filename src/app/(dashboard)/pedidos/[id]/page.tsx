@@ -56,6 +56,8 @@ interface Pedido {
   condicaoPagamento?: string;
   notaFiscal?: string;
   boleto?: string;
+  transportadoraId?: string | null;
+  transportadora?: { id: string; nome: string } | null;
   entregaLogradouro?: string | null;
   entregaNumero?: string | null;
   entregaComplemento?: string | null;
@@ -141,6 +143,8 @@ export default function PedidoDetailPage() {
   const [copied, setCopied] = useState(false);
   const [notaFiscal, setNotaFiscal] = useState("");
   const [boleto, setBoleto] = useState("");
+  const [transportadoraId, setTransportadoraId] = useState("");
+  const [transportadoras, setTransportadoras] = useState<Array<{ id: string; nome: string }>>([]);
   const [generatingEtiqueta, setGeneratingEtiqueta] = useState(false);
   const [anexos, setAnexos] = useState<Array<{id: string; nome: string; tipo: string; tamanho: number; fase: string; createdAt: string}>>([]);
   const [uploading, setUploading] = useState(false);
@@ -157,6 +161,7 @@ export default function PedidoDetailPage() {
         setPedido(data);
         setNotaFiscal(data.notaFiscal || "");
         setBoleto(data.boleto || "");
+        setTransportadoraId(data.transportadoraId || "");
       })
       .catch((err) => console.error("Erro ao carregar pedido:", err))
       .finally(() => setLoading(false));
@@ -172,6 +177,10 @@ export default function PedidoDetailPage() {
   useEffect(() => {
     fetchPedido();
     fetchAnexos();
+    fetch("/api/transportadoras")
+      .then((res) => res.json())
+      .then((data) => setTransportadoras(data))
+      .catch((err) => console.error("Erro ao carregar transportadoras:", err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -241,7 +250,7 @@ export default function PedidoDetailPage() {
       const res = await fetch(`/api/pedidos/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ notaFiscal, boleto }),
+        body: JSON.stringify({ notaFiscal, boleto, transportadoraId }),
       });
       if (res.ok) {
         const updated = await res.json();
@@ -837,6 +846,32 @@ export default function PedidoDetailPage() {
                 className="w-full rounded-lg border border-input-border bg-input-bg text-text-primary px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c] disabled:bg-gray-100"
                 placeholder="Código do boleto"
               />
+            </div>
+            <div>
+              <label className="mb-1 block text-sm font-medium text-text-primary">
+                Transportadora
+              </label>
+              <select
+                value={transportadoraId}
+                onChange={(e) => setTransportadoraId(e.target.value)}
+                disabled={pedido.fase === "RECEBIDO"}
+                className="w-full rounded-lg border border-input-border bg-input-bg text-text-primary px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:border-[#b8960c] focus:ring-[#b8960c] disabled:bg-gray-100"
+              >
+                <option value="">Selecione…</option>
+                {transportadoras.map((t) => (
+                  <option key={t.id} value={t.id}>
+                    {t.nome}
+                  </option>
+                ))}
+              </select>
+              {transportadoras.length === 0 && (
+                <p className="mt-1 text-xs text-text-muted">
+                  Nenhuma cadastrada.{" "}
+                  <a href="/transportadoras/novo" className="underline" style={{ color: "#b8960c" }}>
+                    Cadastrar transportadora
+                  </a>
+                </p>
+              )}
             </div>
           </div>
           {pedido.fase === "ENVIO" && (

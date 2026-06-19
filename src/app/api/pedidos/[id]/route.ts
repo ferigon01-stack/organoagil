@@ -30,6 +30,7 @@ export async function GET(
       include: {
         cliente: true,
         influencer: true,
+        transportadora: true,
         itens: { include: { produto: true } },
       },
     });
@@ -151,7 +152,7 @@ export async function PATCH(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { fase, notaFiscal, boleto } = body;
+    const { fase, notaFiscal, boleto, transportadoraId } = body;
 
     const updateData: Record<string, unknown> = {};
 
@@ -167,12 +168,14 @@ export async function PATCH(
 
     if (notaFiscal !== undefined) updateData.notaFiscal = notaFiscal;
     if (boleto !== undefined) updateData.boleto = boleto;
+    if (transportadoraId !== undefined) updateData.transportadoraId = transportadoraId || null;
 
     const pedido = await prisma.pedido.update({
       where: { id },
       data: updateData,
       include: {
         cliente: true,
+        transportadora: true,
         itens: { include: { produto: true } },
       },
     });

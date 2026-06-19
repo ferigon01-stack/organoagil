@@ -81,6 +81,15 @@ export interface FocusNFePayload {
   valor_desconto?: number;
   presenca_comprador: number; // 9 = não se aplica (operação não presencial)
 
+  // Transportador (grupo transporte) — opcional.
+  cnpj_transportador?: string;
+  cpf_transportador?: string;
+  nome_transportador?: string;
+  inscricao_estadual_transportador?: string;
+  endereco_transportador?: string;
+  municipio_transportador?: string;
+  uf_transportador?: string;
+
   informacoes_adicionais_contribuinte?: string; // texto livre que sai em "Informações Complementares" da DANFE
 
   items: FocusNFeItem[];
