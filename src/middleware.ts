@@ -9,7 +9,8 @@ export function middleware(req: NextRequest) {
   const isPublicPath =
     req.nextUrl.pathname.startsWith("/login") ||
     req.nextUrl.pathname.startsWith("/i/") ||
-    req.nextUrl.pathname === "/i";
+    req.nextUrl.pathname === "/i" ||
+    req.nextUrl.pathname.startsWith("/nf/");
 
   if (!sessionToken && !isPublicPath) {
     const loginUrl = new URL("/login", req.url);

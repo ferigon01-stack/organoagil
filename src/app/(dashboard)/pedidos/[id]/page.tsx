@@ -20,6 +20,7 @@ import {
   Receipt,
   RefreshCw,
   Calendar,
+  Tag,
 } from "lucide-react";
 import { calcularParcelas, formatarCondicao } from "@/lib/parcelas";
 
@@ -132,6 +133,7 @@ export default function PedidoDetailPage() {
   const [copied, setCopied] = useState(false);
   const [notaFiscal, setNotaFiscal] = useState("");
   const [boleto, setBoleto] = useState("");
+  const [generatingEtiqueta, setGeneratingEtiqueta] = useState(false);
   const [anexos, setAnexos] = useState<Array<{id: string; nome: string; tipo: string; tamanho: number; fase: string; createdAt: string}>>([]);
   const [uploading, setUploading] = useState(false);
   const [generatingPdf, setGeneratingPdf] = useState(false);
@@ -362,6 +364,46 @@ export default function PedidoDetailPage() {
     }
   };
 
+  const generateEtiqueta = async () => {
+    if (!pedido) return;
+    if (!pedido.nfeChave) {
+      alert("Emita e autorize a NFe antes de gerar a etiqueta.");
+      return;
+    }
+    setGeneratingEtiqueta(true);
+    try {
+      const { default: QRCode } = await import("qrcode");
+      // QR abre uma página pública sem valores (só identificação da nota).
+      const chave = pedido.nfeChave.replace(/\D/g, "");
+      const nfUrl = `${window.location.origin}/nf/${chave}`;
+      const qrDataUrl = await QRCode.toDataURL(nfUrl, {
+        margin: 1,
+        width: 256,
+      });
+      const { pdf } = await import("@react-pdf/renderer");
+      const { default: EtiquetaPDF } = await import("@/components/EtiquetaPDF");
+      const blob = await pdf(
+        <EtiquetaPDF
+          pedido={{ ...pedido, transportadora: pedido.transportadora?.nome ?? null }}
+          qrDataUrl={qrDataUrl}
+        />
+      ).toBlob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `etiqueta-pedido-${pedido.numero}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Erro ao gerar etiqueta:", error);
+      alert("Erro ao gerar etiqueta. Tente novamente.");
+    } finally {
+      setGeneratingEtiqueta(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
@@ -450,6 +492,17 @@ export default function PedidoDetailPage() {
             {generatingPdf ? <Loader2 size={16} className="animate-spin" /> : <FileDown size={16} />}
             {generatingPdf ? "Gerando..." : "Gerar PDF"}
           </button>
+          {(pedido.nfeStatus === "autorizado" || pedido.nfeStatus === "autorizada") && (
+            <button
+              onClick={generateEtiqueta}
+              disabled={generatingEtiqueta}
+              className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+              style={{ backgroundColor: "var(--brand-green)" }}
+            >
+              {generatingEtiqueta ? <Loader2 size={16} className="animate-spin" /> : <Tag size={16} />}
+              {generatingEtiqueta ? "Gerando..." : `Etiqueta${pedido.volumes > 1 ? ` (${pedido.volumes} vol)` : ""}`}
+            </button>
+          )}
           <button
             onClick={() => router.push(`/pedidos/${id}/editar`)}
             className="flex items-center gap-2 rounded-lg border border-input-border bg-card-bg px-4 py-2 text-sm font-medium text-text-primary hover:bg-hover-bg"
