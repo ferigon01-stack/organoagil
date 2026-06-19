@@ -64,6 +64,18 @@ export interface FocusNFePayload {
   inscricao_estadual_destinatario?: string;
   email_destinatario?: string;
 
+  // Local de entrega (grupo "entrega") — opcional, quando difere do destinatário.
+  // A Focus resolve o código IBGE pelo município + UF.
+  cnpj_entrega?: string;
+  cpf_entrega?: string;
+  logradouro_entrega?: string;
+  numero_entrega?: string;
+  complemento_entrega?: string;
+  bairro_entrega?: string;
+  municipio_entrega?: string;
+  uf_entrega?: string;
+  cep_entrega?: string;
+
   modalidade_frete: number; // 9 = sem frete
   valor_frete?: number;
   valor_desconto?: number;

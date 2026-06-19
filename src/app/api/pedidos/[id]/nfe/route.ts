@@ -188,6 +188,27 @@ export async function POST(
 
     const nfeRef = `ped-${pedido.id}-${Date.now()}`;
 
+    // Local de entrega (grupo "entrega") — só quando há endereço de entrega.
+    // Identificação reusa o CNPJ/CPF do destinatário (mesmo cliente, outro endereço).
+    const temEntrega = !!(
+      pedido.entregaLogradouro &&
+      pedido.entregaCidade &&
+      pedido.entregaEstado
+    );
+    const entregaFields = temEntrega
+      ? {
+          cnpj_entrega: cnpjCliente || undefined,
+          cpf_entrega: !cnpjCliente ? cpfCliente : undefined,
+          logradouro_entrega: pedido.entregaLogradouro!,
+          numero_entrega: pedido.entregaNumero || "S/N",
+          complemento_entrega: pedido.entregaComplemento || undefined,
+          bairro_entrega: pedido.entregaBairro || undefined,
+          municipio_entrega: pedido.entregaCidade!,
+          uf_entrega: pedido.entregaEstado!,
+          cep_entrega: onlyDigits(pedido.entregaCep) || undefined,
+        }
+      : {};
+
     const payload: FocusNFePayload = {
       natureza_operacao: "VENDA",
       data_emissao: new Date().toISOString(),
@@ -218,6 +239,8 @@ export async function POST(
       inscricao_estadual_destinatario:
         cliente.indicadorIE === "1" ? onlyDigits(cliente.inscricaoEstadual) : undefined,
       email_destinatario: cliente.email || undefined,
+
+      ...entregaFields,
 
       modalidade_frete: pedido.valorFrete > 0 ? 0 : 9,
       valor_frete: pedido.valorFrete || undefined,

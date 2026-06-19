@@ -11,6 +11,7 @@ import {
   Save,
 } from "lucide-react";
 import { formatCurrencyInput, parseCurrencyInput } from "@/lib/currency";
+import LocalEntregaFields, { EntregaData, emptyEntrega } from "@/components/LocalEntregaFields";
 
 interface Cliente {
   id: string;
@@ -57,6 +58,7 @@ export default function NovoPedidoPage() {
   const [observacoes, setObservacoes] = useState("");
   const [observacoesNfe, setObservacoesNfe] = useState("");
   const [condicaoPagamento, setCondicaoPagamento] = useState("28");
+  const [entrega, setEntrega] = useState<EntregaData>(emptyEntrega);
   const [saving, setSaving] = useState(false);
   const [copied, setCopied] = useState(false);
   const [volumesAutoCalculated, setVolumesAutoCalculated] = useState(0);
@@ -202,6 +204,7 @@ export default function NovoPedidoPage() {
           observacoes: observacoes || null,
           observacoesNfe: observacoesNfe || null,
           condicaoPagamento: condicaoPagamento || null,
+          entrega,
           itens: validItens,
         }),
       });
@@ -248,6 +251,9 @@ export default function NovoPedidoPage() {
             ))}
           </select>
         </div>
+
+        {/* Local de entrega */}
+        <LocalEntregaFields value={entrega} onChange={setEntrega} />
 
         {/* Itens */}
         <div className="rounded-xl bg-card-bg p-6 shadow-sm">

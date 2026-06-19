@@ -11,6 +11,7 @@ import {
   Save,
 } from "lucide-react";
 import { formatCurrencyInput, parseCurrencyInput } from "@/lib/currency";
+import LocalEntregaFields, { EntregaData, emptyEntrega } from "@/components/LocalEntregaFields";
 
 interface Cliente {
   id: string;
@@ -38,23 +39,6 @@ interface ItemForm {
   precoUnit: number;
 }
 
-interface Pedido {
-  id: string;
-  numero: number;
-  clienteId: string;
-  valorFrete: number;
-  desconto: number;
-  volumes: number;
-  observacoes?: string;
-  observacoesNfe?: string;
-  condicaoPagamento?: string;
-  itens: {
-    produtoId: string;
-    quantidade: number;
-    precoUnit: number;
-  }[];
-}
-
 function formatCurrency(value: number) {
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -77,6 +61,7 @@ export default function EditarPedidoPage() {
   const [observacoes, setObservacoes] = useState("");
   const [observacoesNfe, setObservacoesNfe] = useState("");
   const [condicaoPagamento, setCondicaoPagamento] = useState("28");
+  const [entrega, setEntrega] = useState<EntregaData>(emptyEntrega);
   const [pedidoNumero, setPedidoNumero] = useState(0);
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -101,6 +86,15 @@ export default function EditarPedidoPage() {
         setObservacoes(pedidoData.observacoes || "");
         setObservacoesNfe(pedidoData.observacoesNfe || "");
         setCondicaoPagamento(pedidoData.condicaoPagamento || "28");
+        setEntrega({
+          logradouro: pedidoData.entregaLogradouro || "",
+          numero: pedidoData.entregaNumero || "",
+          complemento: pedidoData.entregaComplemento || "",
+          bairro: pedidoData.entregaBairro || "",
+          cidade: pedidoData.entregaCidade || "",
+          estado: pedidoData.entregaEstado || "",
+          cep: pedidoData.entregaCep || "",
+        });
         setPedidoNumero(pedidoData.numero);
         setItens(
           pedidoData.itens.map(
@@ -245,6 +239,7 @@ export default function EditarPedidoPage() {
           observacoes: observacoes || null,
           observacoesNfe: observacoesNfe || null,
           condicaoPagamento: condicaoPagamento || null,
+          entrega,
           itens: validItens,
         }),
       });
@@ -300,6 +295,9 @@ export default function EditarPedidoPage() {
             ))}
           </select>
         </div>
+
+        {/* Local de entrega */}
+        <LocalEntregaFields value={entrega} onChange={setEntrega} />
 
         {/* Itens */}
         <div className="rounded-xl bg-card-bg p-6 shadow-sm">

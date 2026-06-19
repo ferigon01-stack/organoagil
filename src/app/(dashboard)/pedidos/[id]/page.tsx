@@ -21,6 +21,7 @@ import {
   RefreshCw,
   Calendar,
   Tag,
+  MapPin,
 } from "lucide-react";
 import { calcularParcelas, formatarCondicao } from "@/lib/parcelas";
 
@@ -55,6 +56,13 @@ interface Pedido {
   condicaoPagamento?: string;
   notaFiscal?: string;
   boleto?: string;
+  entregaLogradouro?: string | null;
+  entregaNumero?: string | null;
+  entregaComplemento?: string | null;
+  entregaBairro?: string | null;
+  entregaCidade?: string | null;
+  entregaEstado?: string | null;
+  entregaCep?: string | null;
   dataEnvio?: string;
   dataRecebimento?: string;
   nfeStatus?: string | null;
@@ -890,6 +898,28 @@ export default function PedidoDetailPage() {
           )}
         </div>
       </div>
+
+      {/* Local de Entrega */}
+      {pedido.entregaLogradouro && (
+        <div className="rounded-xl bg-card-bg p-6 shadow-sm">
+          <h2 className="mb-2 flex items-center gap-2 text-lg font-semibold text-brand-green">
+            <MapPin size={20} />
+            Local de Entrega
+          </h2>
+          <p className="text-sm text-text-primary">
+            {pedido.entregaLogradouro}
+            {pedido.entregaNumero ? `, ${pedido.entregaNumero}` : ""}
+            {pedido.entregaComplemento ? ` - ${pedido.entregaComplemento}` : ""}
+            {pedido.entregaBairro ? `, ${pedido.entregaBairro}` : ""}
+            {pedido.entregaCidade ? ` - ${pedido.entregaCidade}` : ""}
+            {pedido.entregaEstado ? `/${pedido.entregaEstado}` : ""}
+            {pedido.entregaCep ? ` - CEP: ${pedido.entregaCep}` : ""}
+          </p>
+          <p className="mt-2 text-xs text-text-muted">
+            Endereço diferente do destinatário. Sai no quadro &quot;Local de Entrega&quot; da NFe.
+          </p>
+        </div>
+      )}
 
       {/* Items */}
       <div className="rounded-xl bg-card-bg p-6 shadow-sm">

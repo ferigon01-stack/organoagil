@@ -80,6 +80,14 @@ model Pedido {
   condicaoPagamento String?    // ex: "28" ou "28/56/84" — dias corridos
   notaFiscal      String?
   boleto          String?
+  // Local de entrega (grupo "entrega" da NFe) — quando difere do endereço do destinatário
+  entregaLogradouro  String?
+  entregaNumero      String?
+  entregaComplemento String?
+  entregaBairro      String?
+  entregaCidade      String?
+  entregaEstado      String?
+  entregaCep         String?
   dataEnvio       DateTime?
   dataRecebimento DateTime?
   // NFe

@@ -1,6 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+// Mapeia o objeto "entrega" (local de entrega) do body para as colunas do Pedido.
+function mapEntrega(entrega: unknown) {
+  const e = (entrega || {}) as Record<string, string | undefined>;
+  const v = (s?: string) => {
+    const t = (s || "").trim();
+    return t || null;
+  };
+  return {
+    entregaLogradouro: v(e.logradouro),
+    entregaNumero: v(e.numero),
+    entregaComplemento: v(e.complemento),
+    entregaBairro: v(e.bairro),
+    entregaCidade: v(e.cidade),
+    entregaEstado: v(e.estado),
+    entregaCep: v(e.cep),
+  };
+}
+
 export async function GET() {
   try {
     const pedidos = await prisma.pedido.findMany({
@@ -26,7 +44,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { clienteId, valorFrete, desconto, volumes, observacoes, observacoesNfe, condicaoPagamento, itens } = body;
+    const { clienteId, valorFrete, desconto, volumes, observacoes, observacoesNfe, condicaoPagamento, itens, entrega } = body;
 
     if (!clienteId || !itens || itens.length === 0) {
       return NextResponse.json(
@@ -87,6 +105,7 @@ export async function POST(request: NextRequest) {
         observacoes: observacoes || null,
         observacoesNfe: observacoesNfe || null,
         condicaoPagamento: condicaoPagamento || null,
+        ...mapEntrega(entrega),
         itens: {
           create: itensData,
         },
