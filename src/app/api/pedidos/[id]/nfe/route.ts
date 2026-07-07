@@ -327,6 +327,13 @@ export async function POST(
         nfeRef,
         nfeStatus: status,
         nfeMensagem: mensagem,
+        // Se o Focus já devolveu a nota autorizada na própria emissão, guarda
+        // número/série/chave/data agora. Senão (ainda processando) zera, pra não
+        // puxar dados velhos da nota anterior antes de "Atualizar status".
+        nfeNumero: result.numero ? Number(result.numero) : null,
+        nfeSerie: result.serie ? Number(result.serie) : null,
+        nfeChave: result.chave_nfe || null,
+        nfeDataEmissao: result.data_emissao ? new Date(result.data_emissao) : null,
       },
     });
 
